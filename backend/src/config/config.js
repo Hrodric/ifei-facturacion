@@ -6,8 +6,8 @@ module.exports = {
         url: 'http://ifei.moogah.com',
         port: '80',
         db: 'IFEI',
-        username: 'alejandro@remixcom.com',
-        password: 'NewRemix62'
+        username: 'api',
+        password: 'api123'
     }
 
 };

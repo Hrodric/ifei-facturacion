@@ -19,17 +19,17 @@ class OdooService {
             console.log('Connected to Odoo server.')
         })
 
-        this.execute_kw = async (model, action, params, cb) => {
+        this.execute_kw = (model, action, params, cb) => {
             this.Odoo.execute_kw(model, action, params, function (err, results) {
                 if ((err)) {
                     cb('ERROR1: ' + JSON.stringify(err));
-                    console.log('ERROR1: ' + JSON.stringify(err));
                     return;
                 }
                 if ((!results)) {
                     cb(null, [])
                     return;
                 }
+
                 cb(null, results)
             });
         }

@@ -5,12 +5,6 @@ const OdooService = Container.get('OdooService');
 module.exports = (app) => {
 
 
-    app.get('/testGet', async (req, res) => {
-        console.log(req);
-        console.log('get ok');
-        res.sendStatus(200)
-    })
-
     app.post('/testPost', async (req, res) => {
         var inParams = [];
         inParams.push([
@@ -30,11 +24,29 @@ module.exports = (app) => {
                 })
                 return
             }
-
             res.send(results)
         })
 
+    })
 
+    app.get('/getPartner', async (req, res) => {
+        var inParams = [];
+        inParams.push([
+            ['id', '=', 45621],
+        ]);
+        inParams.push(['name', 'country_id', 'comment']); //fields
+        inParams.push(0); //offset
+        inParams.push(5); //limit
+        var params = [];
+        params.push(inParams);
+        await OdooService.execute_kw('res.partner', 'search_read', params, (err, value) => {
+            if (err) {
+                return console.log(err);
+            }
+            console.log('---------------------------');
+            console.log(value);
+            res.send(value)
+        });
     })
 
 }
