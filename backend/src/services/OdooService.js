@@ -19,35 +19,20 @@ class OdooService {
             console.log('Connected to Odoo server.')
         })
 
-        this.execute_kw = async (model, action, params) => {
-            return new Promise((resolve, reject) => {
-                this.Odoo.execute_kw(model, action, params, function (err, value) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    resolve(value)
-                });
-            })
+        this.execute_kw = async (model, action, params, cb) => {
+            this.Odoo.execute_kw(model, action, params, function (err, results) {
+                if ((err)) {
+                    cb('ERROR1: ' + JSON.stringify(err));
+                    console.log('ERROR1: ' + JSON.stringify(err));
+                    return;
+                }
+                if ((!results)) {
+                    cb(null, [])
+                    return;
+                }
+                cb(null, results)
+            });
         }
-
-        this.isEmpty = (obj) => {
-            for (var key in obj) {
-                if (obj.hasOwnProperty(key))
-                    return false;
-            }
-            return true;
-        }
-
-        this.asyncForEach = async (array, callback) => {
-            for (let index = 0; index < array.length; index++) {
-                await callback(array[index], index, array);
-            }
-        }
-
-    }
-
-    async login(query) {
-
     }
 }
 
