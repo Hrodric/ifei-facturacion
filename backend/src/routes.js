@@ -13,23 +13,28 @@ module.exports = (app) => {
         params.push(inParams);
 
         OdooService.execute_kw('res.partner.id_number', 'search_read', params, (err, results) => {
+            console.log(results)
             if (err) {
                 res.status(500).send(err)
                 return
             }
-            if (!results) {
+            if (results == undefined) {
                 res.status(404).send({
                     message: "User not found"
                 })
                 return
             }
+            console.log(results)
+            if (results[0] != undefined) {
+                console.log(results[0])
+                let ret = {
+                    id: results[0].partner_id[0],
+                    nombre: results[0].partner_id[1],
+                    token: results[0].partner_id[0]
+                };
+                res.send(ret)
+            }
 
-            let ret = {
-                id: results[0].partner_id[0],
-                nombre: results[0].partner_id[1],
-                token: results[0].partner_id[0]
-            };
-            res.send(ret)
         })
     });
 
@@ -59,11 +64,12 @@ module.exports = (app) => {
     })
 
     app.get('/getPartner', async (req, res) => {
+
         var inParams = [];
         inParams.push([
-            ['id', '=', 45621],
+            ['id', '=', req.query.id],
         ]);
-        inParams.push(['name', 'country_id', 'comment']); //fields
+        inParams.push(['name', 'country_id', 'comment', 'parent_id', 'title', 'email', 'street', 'mobile']); //fields
         inParams.push(0); //offset
         inParams.push(5); //limit
         var params = [];
@@ -72,9 +78,8 @@ module.exports = (app) => {
             if (err) {
                 return console.log(err);
             }
-            console.log('---------------------------');
-            console.log(value);
-            res.send(value)
+            console.log(value[0])
+            res.send(value[0])
         });
     })
 

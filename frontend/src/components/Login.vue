@@ -28,8 +28,11 @@ export default {
 
       console.log(response);
       if (response.status === 200) {
+        console.log(response.data);
         this.$session.start();
         this.$session.set('jwt', response.data.token);
+        this.$session.set('id_contacto', response.data.id);
+        this.$session.set('nombre', response.data.nombre);
         this.$router.push('/informacion_de_contacto');
       }
     },
