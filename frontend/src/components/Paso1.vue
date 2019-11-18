@@ -8,19 +8,17 @@
     </p>
     <p>todos los campos son obligatorios</p>
     <p>Familia</p>
-    <input type="text" v-bind:value="familia.nombre" />
-    <p>Relación</p>
-    <input type="text" v-bind:value="responsable.title" />
+    <input type="text" v-model="familia.nombre" />
     <p>Nombre y Apellido</p>
-    <input type="text" v-bind:value="responsable.nombre" />
+    <input type="text" v-model="responsable.nombre" />
     <p>Email</p>
-    <input type="text" v-bind:value="responsable.email" />
+    <input type="text" v-model="responsable.email" />
     <p>Celular</p>
-    <input type="text" v-bind:value="responsable.celular" />
+    <input type="text" v-model="responsable.celular" />
     <p>Dirección</p>
-    <input type="text" v-bind:value="responsable.direccion" />
-    <p>DNI Número</p>
-    <input type="text" v-bind:value="responsable.nombre" />
+    <input type="text" v-model="responsable.direccion" />
+    <p>a</p>
+    <button @click="guardarContacto">Continuar</button>
   </div>
 </template>
 
@@ -43,11 +41,20 @@ export default {
       let response = await ResPartnerService.getPartner(
         this.$session.get('id_contacto'),
       );
-      console.log(response);
+      console.log(response.data.mobile);
+      if (!response.data.mobile) {
+        response.data.mobile = ' ';
+      }
+      if (!response.data.email) {
+        response.data.email = ' ';
+      }
+      if (!response.data.street) {
+        response.data.street = ' ';
+      }
+
       this.responsable = {
         id: response.data.id,
         nombre: response.data.name,
-        title: response.data.title[1],
         email: response.data.email,
         celular: response.data.mobile,
         direccion: response.data.street,
@@ -56,6 +63,7 @@ export default {
         id: response.data.parent_id[0],
         nombre: response.data.parent_id[1],
       };
+      this.$session.set('id_familia', response.data.parent_id[0]);
 
       console.log(this.familia);
       //alert(response.data);
@@ -74,6 +82,15 @@ export default {
     logout: function() {
       this.$session.destroy();
       this.$router.push('/');
+    },
+    guardarContacto: async function() {
+      console.log(this.responsable.title);
+      console.log(this.responsable.nombre);
+      console.log(this.responsable.email);
+      console.log(this.responsable.celular);
+      console.log(this.responsable.direccion);
+      let response = await ResPartnerService.updatePartner(this.responsable);
+      this.$router.push('/informacion_de_alumnos');
     },
   },
 };

@@ -8,4 +8,16 @@ export default {
       },
     });
   },
+  updatePartner(partner) {
+    return Api().post('updatePartner', {
+      partner,
+    });
+  },
+  getAlumnos(id) {
+    return Api().get('getStudents', {
+      params: {
+        id,
+      },
+    });
+  },
 };
