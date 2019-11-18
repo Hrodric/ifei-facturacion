@@ -1,22 +1,38 @@
 <template>
   <div>
-    <label>Usuario</label>
-    <input type="text" name="x" :v-bind="user" />
-    <label>Password</label>
-    <input type="text" :v-bind="pass" />
+    <input v-model="dni" placeholder="DNI" />
+
+    <input v-model="pass" placeholder="Password" />
+
+    <button @click="login()">Log In</button>
   </div>
 </template>
 
 <script>
+import AuthenticationService from '@/services/AuthenticationService';
 export default {
-  name: "login",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
-      user: "",
-      pass: ""
+      dni: '30395691',
+      pass: '123',
+      error: null,
     };
   },
-  created: () => {}
+  methods: {
+    async login() {
+      const response = await AuthenticationService.login({
+        dni: this.dni,
+        pass: this.pass,
+        responseA: {},
+      });
+
+      console.log(response);
+      if (response.status === 200) {
+        this.$session.start();
+        this.$session.set('jwt', response.data.token);
+        this.$router.push('/informacion_de_contacto');
+      }
+    },
+  },
 };
 </script>
