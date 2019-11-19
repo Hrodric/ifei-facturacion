@@ -69,7 +69,7 @@ module.exports = (app) => {
         inParams.push([
             ['id', '=', req.query.id],
         ]);
-        inParams.push(['name', 'country_id', 'comment', 'parent_id', 'title', 'email', 'street', 'mobile']); //fields
+        inParams.push(['name', 'country_id', 'comment', 'parent_id', 'title', 'email', 'street', 'mobile', 'fax']); //fields
         inParams.push(0); //offset
         inParams.push(5); //limit
         var params = [];
@@ -103,6 +103,27 @@ module.exports = (app) => {
         });
     })
 
+    app.post('/updateStudent', async (req, res) => {
+        console.log(req.body)
+        var inParams = [];
+        inParams.push([req.body.student.id]); //id to update
+        inParams.push({
+            'name': req.body.student.name,
+            'email': req.body.student.email,
+            'fax': req.body.student.fax,
+            'mobile': req.body.student.mobile,
+        })
+        var params = [];
+        params.push(inParams);
+        await OdooService.execute_kw('res.partner', 'write', params, (err, value) => {
+            if (err) {
+                return console.log(err);
+            }
+            console.log(value)
+            res.send(value)
+        });
+    })
+
     app.get('/getStudents', async (req, res) => {
         console.log(req.query.id)
         var inParams = [];
@@ -110,7 +131,7 @@ module.exports = (app) => {
             ['parent_id', '=', Number(req.query.id)],
             ['title', '=', 10]
         ]);
-        inParams.push(['name', 'country_id', 'comment', 'parent_id', 'title', 'email', 'street', 'mobile']); //fields
+        inParams.push(['name', 'country_id', 'comment', 'parent_id', 'title', 'email', 'street', 'mobile', 'fax']); //fields
         inParams.push(0); //offset
         inParams.push(5); //limit
         var params = [];

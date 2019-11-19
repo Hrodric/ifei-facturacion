@@ -13,6 +13,11 @@ export default {
       partner,
     });
   },
+  updateStudent(student) {
+    return Api().post('updateStudent', {
+      student,
+    });
+  },
   getAlumnos(id) {
     return Api().get('getStudents', {
       params: {

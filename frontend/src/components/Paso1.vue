@@ -23,33 +23,33 @@
 </template>
 
 <script>
-import ResPartnerService from '@/services/ResPartnerService';
-import { async } from 'q';
+import ResPartnerService from "@/services/ResPartnerService";
+import { async } from "q";
 export default {
   data() {
     return {
       familia: {},
       responsable: {},
-      id: '',
-      nombre: '',
+      id: "",
+      nombre: ""
     };
   },
   created: async function() {
     try {
-      this.nombre = this.$session.get('nombre');
+      this.nombre = this.$session.get("nombre");
 
       let response = await ResPartnerService.getPartner(
-        this.$session.get('id_contacto'),
+        this.$session.get("id_contacto")
       );
       console.log(response.data.mobile);
       if (!response.data.mobile) {
-        response.data.mobile = ' ';
+        response.data.mobile = " ";
       }
       if (!response.data.email) {
-        response.data.email = ' ';
+        response.data.email = " ";
       }
       if (!response.data.street) {
-        response.data.street = ' ';
+        response.data.street = " ";
       }
 
       this.responsable = {
@@ -57,13 +57,13 @@ export default {
         nombre: response.data.name,
         email: response.data.email,
         celular: response.data.mobile,
-        direccion: response.data.street,
+        direccion: response.data.street
       };
       this.familia = {
         id: response.data.parent_id[0],
-        nombre: response.data.parent_id[1],
+        nombre: response.data.parent_id[1]
       };
-      this.$session.set('id_familia', response.data.parent_id[0]);
+      this.$session.set("id_familia", response.data.parent_id[0]);
 
       console.log(this.familia);
       //alert(response.data);
@@ -75,23 +75,18 @@ export default {
   beforeCreate: function() {
     console.log(this.$session.exists());
     if (!this.$session.exists()) {
-      this.$router.push('/');
+      this.$router.push("/");
     }
   },
   methods: {
     logout: function() {
       this.$session.destroy();
-      this.$router.push('/');
+      this.$router.push("/");
     },
     guardarContacto: async function() {
-      console.log(this.responsable.title);
-      console.log(this.responsable.nombre);
-      console.log(this.responsable.email);
-      console.log(this.responsable.celular);
-      console.log(this.responsable.direccion);
       let response = await ResPartnerService.updatePartner(this.responsable);
-      this.$router.push('/informacion_de_alumnos');
-    },
-  },
+      this.$router.push("/informacion_de_alumnos");
+    }
+  }
 };
 </script>
