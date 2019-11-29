@@ -15,6 +15,12 @@
   </div>
 </template>
 
+<style scoped>
+input {
+  font-size: 4em;
+}
+</style>
+
 <script>
 import ResPartnerService from "@/services/ResPartnerService";
 import { async } from "q";
