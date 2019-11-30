@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button @click="volver()">Volver</button>
     <h1>Confirmar Preinscripcion</h1>
     <h2>{{grupoFamiliar.name}}</h2>
     <h3>{{alumno.name}}</h3>
@@ -39,6 +40,9 @@ export default {
         this.clase
       );
       this.$router.push("/alumnos");
+    },
+    volver: function() {
+      this.$router.push("/clases");
     }
   }
 };

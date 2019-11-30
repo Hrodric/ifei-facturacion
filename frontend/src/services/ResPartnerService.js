@@ -64,4 +64,12 @@ export default {
       },
     });
   },
+  crearContacto(grupoFamiliar, contacto, dni) {
+
+    return Api().post('crear_contacto', {
+      grupoFamiliar,
+      contacto,
+      dni,
+    });
+  },
 };

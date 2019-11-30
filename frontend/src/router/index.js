@@ -6,6 +6,7 @@ import Preinscripcion from '@/components/Preinscripcion';
 import Alumnos from '@/components/Alumnos';
 import Clases from '@/components/Clases';
 import ConfirmSo from '@/components/ConfirmSo';
+import CrearContacto from '@/components/CrearContacto';
 
 const routes = [{
     path: '/',
@@ -38,6 +39,10 @@ const routes = [{
   {
     path: '/preinscripcion',
     component: Preinscripcion,
+  },
+  {
+    path: '/crear_contacto',
+    component: CrearContacto,
   },
 ];
 

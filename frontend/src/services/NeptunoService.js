@@ -7,10 +7,11 @@ export default {
       gf,
     });
   },
-  crearAlumno(grupoFamiliar, alumno) {
+  crearAlumno(grupoFamiliar, alumno, dni) {
     return Api().post('npt_crear_alumno', {
       grupoFamiliar,
       alumno,
+      dni,
     });
   },
 };

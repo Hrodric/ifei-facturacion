@@ -107,9 +107,10 @@ module.exports = app => {
     inParams.push([
       ['name', 'ilike', '%' + req.body.searchTerm + '%']
     ]);
-    inParams.push(['name', 'parent_id', 'title']); //fields
+    console.log(inParams);
+    inParams.push(['name', 'parent_id', 'title', 'title', 'main_id_number']); //fields
     inParams.push(0); //offset
-    inParams.push(10); //limit
+    inParams.push(100); //limit
     var params = [];
     params.push(inParams);
     await OdooService.execute_kw(
@@ -157,7 +158,7 @@ module.exports = app => {
     var inParams = [];
     inParams.push([
       ['parent_id', '=', Number(req.query.id)],
-      ['title', '=', 10],
+      ['title', '=', 100],
     ]);
     inParams.push([
       'name',
@@ -166,6 +167,7 @@ module.exports = app => {
       'parent_id',
       'title',
       'email',
+      'main_id_number',
       'street',
       'mobile',
       'fax',
@@ -305,7 +307,7 @@ module.exports = app => {
           }
           console.log('Result: ', value);
           res.send({
-            orderLineId: value
+            orderLineId: value,
           });
         },
       );
@@ -313,17 +315,20 @@ module.exports = app => {
   });
 
   app.get('/getSos', async (req, res) => {
-    console.log(req.query.studentId)
+    console.log(req.query.studentId);
     var inParams = [];
     inParams.push([
       ['partner_id', '=', parseInt(req.query.studentId)],
-      ['invoice_status', '=', 'to invoice']
+      ['invoice_status', '=', 'to invoice'],
     ]);
     inParams.push(0); //offset
     inParams.push(100); //Limit
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('sale.order', 'search', params, async function (err, value) {
+    await OdooService.execute_kw('sale.order', 'search', params, async function (
+      err,
+      value,
+    ) {
       if (err) {
         return console.log(err);
       }
@@ -331,7 +336,10 @@ module.exports = app => {
       inParams.push(value); //ids
       var params = [];
       params.push(inParams);
-      await OdooService.execute_kw('sale.order', 'read', params, function (err2, value2) {
+      await OdooService.execute_kw('sale.order', 'read', params, function (
+        err2,
+        value2,
+      ) {
         if (err2) {
           return console.log(err2);
         }
@@ -339,6 +347,34 @@ module.exports = app => {
         res.send(value2);
       });
     });
+  });
+
+  app.post('/crear_contacto', async (req, res) => {
+
+    var inParams = [];
+    inParams.push({
+      name: req.body.contacto,
+      company_type: 'person',
+      main_id_category_id: 35,
+      main_id_number: req.body.dni,
+      title: 8,
+      parent_id: req.body.grupoFamiliar.id,
+    });
+    console.log(inParams);
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'res.partner',
+      'create',
+      params,
+      async function (err, value) {
+        if (err) {
+          return console.log(err);
+        }
+        res.send("Result " + value);
+
+      },
+    );
   });
   // #########################################################################
   // Neptuno
@@ -380,6 +416,8 @@ module.exports = app => {
             name: req.body.gf.contact_name,
             parent_id: value,
             type: 'invoice',
+            main_id_category_id: 35,
+            main_id_number: req.body.gf.id_number,
             company_type: 'person',
             title: 8,
           });
@@ -390,11 +428,11 @@ module.exports = app => {
             'res.partner',
             'create',
             params,
-            function (err, value) {
+            async function (err, value) {
               if (err) {
                 return console.log(err);
               }
-              console.log('Result: ', value);
+
             },
           );
           res.send(String(value));
@@ -404,6 +442,11 @@ module.exports = app => {
   });
 
   app.post('/npt_crear_alumno', async (req, res) => {
+    console.log(req.body)
+    let nptId = '';
+    if (req.body.grupoFamiliar.x_neptuno_id !== undefined) {
+      nptId = req.body.grupoFamiliar.x_neptuno_id.substring(2)
+    }
     await NeptunoService.crearStudent({
         grupos_familiare_id: req.body.grupoFamiliar.x_neptuno_id.substring(2),
         first_name: req.body.alumno,
@@ -418,58 +461,38 @@ module.exports = app => {
             message: 'User not found',
           });
         }
-        console.log(result)
+        console.log(result);
         var inParams = [];
         inParams.push({
           x_neptuno_id: 'st' + result.dataValues.id,
           name: result.dataValues.first_name,
           company_type: 'person',
+          main_id_category_id: 35,
+          main_id_number: req.body.dni,
           title: 10,
           parent_id: req.body.grupoFamiliar.id,
         });
         console.log(inParams);
         var params = [];
         params.push(inParams);
-        await OdooService.execute_kw('res.partner', 'create', params, async function (
-          err,
-          value,
-        ) {
-          if (err) {
-            return console.log(err);
-          }
-          console.log('Result: ', value);
-          inParams.push([
-            ['id', '=', parseInt(value)],
-          ]);
-          inParams.push([
-            'name',
-            'country_id',
-            'comment',
-            'parent_id',
-            'title',
-            'email',
-            'street',
-            'mobile',
-            'fax',
-          ]); //fields
-          inParams.push(0); //offset
-          inParams.push(1); //limit
-          var params = [];
-          params.push(inParams);
-          await OdooService.execute_kw(
-            'res.partner',
-            'search_read',
-            params,
-            (err, value) => {
-              if (err) {
-                return console.log(err);
-              }
-              console.log(value);
-              res.send(value);
-            },
-          );
-        });
+        await OdooService.execute_kw(
+          'res.partner',
+          'create',
+          params,
+          async function (err, value) {
+            if (err) {
+              return console.log(err);
+            }
+            console.log('Result: ', value);
+
+            res.send('Result: ' + value);
+
+          },
+        );
       },
     );
   });
+
+
+
 };

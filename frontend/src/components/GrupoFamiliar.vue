@@ -4,30 +4,30 @@
       <div>
         <button @click="volver()">volver</button>
       </div>
-      <h1>Crear Grupo Familiar</h1>Apellido
+      <h3>Crear Grupo Familiar</h3>
       <input type="text" v-model="gf.name" />
-      <br />Nombre de Contacto
+      Apellido
+      <br />
       <input type="text" v-model="gf.contact_name" />
-      <br />DNI
+      Nombre de Contacto
+      <br />
       <input type="text" v-model="gf.id_number" />
-      <br />direccion
+      DNI
+      <br />
       <input type="text" v-model="gf.direccion" />
-      <br />Telefono de contacto
+      Direccion
+      <br />
       <input type="text" v-model="gf.telefono" />
-      <br />Email
+      Telefono de contacto
+      <br />
       <input type="text" v-model="gf.email" />
+      Email
       <br />
       <button @click="crearGrupo()">Crear</button>
     </div>
     <div v-if="isLoading">
-      <h1>Awantaaa!!</h1>
-      <img
-        src="https://media1.tenor.com/images/a7f37b8aaa8a6123211037d81487df6e/tenor.gif?itemid=5953099"
-        width="433"
-        height="149.06584362139915"
-        alt="Aguanta Mucho GIF - Goku DragonballZ Power GIFs"
-        style="max-width: 833px; background-color: rgb(63, 63, 63);"
-      />
+      <h1>Cargando...</h1>
+      <p>{{mensajeCargando}}</p>
     </div>
   </div>
 </template>
@@ -39,15 +39,23 @@ import NeptunoService from "@/services/NeptunoService";
 export default {
   data() {
     return {
-      gf: { name: "", email: "", id_number: "", contact_name: "" },
-      isLoading: false
+      gf: {
+        name: "",
+        email: "",
+        id_number: "",
+        telefono: "",
+        contact_name: "",
+        direccion: ""
+      },
+      isLoading: false,
+      mensajeCargando: ""
     };
   },
   methods: {
     crearGrupo: async function() {
       this.isLoading = true;
+      this.mensajeCargando = "Creando al grupo familiar";
       let grupoFamiliar = await NeptunoService.crearGrupoFamiliar(this.gf);
-      console.log(grupoFamiliar);
       this.$session.set("id_grupo_familiar", grupoFamiliar.data);
       this.$router.push("/alumnos");
     },
