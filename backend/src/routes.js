@@ -6,9 +6,7 @@ module.exports = app => {
   app.post('/login', async (req, res) => {
     console.log(req.body);
     var inParams = [];
-    inParams.push([
-      ['name', '=', req.body.dni]
-    ]);
+    inParams.push([['name', '=', req.body.dni]]);
     var params = [];
     params.push(inParams);
 
@@ -44,9 +42,7 @@ module.exports = app => {
 
   app.get('/getPartner', async (req, res) => {
     var inParams = [];
-    inParams.push([
-      ['id', '=', req.query.id]
-    ]);
+    inParams.push([['id', '=', req.query.id]]);
     inParams.push([
       'name',
       'country_id',
@@ -104,9 +100,7 @@ module.exports = app => {
   app.post('/search', async (req, res) => {
     console.log(req.body);
     var inParams = [];
-    inParams.push([
-      ['name', 'ilike', '%' + req.body.searchTerm + '%']
-    ]);
+    inParams.push([['name', 'ilike', '%' + req.body.searchTerm + '%']]);
     console.log(inParams);
     inParams.push(['name', 'parent_id', 'title', 'title', 'main_id_number']); //fields
     inParams.push(0); //offset
@@ -198,12 +192,13 @@ module.exports = app => {
       'country_id',
       'comment',
       'child_ids',
+      'main_id_number',
       'sale_order_ids',
       'x_neptuno_id',
     ]); //fields
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('res.partner', 'read', params, function (
+    await OdooService.execute_kw('res.partner', 'read', params, function(
       err2,
       value,
     ) {
@@ -226,7 +221,7 @@ module.exports = app => {
       'company_type',
       'comment',
       'parent_id',
-
+      'main_id_number',
       'title',
       'email',
       'street',
@@ -281,7 +276,7 @@ module.exports = app => {
     console.log(inParams);
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('sale.order', 'create', params, async function (
+    await OdooService.execute_kw('sale.order', 'create', params, async function(
       err,
       value,
     ) {
@@ -301,7 +296,7 @@ module.exports = app => {
         'sale.order.line',
         'create',
         params,
-        function (err, value) {
+        function(err, value) {
           if (err) {
             return console.log(err);
           }
@@ -312,6 +307,49 @@ module.exports = app => {
         },
       );
     });
+  });
+
+  app.post('/updateTaskName', async (req, res) => {
+    console.log(req.body);
+    var inParams = [];
+    inParams.push([['sale_line_id', '=', req.body.orderLineId]]);
+
+    inParams.push(['name', 'project_id', 'partner_id', 'stage_id']); //fields
+    inParams.push(0); //offset
+    inParams.push(100); //limit
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'project.task',
+      'search_read',
+      params,
+      async (err, value) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log('xxxxxxxxxxxxx');
+        console.log(value);
+        var inParams = [];
+        inParams.push(parseInt(value[0].id)); //id to update
+        inParams.push({
+          name: req.body.alumno.parent_id[1] + ', ' + req.body.alumno.name,
+        });
+        var params = [];
+        params.push(inParams);
+        await OdooService.execute_kw(
+          'project.task',
+          'write',
+          params,
+          (err, value) => {
+            if (err) {
+              return console.log(err);
+            }
+            console.log(value);
+            res.send({ result: value });
+          },
+        );
+      },
+    );
   });
 
   app.get('/getSos', async (req, res) => {
@@ -325,7 +363,7 @@ module.exports = app => {
     inParams.push(100); //Limit
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('sale.order', 'search', params, async function (
+    await OdooService.execute_kw('sale.order', 'search', params, async function(
       err,
       value,
     ) {
@@ -336,7 +374,7 @@ module.exports = app => {
       inParams.push(value); //ids
       var params = [];
       params.push(inParams);
-      await OdooService.execute_kw('sale.order', 'read', params, function (
+      await OdooService.execute_kw('sale.order', 'read', params, function(
         err2,
         value2,
       ) {
@@ -349,8 +387,165 @@ module.exports = app => {
     });
   });
 
-  app.post('/crear_contacto', async (req, res) => {
+  app.get('/getSoTask', async (req, res) => {
+    console.log(req.body);
+    var inParams = [];
+    inParams.push([['id', '=', req.query.id]]);
+    console.log(inParams);
+    inParams.push(['name', 'order_line']); //fields
+    inParams.push(0); //offset
+    inParams.push(100); //limit
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'sale.order',
+      'search_read',
+      params,
+      async (err, value) => {
+        if (err) {
+          return console.log(err);
+        }
 
+        //res.send(value);
+        console.log(value[0].order_line[0]);
+        var inParams = [];
+        inParams.push([['sale_line_id', '=', value[0].order_line[0]]]);
+
+        inParams.push(['name', 'project_id', 'partner_id', 'stage_id']); //fields
+        inParams.push(0); //offset
+        inParams.push(100); //limit
+        var params = [];
+        params.push(inParams);
+        await OdooService.execute_kw(
+          'project.task',
+          'search_read',
+          params,
+          async (err, value) => {
+            if (err) {
+              return console.log(err);
+            }
+            console.log('xxxxxxxxxxxxx');
+            console.log(value);
+
+            res.send(value);
+          },
+        );
+      },
+    );
+  });
+
+  app.get('/get_task_types', async (req, res) => {
+    console.log(req.query);
+    var inParams = [];
+    inParams.push([['project_ids', '=', parseInt(req.query.id)]]);
+
+    inParams.push(['name']); //fields
+    inParams.push(0); //offset
+    inParams.push(100); //limit
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'project.task.type',
+      'search_read',
+      params,
+      (err, value) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log('xxxxxxxxxxxxx');
+        console.log(value);
+
+        res.send(value);
+      },
+    );
+  });
+
+  app.get('/getOrderLine', async (req, res) => {
+    console.log(req.query);
+    var inParams = [];
+    inParams.push([['id', '=', parseInt(req.query.id)]]);
+
+    inParams.push([
+      'id',
+      'discount',
+      'product_id',
+      'product_uom',
+      'price_unit',
+      'product_uom_qty',
+      'order_id',
+      'order_partner_id',
+    ]); //fields
+    inParams.push(0); //offset
+    inParams.push(100); //limit
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'sale.order.line',
+      'search_read',
+      params,
+      (err, value) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log('xxxxxxxxxxxxx');
+        console.log(value);
+
+        res.send(value);
+      },
+    );
+  });
+
+  app.get('/stage_task_count', async (req, res) => {
+    var inParams = [];
+    console.log(req.query);
+    inParams.push([
+      //['stage_id', '=', parseInt(req.query.stage_id)],
+      ['project_id', '=', parseInt(req.query.project_id)],
+    ]);
+    inParams.push(['name', 'project_id', 'partner_id', 'stage_id']); //fields
+    inParams.push(0); //offset
+    inParams.push(100); //limit
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'project.task',
+      'search_read',
+      params,
+      async (err, value) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log('Result: ', value);
+        res.send({ value: value });
+      },
+    );
+  });
+
+  app.post('/updateTask', async (req, res) => {
+    console.log(req.body);
+    var inParams = [];
+    inParams.push([req.body.task.id]); //id to update
+    inParams.push({
+      id: req.body.task.id,
+      stage_id: req.body.task.stage_id,
+    });
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'project.task',
+      'write',
+      params,
+      (err, value) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(value);
+        res.send(value);
+      },
+    );
+  });
+
+  app.post('/crear_contacto', async (req, res) => {
     var inParams = [];
     inParams.push({
       name: req.body.contacto,
@@ -367,12 +562,80 @@ module.exports = app => {
       'res.partner',
       'create',
       params,
-      async function (err, value) {
+      async function(err, value) {
         if (err) {
           return console.log(err);
         }
-        res.send("Result " + value);
+        res.send('Result ' + value);
+      },
+    );
+  });
 
+  app.post('/crear_factura', async (req, res) => {
+    console.log('1');
+    console.log(req.body);
+    var inParams = [];
+    inParams.push({
+      partner_id: req.body.grupoFamiliar.id,
+      afip_service_start: new Date()
+        .toJSON()
+        .slice(0, 10)
+        .replace(/-/g, '-'),
+      afip_service_end: new Date()
+        .toJSON()
+        .slice(0, 10)
+        .replace(/-/g, '-'),
+      //afip_concept: 'Servicios',
+      payment_term_id: 1,
+      journal_id: 1,
+      journal_document_type_id: 19,
+    });
+
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'account.invoice',
+      'create',
+      params,
+      async function(err, value) {
+        if (err) {
+          return console.log(err);
+        }
+        res.send({ Result: value });
+      },
+    );
+  });
+  app.post('/crear_linea_factura', async (req, res) => {
+    console.log('2');
+    console.log(req.body);
+    var inParams = [];
+    inParams.push({
+      invoice_id: req.body.invoiceId,
+      price_unit: req.body.linea.price_unit,
+      product_id: req.body.linea.product_id[0],
+      discount: req.body.linea.discount,
+      origin: req.body.linea.order_id[1],
+      quantity: 1,
+      sale_order_lines: req.body.linea.id,
+      account_id: 13,
+      invoice_line_tax_ids: [4, 11, 0],
+      name:
+        req.body.linea.product_id[1] +
+        ', ' +
+        req.body.linea.order_partner_id[1],
+    });
+    console.log(inParams);
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'account.invoice.line',
+      'create',
+      params,
+      async function(err, value) {
+        if (err) {
+          return console.log(err);
+        }
+        res.send('Result ' + value);
       },
     );
   });
@@ -395,7 +658,11 @@ module.exports = app => {
       inParams.push({
         x_neptuno_id: 'gf' + result.dataValues.id,
         name: 'Familia ' + req.body.gf.name,
+        main_id_number: req.body.gf.id_number,
+        main_id_category_id: 35,
         company_type: 'company',
+        property_account_position_id: 1,
+        property_payment_term_id: 1,
         email: req.body.gf.email,
         street: req.body.gf.direccion,
       });
@@ -406,7 +673,7 @@ module.exports = app => {
         'res.partner',
         'create',
         params,
-        async function (err, value) {
+        async function(err, value) {
           if (err) {
             return console.log(err);
           }
@@ -415,9 +682,6 @@ module.exports = app => {
           inParams.push({
             name: req.body.gf.contact_name,
             parent_id: value,
-            type: 'invoice',
-            main_id_category_id: 35,
-            main_id_number: req.body.gf.id_number,
             company_type: 'person',
             title: 8,
           });
@@ -428,11 +692,10 @@ module.exports = app => {
             'res.partner',
             'create',
             params,
-            async function (err, value) {
+            async function(err, value) {
               if (err) {
                 return console.log(err);
               }
-
             },
           );
           res.send(String(value));
@@ -442,12 +705,13 @@ module.exports = app => {
   });
 
   app.post('/npt_crear_alumno', async (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     let nptId = '';
     if (req.body.grupoFamiliar.x_neptuno_id !== undefined) {
-      nptId = req.body.grupoFamiliar.x_neptuno_id.substring(2)
+      nptId = req.body.grupoFamiliar.x_neptuno_id.substring(2);
     }
-    await NeptunoService.crearStudent({
+    await NeptunoService.crearStudent(
+      {
         grupos_familiare_id: req.body.grupoFamiliar.x_neptuno_id.substring(2),
         first_name: req.body.alumno,
       },
@@ -469,7 +733,10 @@ module.exports = app => {
           company_type: 'person',
           main_id_category_id: 35,
           main_id_number: req.body.dni,
+          property_account_position_id: 1,
+          property_payment_term_id: 1,
           title: 10,
+          street: req.body.grupoFamiliar.direccion,
           parent_id: req.body.grupoFamiliar.id,
         });
         console.log(inParams);
@@ -479,20 +746,16 @@ module.exports = app => {
           'res.partner',
           'create',
           params,
-          async function (err, value) {
+          async function(err, value) {
             if (err) {
               return console.log(err);
             }
             console.log('Result: ', value);
 
             res.send('Result: ' + value);
-
           },
         );
       },
     );
   });
-
-
-
 };

@@ -13,37 +13,30 @@
 
       <h3>Contactos</h3>
       <div v-for="(contact, key) in contactos" :key="key">
-        <div v-if="contact.title[1] !== 'Student'">
-          <button>Editar</button>
-          {{contact.name}}
-        </div>
+        <div v-if="contact.title[1] !== 'Student'">{{contact.name}}</div>
       </div>
       <h4>Alumnos existentes</h4>
       <div v-for="(contact, key) in contactos" :key="'xx'+key">
         <div v-if="contact.title[1] == 'Student'">
-          <button @click="seleccionarAlumno(contact)">Editar</button>
-          <button @click="seleccionarAlumno(contact)">Seleccionar</button>
+          <button @click="seleccionarAlumno(contact)">Seleccionar Clase</button>
           {{contact.name}}
         </div>
       </div>
-      <h2>Preinscripcion</h2>
-      <div
-        v-if="sos[0] == undefined"
-      >No hay ordenes de venta creadas para este grupo familiar. Seleccione un alumno para continuar</div>
-      <div v-if="sos[0] !== undefined">
+      <h2>Ordenes de Venta</h2>
+
+      <div>
         <div v-for="(contacto, key ) in contactos" :key="'co'+key">
           <ul v-if="contacto.sos">
             <li v-for="(so, key ) in contacto.sos.data" :key="'so'+key">
               {{so.name}}, {{so.partner_id[1]}}, {{so.product_id[1]}}, ${{so.amount_total}}
               <button
-                @click="eliminarSo(so.id)"
-              >Eliminar</button>
-              <button>Seleccionar Horario</button>
+                @click="seleccionarHorario(so.id)"
+              >Seleccionar Horario</button>
             </li>
           </ul>
         </div>
       </div>
-      <button v-if="sos[0] !== undefined">Confirmar Preinscripcion</button>
+      <button @click="facturar()">Crear Factura Borrador</button>
     </div>
   </div>
 </template>
@@ -94,14 +87,21 @@ export default {
       this.$session.set("alumno", alumno);
       this.$router.push("/clases");
     },
-    eliminarSo: async function(alumno) {
-      alert(alumno);
+    eliminarSo: async function(sale_order_id) {
+      alert(sale_order_id);
     },
     volver: function() {
       this.$router.push("/");
     },
+    facturar: function() {
+      this.$router.push("/facturar");
+    },
     crearContacto() {
       this.$router.push("/crear_contacto");
+    },
+    seleccionarHorario(sale_order_id) {
+      this.$session.set("saleOrderId", sale_order_id);
+      this.$router.push("/seleccionar_horario");
     }
   }
 };

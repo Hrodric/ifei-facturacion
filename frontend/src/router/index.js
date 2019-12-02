@@ -7,6 +7,8 @@ import Alumnos from '@/components/Alumnos';
 import Clases from '@/components/Clases';
 import ConfirmSo from '@/components/ConfirmSo';
 import CrearContacto from '@/components/CrearContacto';
+import SeleccionarHorario from '@/components/SeleccionarHorario';
+import Facturar from '@/components/Facturar';
 
 const routes = [{
     path: '/',
@@ -43,6 +45,14 @@ const routes = [{
   {
     path: '/crear_contacto',
     component: CrearContacto,
+  },
+  {
+    path: '/seleccionar_horario',
+    component: SeleccionarHorario,
+  },
+  {
+    path: '/facturar',
+    component: Facturar,
   },
 ];
 
