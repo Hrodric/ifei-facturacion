@@ -79,13 +79,14 @@ export default {
       this.$router.push("/alumnos");
     },
     crearFactura: async function() {
-      console.log(this.grupoFamiliar);
-      console.log(this.invoice_lines);
+      this.loading = true;
+      this.loadingMsg = "Creando nueva factura borrador ...";
       let res = await ResPartnerService.crearFactura(this.grupoFamiliar);
 
       for (const line of this.invoice_lines) {
         await ResPartnerService.crearLineaFactura(res.data.Result, line);
       }
+      this.$router.push("alumnos");
     }
   }
 };
