@@ -8,6 +8,7 @@
 
     <ul v-if="!isLoading">
       <li v-for="(partner, key) in responseSearch" :key="key">
+        <button @click="verPartnerEnOdoo(partner.id)">Ver en Odoo</button>
         <button
           v-if="partner.parent_id == false"
           @click="seleccionarGF(partner.id)"
@@ -98,6 +99,13 @@ export default {
         this.$session.set("nombre", response.data.nombre);
         this.$router.push("/informacion_de_contacto");
       }
+    },
+    verPartnerEnOdoo(partner_id) {
+      let routeData =
+        "http://ifei.moogah.com/web#id=" +
+        partner_id +
+        "&view_type=form&model=res.partner&menu_id=70&action=77";
+      window.open(routeData, "_blank");
     },
     handleBlur() {}
   }

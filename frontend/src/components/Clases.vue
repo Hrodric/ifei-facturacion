@@ -6,7 +6,7 @@
     <h2>Alumno</h2>
     <h3>{{alumno.name}}, {{grupoFamiliar.name}}</h3>
     <h2>Seleccionar Curso</h2>
-
+    <button @click="verClasesEnOdoo()">Ver en Odoo</button>
     <ul>
       <li
         v-for="(clase , key) in this.clases.data"

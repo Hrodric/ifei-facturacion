@@ -9,6 +9,8 @@
     </div>
     <div v-if="!loading">
       <h2>Inscripcion</h2>
+      <button @click="verTask(task.id)">Ver Inscripcion en Odoo</button>
+      <button @click="verCurso(task.project_id[0])">Ver curso en Odoo</button>
       <h3>{{this.task.partner_id[1]}}, {{this.task.project_id[1]}}</h3>
       <h4>Horario Seleccionado: {{this.task.stage_id[1]}}</h4>
       <h3>Horarios Disponibles:</h3>
@@ -65,6 +67,20 @@ export default {
       this.task.stage_id = id;
       await ResPartnerService.updateTask(this.task);
       this.$router.push("/alumnos");
+    },
+    verTask(id) {
+      let routeData =
+        "http://ifei.moogah.com/web#id=" +
+        id +
+        "&view_type=form&model=project.task";
+      window.open(routeData, "_blank");
+    },
+    verCurso(id) {
+      let routeData =
+        "http://ifei.moogah.com/web#active_id=" +
+        id +
+        "&view_type=kanban&model=project.task&action=500";
+      window.open(routeData, "_blank");
     }
   }
 };

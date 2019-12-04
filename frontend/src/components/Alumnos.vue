@@ -13,11 +13,15 @@
 
       <h3>Contactos</h3>
       <div v-for="(contact, key) in contactos" :key="key">
-        <div v-if="contact.title[1] !== 'Student'">{{contact.name}}</div>
+        <div v-if="contact.title[1] !== 'Student'">
+          <button @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</button>
+          {{contact.name}}
+        </div>
       </div>
       <h4>Alumnos existentes</h4>
       <div v-for="(contact, key) in contactos" :key="'xx'+key">
         <div v-if="contact.title[1] == 'Student'">
+          <button @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</button>
           <button @click="seleccionarAlumno(contact)">Seleccionar Clase</button>
           {{contact.name}}
         </div>
@@ -30,8 +34,10 @@
             <li v-for="(so, key ) in contacto.sos.data" :key="'so'+key">
               {{so.name}}, {{so.partner_id[1]}}, {{so.product_id[1]}}, ${{so.amount_total}}
               <button
-                @click="seleccionarHorario(so.id)"
-              >Seleccionar Horario</button>
+                @click="verSoEnOdoo(so.id)"
+              >Ver SO</button>
+
+              <button @click="seleccionarHorario(so.id)">Seleccionar Horario</button>
             </li>
           </ul>
         </div>
@@ -102,6 +108,20 @@ export default {
     seleccionarHorario(sale_order_id) {
       this.$session.set("saleOrderId", sale_order_id);
       this.$router.push("/seleccionar_horario");
+    },
+    verSoEnOdoo(sale_order_id) {
+      let routeData =
+        "http://ifei.moogah.com/web#id=" +
+        sale_order_id +
+        "&view_type=form&model=sale.order&menu_id=121&action=305";
+      window.open(routeData, "_blank");
+    },
+    verPartnerEnOdoo(partner_id) {
+      let routeData =
+        "http://ifei.moogah.com/web#id=" +
+        partner_id +
+        "&view_type=form&model=res.partner&menu_id=70&action=77";
+      window.open(routeData, "_blank");
     }
   }
 };
