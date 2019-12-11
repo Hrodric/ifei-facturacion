@@ -1,6 +1,8 @@
 <template>
   <b-card title=""><h4>{{grupoFamiliar.name}}</h4>
-    <div v-if="loading">
+    <div class="text-center" v-if="isLoading">
+      <br/>
+      <b-spinner variant="primary" label="Spinning"> </b-spinner>
       <h1>Cargando...</h1>
       <p>{{loadingMsg}}</p>
     </div>
@@ -16,7 +18,7 @@
       <h4>Alumnos existentes</h4>
       <b-list-group fluid v-for="(contact, key) in contactos" :key="'xx'+key">
         <b-list-group-item v-if="contact.title[1] == 'Student'">
-          {{contact.name}}<b-button variant="outline-primary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
+          {{contact.name}} <b-button variant="outline-primary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
         </b-list-group-item>
       </b-list-group>
       <br/>

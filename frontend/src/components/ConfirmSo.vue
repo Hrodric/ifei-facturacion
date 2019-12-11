@@ -1,6 +1,8 @@
 <template>
   <b-container fluid>
-    <b-container v-if="loading">
+    <b-container class="text-center" v-if="loading">
+      <br/>
+      <b-spinner variant="primary" label="Spinning"> </b-spinner>
       <h1>Cargando...</h1>
       <p>{{loadingMsg}}</p>
     </b-container>
@@ -8,8 +10,8 @@
     <b-card header="Verificar Información:" disabled>
       <b-list-group v-if="!loading">
         <b-list-group-item button>{{grupoFamiliar.name}}</b-list-group-item>
-        <b-list-group-item button>{{alumno.name}}</b-list-group-item>
-        <b-list-group-item button>-{{clase.name}}</b-list-group-item>
+        <b-list-group-item button>Alumno: {{alumno.name}}</b-list-group-item>
+        <b-list-group-item button>Producto: {{clase.name}}</b-list-group-item>
       </b-list-group>
       <br/>
       <b-button variant="outline-primary" @click="confirmarSo()">Confirmar Preinscripción</b-button>

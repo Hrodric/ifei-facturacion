@@ -2,10 +2,12 @@
   <div>
     <b-container fluid>
       <b-card header="NUEVA FACTURACIÓN" disabled>
-        <div v-if="loading">
+        <b-container class="text-center" v-if="loading">
+          <br/>
+          <b-spinner variant="primary" label="Spinning"> </b-spinner>
           <h1>Cargando...</h1>
           <p>{{loadingMsg}}</p>
-        </div>
+        </b-container>
         <b-list-group>
           <b-list-group-item button disabled>A nombre de {{grupoFamiliar.name}}, DNI: {{grupoFamiliar.main_id_number}}</b-list-group-item>
         </b-list-group>

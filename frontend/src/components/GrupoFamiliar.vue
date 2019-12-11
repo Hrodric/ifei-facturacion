@@ -13,7 +13,12 @@
         <b-button variant="outline-primary" size="sm" @click="crearGrupo()">Crear</b-button>
       </b-card>
     </div>
-    <div v-if="isLoading"><h1>Cargando...</h1><p>{{mensajeCargando}}</p></div>
+    <div class="text-center" v-if="isLoading">
+        <br/>
+        <b-spinner variant="primary" label="Spinning"> </b-spinner>
+      <h1>Cargando...</h1>
+      <p>{{mensajeCargando}}</p>
+    </div>
   </b-container>
 </template>
 

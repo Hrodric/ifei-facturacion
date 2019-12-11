@@ -12,7 +12,9 @@
           <span style="font-size:2em">{{partner.name}},{{partner.parent_id[1]}}</span>
         </li>
       </ul>
-      <div v-if="isLoading">
+      <div class="text-center" v-if="isLoading">
+        <br/>
+        <b-spinner variant="primary" label="Spinning"> </b-spinner>
         <h1>Cargando...</h1>
       </div>
     </b-card>

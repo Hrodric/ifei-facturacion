@@ -1,10 +1,12 @@
 <template>
   <b-card title=""><h4>{{grupoFamiliar.name}}</h4>
     <b-container fluid>
-      <div v-if="loading">
+      <b-container class="text-center" v-if="loading">
+        <br/>
+        <b-spinner variant="primary" label="Spinning"> </b-spinner>
         <h1>Cargando...</h1>
         <p>{{loadingMsg}}</p>
-      </div>
+      </b-container>
       <div v-if="!loading">
         <h4>Crear Contacto</h4>
         <b-form-input type="text" v-model="nombre_contacto_nuevo" placeholder="Nombre"> </b-form-input>

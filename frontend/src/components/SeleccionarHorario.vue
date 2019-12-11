@@ -1,7 +1,9 @@
 <template>
   <div>
-    <b-container v-if="loading">
-<!--      <h1>Cargando...</h1>-->
+    <b-container class="text-center" v-if="loading">
+      <br/>
+      <b-spinner variant="primary" label="Spinning"> </b-spinner>
+      <h1>Cargando...</h1>
       <p>{{loadingMsg}}</p>
     </b-container>
     <b-container fluid>
