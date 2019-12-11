@@ -1,35 +1,20 @@
 <template>
-  <div>
+  <b-container fluid>
     <div v-if="!isLoading">
-      <div>
-        <button @click="volver()">volver</button>
-      </div>
-      <h3>Crear Grupo Familiar</h3>
-      <input type="text" v-model="gf.name" />
-      Apellido
-      <br />
-      <input type="text" v-model="gf.contact_name" />
-      Nombre de Contacto
-      <br />
-      <input type="text" v-model="gf.id_number" />
-      DNI
-      <br />
-      <input type="text" v-model="gf.direccion" />
-      Direccion
-      <br />
-      <input type="text" v-model="gf.telefono" />
-      Telefono de contacto
-      <br />
-      <input type="text" v-model="gf.email" />
-      Email
-      <br />
-      <button @click="crearGrupo()">Crear</button>
+      <b-card title="Crear Grupo Familiar">
+        <b-form-input type="text" v-model="gf.name" placeholder="Apellido"> </b-form-input>
+        <b-form-input type="text" v-model="gf.contact_name" placeholder="Nombre de Contacto"> </b-form-input>
+        <b-form-input type="text" v-model="gf.id_number" placeholder="DNI"> </b-form-input>
+        <b-form-input type="text" v-model="gf.direccion" placeholder="Dirección"> </b-form-input>
+        <b-form-input type="text" v-model="gf.telefono" placeholder="Teléfono de Contacto"> </b-form-input>
+        <b-form-input type="text" v-model="gf.email" placeholder="Email"> </b-form-input>
+        <br />
+        <b-button variant="outline-primary" size="sm" @click="volver()">Volver</b-button>
+        <b-button variant="outline-primary" size="sm" @click="crearGrupo()">Crear</b-button>
+      </b-card>
     </div>
-    <div v-if="isLoading">
-      <h1>Cargando...</h1>
-      <p>{{mensajeCargando}}</p>
-    </div>
-  </div>
+    <div v-if="isLoading"><h1>Cargando...</h1><p>{{mensajeCargando}}</p></div>
+  </b-container>
 </template>
 
 <script>

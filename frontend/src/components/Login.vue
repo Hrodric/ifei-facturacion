@@ -1,28 +1,28 @@
 <template>
-  <div>
-    <h3>Crear un nuevo grupo Familiar</h3>
-    <button @click="crearGF()">Crear Grupo Familiar</button>
-    <br />
-    <h3>Buscar un grupo familiar / alumno existente</h3>
-    <input v-model="search" @input="searchPartner" @change="searchPartner" @blur="handleBlur" />
+  <b-container>
+    <b-card title="">
+      <b-button variant="outline-primary" @click="crearGF()">Crear Grupo Familiar</b-button>
+      <br />
+      <b-form-input v-model="search" @input="searchPartner" @change="searchPartner" @blur="handleBlur" placeholder="Buscar familiar/alumno existente"> </b-form-input>
 
-    <ul v-if="!isLoading">
-      <li v-for="(partner, key) in responseSearch" :key="key">
-        <button
-          v-if="partner.parent_id == false"
-          @click="seleccionarGF(partner.id)"
-        >Seleccionar Grupo Familiar</button>
-        <button
-          v-if="((partner.title[1] != 'Madre/Padre') && (partner.parent_id != false))"
-          @click="seleccionarAlumno(partner)"
-        >Seleccionar Alumno</button>
-        <span style="font-size:2em">{{partner.name}},{{partner.parent_id[1]}}</span>
-      </li>
-    </ul>
-    <div v-if="isLoading">
-      <h1>Cargando...</h1>
-    </div>
-  </div>
+      <ul v-if="!isLoading">
+        <li v-for="(partner, key) in responseSearch" :key="key">
+          <button
+            v-if="partner.parent_id == false"
+            @click="seleccionarGF(partner.id)"
+          >Seleccionar Grupo Familiar</button>
+          <button
+            v-if="((partner.title[1] != 'Madre/Padre') && (partner.parent_id != false))"
+            @click="seleccionarAlumno(partner)"
+          >Seleccionar Alumno</button>
+          <span style="font-size:2em">{{partner.name}},{{partner.parent_id[1]}}</span>
+        </li>
+      </ul>
+      <div v-if="isLoading">
+        <h1>Cargando...</h1>
+      </div>
+    </b-card>
+  </b-container>
 </template>
 
 <style scoped>

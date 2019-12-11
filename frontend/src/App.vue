@@ -1,6 +1,6 @@
 <template>
   <div id="app" style="text-align:left;padding:25px">
-    <img src="./assets/logo.png" width="70px" />
+    <img src="../static/logo.png" width="70px" />
     <div style="margin-bottom:25px;">Preinscripciones 2020 IFEI</div>
     <div style="clear:both"></div>
     <router-view />
