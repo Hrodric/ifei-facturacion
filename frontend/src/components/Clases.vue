@@ -1,22 +1,15 @@
 <template>
-  <div>
-    <div>
-      <button @click="volver()">Volver</button>
-    </div>
-    <h2>Alumno</h2>
-    <h3>{{alumno.name}}, {{grupoFamiliar.name}}</h3>
-    <h2>Seleccionar Curso</h2>
-
-    <ul>
-      <li
-        v-for="(clase , key) in this.clases.data"
-        :key="'clase'+key"
-        @click="seleccionarCurso(clase)"
-      >
-        <h4>{{clase.name}}, $ {{clase.list_price}}</h4>
-      </li>
-    </ul>
-  </div>
+  <b-container fluid>
+    <h3>Alumno {{alumno.name}}, {{grupoFamiliar.name}}</h3>
+        <b-card header="Seleccionar Curso:" disabled>
+          <b-list-group v-for="(clase , key) in this.clases.data"
+                        :key="'clase'+key"
+                        @click="seleccionarCurso(clase)">
+            <b-list-group-item button>{{clase.name}}, $ {{clase.list_price}}</b-list-group-item>
+          </b-list-group>
+        </b-card>
+    <b-button variant="outline-primary" @click="volver()">Volver</b-button>
+  </b-container>
 </template>
 
 <script>

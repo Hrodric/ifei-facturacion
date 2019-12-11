@@ -1,19 +1,22 @@
 <template>
-  <div>
-    <div v-if="loading">
+  <b-container fluid>
+    <b-container v-if="loading">
       <h1>Cargando...</h1>
       <p>{{loadingMsg}}</p>
-    </div>
-    <div v-if="!loading">
-      <button @click="volver()">Volver</button>
-      <h1>Confirmar Preinscripcion</h1>
-      <h2>{{grupoFamiliar.name}}</h2>
-      <h3>{{alumno.name}}</h3>
-      <h4>{{clase.name}}</h4>
-      <button @click="confirmarSo()">Confirmar Preinscripcion</button>
-      <p>Este paso implica que se crea la orden de venta de la preinscripcion y se confirma ocupando un cupo</p>
-    </div>
-  </div>
+    </b-container>
+    <h3>Alumno {{alumno.name}}, {{grupoFamiliar.name}}</h3>
+    <b-card header="Verificar Información:" disabled>
+      <b-list-group v-if="!loading">
+        <b-list-group-item button>{{grupoFamiliar.name}}</b-list-group-item>
+        <b-list-group-item button>{{alumno.name}}</b-list-group-item>
+        <b-list-group-item button>-{{clase.name}}</b-list-group-item>
+      </b-list-group>
+      <br/>
+      <b-button variant="outline-primary" @click="confirmarSo()">Confirmar Preinscripción</b-button>
+      <p disabled>Este paso implica que se crea la orden de venta de la preinscripción y se confirma ocupando un cupo.</p>
+    </b-card>
+    <b-button variant="outline-primary" @click="volver()">Volver</b-button>
+  </b-container>
 </template>
 
 <script>

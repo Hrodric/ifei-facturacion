@@ -1,23 +1,26 @@
 <template>
   <div>
-    <div>
-      <button @click="volver()">Volver</button>
-    </div>
-    <div v-if="loading">
-      <h1>Cargando...</h1>
+    <b-container v-if="loading">
+<!--      <h1>Cargando...</h1>-->
       <p>{{loadingMsg}}</p>
-    </div>
-    <div v-if="!loading">
-      <h2>Inscripcion</h2>
-      <h3>{{this.task.partner_id[1]}}, {{this.task.project_id[1]}}</h3>
-      <h4>Horario Seleccionado: {{this.task.stage_id[1]}}</h4>
-      <h3>Horarios Disponibles:</h3>
-      <h5
-        v-for="item in this.horarios"
-        :key="item.id"
-        @click="seleccionarHorario(item.id)"
-      >{{ item.name }}</h5>
-    </div>
+    </b-container>
+    <b-container fluid>
+      <b-card header="Inscripción:" disabled>
+        <b-list-group v-if="!loading">
+          <b-list-group-item button>{{this.task.partner_id[1]}}, {{this.task.project_id[1]}}</b-list-group-item>
+          <b-list-group-item button>Horario Seleccionado: {{this.task.stage_id[1]}}</b-list-group-item>
+          <b-list-group-item buttonv-for="item in this.horarios"
+                             :key="item.id"
+                             @click="seleccionarHorario(item.id)"
+                            >{{ item.name }}
+          </b-list-group-item>
+        </b-list-group>
+        <br/>
+        <b-button variant="outline-primary" @click="confirmarSo()">Confirmar Preinscripción</b-button>
+        <p disabled>Este paso implica que se crea la orden de venta de la preinscripción y se confirma ocupando un cupo.</p>
+      </b-card>
+      <b-button variant="outline-primary" @click="volver()">Volver</b-button>
+    </b-container>
   </div>
 </template>
 

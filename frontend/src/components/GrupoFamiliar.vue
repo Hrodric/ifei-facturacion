@@ -8,7 +8,7 @@
         <b-form-input type="text" v-model="gf.direccion" placeholder="Dirección"> </b-form-input>
         <b-form-input type="text" v-model="gf.telefono" placeholder="Teléfono de Contacto"> </b-form-input>
         <b-form-input type="text" v-model="gf.email" placeholder="Email"> </b-form-input>
-        <br />
+        <br/>
         <b-button variant="outline-primary" size="sm" @click="volver()">Volver</b-button>
         <b-button variant="outline-primary" size="sm" @click="crearGrupo()">Crear</b-button>
       </b-card>

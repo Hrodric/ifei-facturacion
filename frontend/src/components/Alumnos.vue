@@ -1,44 +1,40 @@
 <template>
-  <div>
-    <div>
-      <button @click="volver()">Volver</button>
-    </div>
+  <b-card title=""><h4>{{grupoFamiliar.name}}</h4>
     <div v-if="loading">
       <h1>Cargando...</h1>
       <p>{{loadingMsg}}</p>
     </div>
     <div v-if="!loading">
-      <h2>{{grupoFamiliar.name}}</h2>
-      <button @click="crearContacto()">Nuevo Contacto / Alumno</button>
-
-      <h3>Contactos</h3>
-      <div v-for="(contact, key) in contactos" :key="key">
-        <div v-if="contact.title[1] !== 'Student'">{{contact.name}}</div>
-      </div>
+      <b-button variant="outline-primary" size="sm" @click="crearContacto()">Nuevo Contacto/Alumno dentro de la Familia</b-button>
+      <br/>
+      <br/>
+      <h4>Contactos en la {{grupoFamiliar.name}}:</h4>
+      <b-list-group fluid v-for="(contact, key) in contactos" :key="key">
+        <b-list-group-item disabled v-if="contact.title[1] !== 'Student'">{{contact.name}}</b-list-group-item>
+      </b-list-group>
+      <br/>
       <h4>Alumnos existentes</h4>
-      <div v-for="(contact, key) in contactos" :key="'xx'+key">
-        <div v-if="contact.title[1] == 'Student'">
-          <button @click="seleccionarAlumno(contact)">Seleccionar Clase</button>
-          {{contact.name}}
-        </div>
-      </div>
-      <h2>Ordenes de Venta</h2>
-
-      <div>
-        <div v-for="(contacto, key ) in contactos" :key="'co'+key">
+      <b-list-group fluid v-for="(contact, key) in contactos" :key="'xx'+key">
+        <b-list-group-item v-if="contact.title[1] == 'Student'">
+          {{contact.name}}<b-button variant="outline-primary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
+        </b-list-group-item>
+      </b-list-group>
+      <br/>
+      <h4>Ordenes de Venta</h4>
+      <b-container fluid>
+        <b-container v-for="(contacto, key ) in contactos" :key="'co'+key">
           <ul v-if="contacto.sos">
             <li v-for="(so, key ) in contacto.sos.data" :key="'so'+key">
               {{so.name}}, {{so.partner_id[1]}}, {{so.product_id[1]}}, ${{so.amount_total}}
-              <button
-                @click="seleccionarHorario(so.id)"
-              >Seleccionar Horario</button>
+              <b-button variant="outline-primary" size="sm" @click="seleccionarHorario(so.id)">Seleccionar Horario</b-button>
             </li>
           </ul>
-        </div>
-      </div>
-      <button @click="facturar()">Crear Factura Borrador</button>
+        </b-container>
+      </b-container>
+      <b-button variant="outline-primary" size="sm" @click="volver()">Volver</b-button>
+      <b-button variant="outline-primary" size="sm" @click="facturar()">Crear Factura Borrador</b-button>
     </div>
-  </div>
+  </b-card>
 </template>
 
 <script>

@@ -1,30 +1,29 @@
 <template>
-  <div>
-    <div>
-      <button @click="volver()">Volver</button>
-    </div>
-    <div v-if="loading">
-      <h1>Cargando...</h1>
-      <p>{{loadingMsg}}</p>
-    </div>
-    <div v-if="!loading">
-      <h2>{{grupoFamiliar.name}}</h2>
-      <h4>Crear Contacto</h4>
-      <input type="text" v-model="nombre_contacto_nuevo" />
-      Nombre
-      <br />
-      <input type="text" v-model="dni_contacto_nuevo" />
-      DNI
-      <br />
-      <button @click="crearContacto()">crear Contacto</button>
-      <h4>Crear Alumno</h4>
-      <input type="text" v-model="nombre_alumno_nuevo" />Nombre
-      <br />
-      <input type="text" v-model="dni_alumno_nuevo" />DNI
-      <br />
-      <button @click="crearAlumno()">crear Alumno</button>
-    </div>
-  </div>
+  <b-card title=""><h4>{{grupoFamiliar.name}}</h4>
+    <b-container fluid>
+      <div v-if="loading">
+        <h1>Cargando...</h1>
+        <p>{{loadingMsg}}</p>
+      </div>
+      <div v-if="!loading">
+        <h4>Crear Contacto</h4>
+        <b-form-input type="text" v-model="nombre_contacto_nuevo" placeholder="Nombre"> </b-form-input>
+        <b-form-input type="text" v-model="dni_contacto_nuevo" placeholder="DNI"> </b-form-input>
+        <b-button variant="outline-primary" @click="crearContacto()">Crear Contacto</b-button>
+        <br/>
+        <br/>
+        <h4>Crear Alumno</h4>
+        <b-form-input type="text" v-model="nombre_alumno_nuevo" placeholder="Nombre"> </b-form-input>
+        <b-form-input type="text" v-model="dni_alumno_nuevo" placeholder="DNI"> </b-form-input>
+        <b-button variant="outline-primary" @click="crearAlumno()">Crear Alumno</b-button>
+      </div>
+    </b-container>
+    <br/>
+    <b-container>
+      <b-button variant="outline-primary" size="sm" @click="volver()">Volver</b-button>
+    </b-container>
+  </b-card>
+
 </template>
 
 <script>

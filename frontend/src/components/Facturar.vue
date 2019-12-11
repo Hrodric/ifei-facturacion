@@ -1,32 +1,34 @@
 <template>
   <div>
-    <div>
-      <button @click="volver()">Volver</button>
-    </div>
-    <div v-if="loading">
-      <h1>Cargando...</h1>
-      <p>{{loadingMsg}}</p>
-    </div>
-    <div v-if="!loading">
-      <div>
-        <h3>Nueva Factura</h3>
-        A nombre de {{grupoFamiliar.name}}, DNI: {{grupoFamiliar.main_id_number}}
-      </div>
-      <h3>Detalle</h3>
-      <table>
-        <tr v-for="line in invoice_lines" :key="line.key">
-          <td>{{line.order_partner_id[1]}} - {{line.product_id[1]}}</td>
-          <td>
-            <b>$ {{line.price_unit}}</b>
-          </td>
-        </tr>
-        <tr style="border-top:1px solid #eee;font-weight:bold">
-          <td style="text-align:right">Total:</td>
-          <td>$ {{total}}</td>
-        </tr>
-      </table>
-      <button @click="crearFactura()">Crear Factura Borrador</button>
-    </div>
+    <b-container fluid>
+      <b-card header="NUEVA FACTURACIÓN" disabled>
+        <div v-if="loading">
+          <h1>Cargando...</h1>
+          <p>{{loadingMsg}}</p>
+        </div>
+        <b-list-group>
+          <b-list-group-item button disabled>A nombre de {{grupoFamiliar.name}}, DNI: {{grupoFamiliar.main_id_number}}</b-list-group-item>
+        </b-list-group>
+        <br/>
+        <h3>Detalle</h3>
+        <table>
+          <tr v-for="line in invoice_lines" :key="line.key">
+            <td>{{line.order_partner_id[1]}} - {{line.product_id[1]}}</td>
+            <td>
+              <b>$ {{line.price_unit}}</b>
+            </td>
+          </tr>
+          <tr style="border-top:1px solid #eee;font-weight:bold">
+            <td style="text-align:right">Total:</td>
+            <td>$ {{total}}</td>
+          </tr>
+        </table>
+        <b-button variant="outline-primary" @click="crearFactura()">Crear Factura Borrador</b-button>
+        <br/>
+      </b-card>
+    </b-container>
+    <br/>
+    <b-button variant="outline-primary" @click="volver()">Volver</b-button>
   </div>
 </template>
 
