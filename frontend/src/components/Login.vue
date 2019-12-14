@@ -18,6 +18,7 @@
             variant="outline-primary"
             @click="seleccionarGF(partner.id)"
           >Seleccionar Grupo Familiar</b-button>
+          <button @click="verPartnerEnOdoo(partner.id)">Ver en Odoo</button>
           <b-button
             size="sm"
             v-if="partner.title[1] == 'Student'"
@@ -108,6 +109,13 @@ export default {
         this.$session.set("nombre", response.data.nombre);
         this.$router.push("/informacion_de_contacto");
       }
+    },
+    verPartnerEnOdoo(partner_id) {
+      let routeData =
+        "http://ifei.moogah.com/web#id=" +
+        partner_id +
+        "&view_type=form&model=res.partner&menu_id=70&action=77";
+      window.open(routeData, "_blank");
     },
     handleBlur() {}
   }

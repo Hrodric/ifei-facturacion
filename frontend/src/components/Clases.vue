@@ -2,6 +2,7 @@
   <b-container fluid>
     <h3>Alumno {{alumno.name}}, {{grupoFamiliar.name}}</h3>
         <b-card header="Seleccionar Curso:" disabled>
+          <button @click="verClasesEnOdoo()">Ver en Odoo</button>
           <b-list-group v-for="(clase , key) in this.clases.data"
                         :key="'clase'+key"
                         @click="seleccionarCurso(clase)">

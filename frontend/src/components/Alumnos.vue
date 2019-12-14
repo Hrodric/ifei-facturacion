@@ -12,13 +12,14 @@
       <br/>
       <h4>Contactos en la {{grupoFamiliar.name}}:</h4>
       <b-list-group fluid v-for="(contact, key) in contactos" :key="key">
-        <b-list-group-item disabled v-if="contact.title[1] !== 'Student'" >{{contact.name}} </b-list-group-item>
+        <b-list-group-item disabled v-if="contact.title[1] !== 'Student'" ><button @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</button
+          {{contact.name}} </b-list-group-item>
       </b-list-group>
       <br/>
       <h4>Alumnos existentes</h4>
       <b-list-group fluid v-for="(contact, key) in contactos" :key="'xx'+key">
         <b-list-group-item v-if="contact.title[1] == 'Student'">
-          {{contact.name}} <b-button variant="outline-primary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
+          {{contact.name}} <button @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</button><b-button variant="outline-primary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
         </b-list-group-item>
       </b-list-group>
       <br/>
@@ -28,6 +29,9 @@
           <ul v-if="contacto.sos">
             <li v-for="(so, key ) in contacto.sos.data" :key="'so'+key">
               {{so.name}}, {{so.partner_id[1]}}, {{so.product_id[1]}}, ${{so.amount_total}}
+              <button
+                @click="verSoEnOdoo(so.id)"
+              >Ver SO</button>
               <b-button variant="outline-primary" size="sm" @click="seleccionarHorario(so.id)">Seleccionar Horario</b-button>
             </li>
           </ul>
@@ -100,6 +104,20 @@ export default {
     seleccionarHorario(sale_order_id) {
       this.$session.set("saleOrderId", sale_order_id);
       this.$router.push("/seleccionar_horario");
+    },
+    verSoEnOdoo(sale_order_id) {
+      let routeData =
+        "http://ifei.moogah.com/web#id=" +
+        sale_order_id +
+        "&view_type=form&model=sale.order&menu_id=121&action=305";
+      window.open(routeData, "_blank");
+    },
+    verPartnerEnOdoo(partner_id) {
+      let routeData =
+        "http://ifei.moogah.com/web#id=" +
+        partner_id +
+        "&view_type=form&model=res.partner&menu_id=70&action=77";
+      window.open(routeData, "_blank");
     }
   }
 };
