@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-card title>
-      <b-button variant="outline-primary" @click="crearGF()">Crear Grupo Familiar</b-button>
+      <b-button style="margin-bottom: 10px" variant="outline-primary" @click="crearGF()">Crear Grupo Familiar</b-button>
       <br />
       <b-form-input
         v-model="search"
@@ -11,17 +11,20 @@
         placeholder="Buscar familiar/alumno existente"
       ></b-form-input>
       <ul v-if="!isLoading">
-        <li v-for="(partner, key) in responseSearch" :key="key">
+        <li v-for="(partner, key) in responseSearch" :key="key" style="display: block; margin-top: 10px;">
           <b-button
+            size="sm"
             v-if="!partner.parent_id"
             variant="outline-primary"
             @click="seleccionarGF(partner.id)"
           >Seleccionar Grupo Familiar</b-button>
           <b-button
+            size="sm"
             v-if="partner.title[1] == 'Student'"
+            variant="outline-secondary"
             @click="seleccionarAlumno(partner)"
-          >Seleccionar Alumno</b-button>-->
-          <span style="font-size:2em">{{ partner.name }},{{ partner.parent_id[1] }}</span>
+          >Seleccionar Alumno</b-button> >
+          <span style="font-size:1em">{{ partner.name }},{{ partner.parent_id[1] }}</span>
         </li>
       </ul>
       <div class="text-center" v-if="isLoading">

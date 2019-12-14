@@ -15,7 +15,7 @@
       </b-list-group>
       <br/>
       <b-button variant="outline-primary" @click="confirmarSo()">Confirmar Preinscripción</b-button>
-      <p disabled>Este paso implica que se crea la orden de venta de la preinscripción y se confirma ocupando un cupo.</p>
+      <p style="margin-top: 10px" disabled>Este paso implica que se crea la orden de venta de la preinscripción y se confirma ocupando un cupo.</p>
     </b-card>
     <b-button variant="outline-primary" @click="volver()">Volver</b-button>
   </b-container>

@@ -12,7 +12,7 @@
       <br/>
       <h4>Contactos en la {{grupoFamiliar.name}}:</h4>
       <b-list-group fluid v-for="(contact, key) in contactos" :key="key">
-        <b-list-group-item disabled v-if="contact.title[1] !== 'Student'">{{contact.name}}</b-list-group-item>
+        <b-list-group-item disabled v-if="contact.title[1] !== 'Student'" >{{contact.name}} </b-list-group-item>
       </b-list-group>
       <br/>
       <h4>Alumnos existentes</h4>

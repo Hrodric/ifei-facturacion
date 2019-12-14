@@ -51,4 +51,7 @@ export default {
   width: 100%;
   height: 2.5rem;            /* Footer height */
 }
+.form-control {
+  margin-bottom: 10px;  /* espacio debajo de cada input form */
+}
 </style>
