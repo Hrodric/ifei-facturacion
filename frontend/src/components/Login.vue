@@ -76,7 +76,7 @@ export default {
       this.$session.set("alumno", alumnox.data);
       this.$router.push("/clases");
     },
-    async searchPartner() {
+    async searchPartner({ type, target }) {
       if (
         !this.isLoading &&
         this.searchingTerm != this.search &&
@@ -84,13 +84,13 @@ export default {
       ) {
         this.isLoading = true;
         this.searchingTerm = this.search;
-        let responseSearch = await ResPartnerService.search(this.search);
+        let responseSearch = await ResPartnerService.search(target.value);
         this.isLoading = false;
         if (this.searchingTerm != this.search) {
-          this.searchPartner();
+          this.searchPartner({ type, target });
         } else {
           this.responseSearch = responseSearch.data;
-          console.log(this.responseSearch);
+          console.log(responseSearch);
         }
       }
     },

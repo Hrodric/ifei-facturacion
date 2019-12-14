@@ -12,14 +12,18 @@
       <br/>
       <h4>Contactos en la {{grupoFamiliar.name}}:</h4>
       <b-list-group fluid v-for="(contact, key) in contactos" :key="key">
-        <b-list-group-item disabled v-if="contact.title[1] !== 'Student'" ><button @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</button
-          {{contact.name}} </b-list-group-item>
+        <b-list-group-item disabled v-if="contact.title[1] !== 'Student'" >
+          <button @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</button>
+          {{contact.name}}
+        </b-list-group-item>
       </b-list-group>
       <br/>
       <h4>Alumnos existentes</h4>
       <b-list-group fluid v-for="(contact, key) in contactos" :key="'xx'+key">
         <b-list-group-item v-if="contact.title[1] == 'Student'">
-          {{contact.name}} <button @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</button><b-button variant="outline-primary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
+          {{contact.name}}
+          <b-button @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
+          <b-button variant="outline-primary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
         </b-list-group-item>
       </b-list-group>
       <br/>
