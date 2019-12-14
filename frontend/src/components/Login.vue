@@ -1,35 +1,39 @@
 <template>
   <b-container>
-        <b-card title="">
-          <b-button variant="outline-primary" @click="crearGF()">Crear Grupo Familiar</b-button>
-          <br/>
-          <b-form-input
-            v-model="search"
-            @input="searchPartner"
-            @change="searchPartner"
-            @blur="handleBlur"
-            placeholder="Buscar familiar/alumno existente">
-          </b-form-input>
-          <ul v-if="!isLoading">
-            <li v-for="(partner, key) in responseSearch" :key="key">
-              <b-button variant="outline-primary" v-if="partner.parent_id == false" @click="seleccionarGF(partner.id)">Seleccionar Grupo Familiar</b-button>
-              <b-button v-if="((partnercontent-wrap.title[1] != 'Madre/Padre') && (partner.parent_id != false))" @click="seleccionarAlumno(partner)">Seleccionar Alumno</b-button>
-              <span style="font-size:2em">{{partner.name}},{{partner.parent_id[1]}}</span>
-            </li>
-          </ul>
-          <div class="text-center" v-if="isLoading">
-            <br/>
-            <b-spinner variant="primary" label="Spinning"> </b-spinner>
-            <h5>Cargando...</h5>
-          </div>
-        </b-card>
+    <b-card title>
+      <b-button variant="outline-primary" @click="crearGF()">Crear Grupo Familiar</b-button>
+      <br />
+      <b-form-input
+        v-model="search"
+        @input="searchPartner"
+        @change="searchPartner"
+        @blur="handleBlur"
+        placeholder="Buscar familiar/alumno existente"
+      ></b-form-input>
+      <ul v-if="!isLoading">
+        <li v-for="(partner, key) in responseSearch" :key="key">
+          <b-button
+            v-if="!partner.parent_id"
+            variant="outline-primary"
+            @click="seleccionarGF(partner.id)"
+          >Seleccionar Grupo Familiar</b-button>
+          <b-button
+            v-if="partner.title[1] == 'Student'"
+            @click="seleccionarAlumno(partner)"
+          >Seleccionar Alumno</b-button>-->
+          <span style="font-size:2em">{{ partner.name }},{{ partner.parent_id[1] }}</span>
+        </li>
+      </ul>
+      <div class="text-center" v-if="isLoading">
+        <br />
+        <b-spinner variant="primary" label="Spinning"></b-spinner>
+        <h5>Cargando...</h5>
+      </div>
+    </b-card>
   </b-container>
-
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
 
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
@@ -68,7 +72,7 @@ export default {
       this.$session.set("alumno", alumnox.data);
       this.$router.push("/clases");
     },
-    async searchPartner({ type, target }) {
+    async searchPartner() {
       if (
         !this.isLoading &&
         this.searchingTerm != this.search &&
@@ -76,13 +80,13 @@ export default {
       ) {
         this.isLoading = true;
         this.searchingTerm = this.search;
-        let responseSearch = await ResPartnerService.search(target.value);
+        let responseSearch = await ResPartnerService.search(this.search);
         this.isLoading = false;
         if (this.searchingTerm != this.search) {
-          this.searchPartner({ type, target });
+          this.searchPartner();
         } else {
           this.responseSearch = responseSearch.data;
-          console.log(responseSearch);
+          console.log(this.responseSearch);
         }
       }
     },
