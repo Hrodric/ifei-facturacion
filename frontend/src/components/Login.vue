@@ -1,27 +1,34 @@
 <template>
   <b-container>
-    <b-card title="">
-      <b-button variant="outline-primary" @click="crearGF()">Crear Grupo Familiar</b-button>
-      <br/>
-      <b-form-input v-model="search" @input="searchPartner" @change="searchPartner" @blur="handleBlur" placeholder="Buscar familiar/alumno existente"> </b-form-input>
-
-      <ul v-if="!isLoading">
-        <li v-for="(partner, key) in responseSearch" :key="key">
-          <b-button variant="outline-primary" v-if="partner.parent_id == false" @click="seleccionarGF(partner.id)">Seleccionar Grupo Familiar</b-button>
-          <b-button v-if="((partner.title[1] != 'Madre/Padre') && (partner.parent_id != false))" @click="seleccionarAlumno(partner)">Seleccionar Alumno</b-button>
-          <span style="font-size:2em">{{partner.name}},{{partner.parent_id[1]}}</span>
-        </li>
-      </ul>
-      <div class="text-center" v-if="isLoading">
-        <br/>
-        <b-spinner variant="primary" label="Spinning"> </b-spinner>
-        <h1>Cargando...</h1>
-      </div>
-    </b-card>
+        <b-card title="">
+          <b-button variant="outline-primary" @click="crearGF()">Crear Grupo Familiar</b-button>
+          <br/>
+          <b-form-input
+            v-model="search"
+            @input="searchPartner"
+            @change="searchPartner"
+            @blur="handleBlur"
+            placeholder="Buscar familiar/alumno existente">
+          </b-form-input>
+          <ul v-if="!isLoading">
+            <li v-for="(partner, key) in responseSearch" :key="key">
+              <b-button variant="outline-primary" v-if="partner.parent_id == false" @click="seleccionarGF(partner.id)">Seleccionar Grupo Familiar</b-button>
+              <b-button v-if="((partnercontent-wrap.title[1] != 'Madre/Padre') && (partner.parent_id != false))" @click="seleccionarAlumno(partner)">Seleccionar Alumno</b-button>
+              <span style="font-size:2em">{{partner.name}},{{partner.parent_id[1]}}</span>
+            </li>
+          </ul>
+          <div class="text-center" v-if="isLoading">
+            <br/>
+            <b-spinner variant="primary" label="Spinning"> </b-spinner>
+            <h5>Cargando...</h5>
+          </div>
+        </b-card>
   </b-container>
+
 </template>
 
 <style scoped>
+
 </style>
 
 <script>
