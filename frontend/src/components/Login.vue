@@ -1,7 +1,12 @@
 <template>
   <b-container>
     <b-card title>
-      <b-button style="margin-bottom: 10px" variant="outline-primary" @click="crearGF()">Crear Grupo Familiar</b-button>
+      <b-button
+        style="margin-bottom: 10px"
+        variant="outline-primary"
+        @click="crearGF()"
+        >Crear Grupo Familiar</b-button
+      >
       <br />
       <b-form-input
         v-model="search"
@@ -11,21 +16,30 @@
         placeholder="Buscar familiar/alumno existente"
       ></b-form-input>
       <ul v-if="!isLoading">
-        <li v-for="(partner, key) in responseSearch" :key="key" style="display: block; margin-top: 10px;">
+        <li
+          v-for="(partner, key) in responseSearch"
+          :key="key"
+          style="display: block; margin-top: 10px;"
+        >
           <b-button
             size="sm"
             v-if="!partner.parent_id"
             variant="outline-primary"
             @click="seleccionarGF(partner.id)"
-          >Seleccionar Grupo Familiar</b-button>
+            >Seleccionar Grupo Familiar</b-button
+          >
           <button @click="verPartnerEnOdoo(partner.id)">Ver en Odoo</button>
           <b-button
             size="sm"
             v-if="partner.title[1] == 'Student'"
             variant="outline-secondary"
             @click="seleccionarAlumno(partner)"
-          >Seleccionar Alumno</b-button> >
-          <span style="font-size:1em">{{ partner.name }},{{ partner.parent_id[1] }}</span>
+            >Seleccionar Alumno</b-button
+          >
+          >
+          <span style="font-size:1em"
+            >{{ partner.name }},{{ partner.parent_id[1] }}</span
+          >
         </li>
       </ul>
       <div class="text-center" v-if="isLoading">
@@ -76,7 +90,7 @@ export default {
       this.$session.set("alumno", alumnox.data);
       this.$router.push("/clases");
     },
-    async searchPartner({ type, target }) {
+    async searchPartner() {
       if (
         !this.isLoading &&
         this.searchingTerm != this.search &&
@@ -84,10 +98,10 @@ export default {
       ) {
         this.isLoading = true;
         this.searchingTerm = this.search;
-        let responseSearch = await ResPartnerService.search(target.value);
+        let responseSearch = await ResPartnerService.search(this.search);
         this.isLoading = false;
         if (this.searchingTerm != this.search) {
-          this.searchPartner({ type, target });
+          this.searchPartner();
         } else {
           this.responseSearch = responseSearch.data;
           console.log(responseSearch);
