@@ -19,27 +19,28 @@
         <li
           v-for="(partner, key) in responseSearch"
           :key="key"
-          style="display: block; margin-top: 10px;"
-        >
-          <b-button
-            size="sm"
-            v-if="!partner.parent_id"
-            variant="outline-primary"
-            @click="seleccionarGF(partner.id)"
-            >Seleccionar Grupo Familiar</b-button
-          >
-          <button @click="verPartnerEnOdoo(partner.id)">Ver en Odoo</button>
-          <b-button
-            size="sm"
-            v-if="partner.title[1] == 'Student'"
-            variant="outline-secondary"
-            @click="seleccionarAlumno(partner)"
-            >Seleccionar Alumno</b-button
-          >
-          >
-          <span style="font-size:1em"
-            >{{ partner.name }},{{ partner.parent_id[1] }}</span
-          >
+          style="display: block; margin-top: 10px;">
+            <b-button-group size="sm">
+              <b-button
+                variant="outline-primary"
+                @click="verPartnerEnOdoo(partner.id)">
+                Ver en Odoo
+              </b-button>
+              <b-button
+                v-if="!partner.parent_id"
+                variant="outline-primary"
+                @click="seleccionarGF(partner.id)">
+                Seleccionar Grupo Familiar
+              </b-button>
+              <b-button
+                v-if="partner.title[1] == 'Student'"
+                variant="outline-secondary"
+                @click="seleccionarAlumno(partner)">
+                Seleccionar Alumno
+              </b-button>
+            </b-button-group>
+
+          <span style="font-size:1em">{{ partner.name }},{{ partner.parent_id[1] }}</span>
         </li>
       </ul>
       <div class="text-center" v-if="isLoading">

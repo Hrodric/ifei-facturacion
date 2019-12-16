@@ -54,4 +54,7 @@ export default {
 .form-control {
   margin-bottom: 10px;  /* espacio debajo de cada input form */
 }
+.list-group {
+margin-bottom: 10px;
+}
 </style>

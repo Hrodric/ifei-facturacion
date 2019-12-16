@@ -13,7 +13,13 @@
       <h4>Contactos en la {{grupoFamiliar.name}}:</h4>
       <b-list-group fluid v-for="(contact, key) in contactos" :key="key">
         <b-list-group-item disabled v-if="contact.title[1] !== 'Student'" >
-          <button @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</button>
+          <b-button
+            size="sm"
+            style="margin-bottom: 10px"
+            variant="outline-primary"
+            @click="verPartnerEnOdoo(contact.id)">
+            Ver en Odoo
+          </b-button>
           {{contact.name}}
         </b-list-group-item>
       </b-list-group>
