@@ -15,7 +15,7 @@
 
               <div id="footer">
                 <div class="text-center">
-                  IFEI - Instituto Fueguino de Enseñanza Inglesaaaagggg
+                  IFEI - Instituto Fueguino de Enseñanza Inglesa
                 </div>
             </div>
         </div>
