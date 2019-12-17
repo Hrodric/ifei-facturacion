@@ -8,33 +8,46 @@
     </div>
     <div v-if="!loading">
       <b-button variant="outline-primary" size="sm" @click="crearContacto()">Nuevo Contacto/Alumno dentro de la Familia</b-button>
+      <hr>
+        <b-row>
+          <b-col col>
+            <div> <!--//Todo: no funciona como debería -->
+              <h5>Contactos en la {{grupoFamiliar.name}}:</h5>
+              <b-card-group columns deck v-for="(contact, key) in contactos" :key="key">
+                <b-card disabled v-if="contact.title[1] !== 'Student'"
+                         border-variant="primary"
+                         img-src="http://placehold.it/100?text=contact"
+                         img-alt="Img"
+                         img-height="120px"
+                        img-width="80px"
+                         img-top>
+                  <b-card-title>{{contact.name}} </b-card-title>
+                  <b-button size="sm" style="margin-bottom: 10px" variant="outline-primary" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
+                </b-card>
+              </b-card-group>
+            </div>
+          </b-col>
+          <b-col cols="6">
+            <h5>Alumnos existentes</h5>
+            <b-card-group columns deck  v-for="(contact, key) in contactos" :key="'xx'+key">
+              <b-card v-if="contact.title[1] == 'Student'" border-variant="primary"
+                      img-src="http://placehold.it/100?text=student"
+                      img-alt="Img"
+                      img-height="120px"
+                      img-width="80px"
+                      img-top>
+                <b-card-title>{{contact.name}} </b-card-title>
+                <b-button variant="outline-primary" size="sm" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
+                <b-button variant="outline-secondary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
+              </b-card>
+            </b-card-group>
+            <br/>
+          </b-col>
+        </b-row>
       <br/>
-      <br/>
-      <h4>Contactos en la {{grupoFamiliar.name}}:</h4>
-      <b-list-group fluid v-for="(contact, key) in contactos" :key="key">
-        <b-list-group-item disabled v-if="contact.title[1] !== 'Student'" >
-          <b-button
-            size="sm"
-            style="margin-bottom: 10px"
-            variant="outline-primary"
-            @click="verPartnerEnOdoo(contact.id)">
-            Ver en Odoo
-          </b-button>
-          {{contact.name}}
-        </b-list-group-item>
-      </b-list-group>
-      <br/>
-      <h4>Alumnos existentes</h4>
-      <b-list-group fluid v-for="(contact, key) in contactos" :key="'xx'+key">
-        <b-list-group-item v-if="contact.title[1] == 'Student'">
-          {{contact.name}}
-          <b-button @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
-          <b-button variant="outline-primary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
-        </b-list-group-item>
-      </b-list-group>
-      <br/>
+        <hr>
       <h4>Ordenes de Venta</h4>
-      <b-container fluid>
+      <b-container>
         <b-container v-for="(contacto, key ) in contactos" :key="'co'+key">
           <ul v-if="contacto.sos">
             <li v-for="(so, key ) in contacto.sos.data" :key="'so'+key">
@@ -132,3 +145,9 @@ export default {
   }
 };
 </script>
+
+<style>
+  .card-deck {
+    display: table-cell;
+  }
+</style>
