@@ -30,8 +30,9 @@
           <b-col cols="6">
             <h5>Alumnos existentes</h5>
             <b-card-group columns deck  v-for="(contact, key) in contactos" :key="'xx'+key">
-              <b-card v-if="contact.title[1] == 'Student'" border-variant="primary"
+              <b-card v-if="contact.title[1] == 'Student'"
                       img-src="http://placehold.it/100?text=student"
+                      border-variant="secondary"
                       img-alt="Img"
                       img-height="120px"
                       img-width="80px"
