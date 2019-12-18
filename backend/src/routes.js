@@ -660,7 +660,7 @@ module.exports = app => {
         name: 'Familia ' + req.body.gf.name,
         main_id_number: req.body.gf.id_number,
         main_id_category_id: 35,
-        company_type: 1, // Corrected 'person'
+        is_company: false, // Corrected company_type:'person'
         property_account_position_id: 1,
         property_payment_term_id: 1,
         email: req.body.gf.email,
@@ -684,8 +684,8 @@ module.exports = app => {
             parent_id: value,
             is_company: true, // Correction: company_type: 'person'
             title: 8,
-            afip_responsability_type_id: (0, 0, 6), //consumidor final - res.partner (1, ID, { values })
-              //Todo: afip_responsability_type
+            afip_responsability_type_id: (0, 0, 6), //Correction info: consumidor final - update: (1, ID, { values }) or new record: (0,0,id)
+            property_account_position_id: (0,0,1), //Correction new record.
           });
           console.log(inParams);
           var params = [];
@@ -735,7 +735,6 @@ module.exports = app => {
           company_type: 'person',
           main_id_category_id: 35,
           main_id_number: req.body.dni,
-          property_account_position_id: 1,
           property_payment_term_id: 1,
           title: 10,
           street: req.body.grupoFamiliar.direccion,
