@@ -684,7 +684,7 @@ module.exports = app => {
             parent_id: value,
             company_type: 'company', // Correction: company.
             title: 8,
-            afip_responsability_type_id: (1, req.body.grupoFamiliar.id, 6), //consumidor final - res.partner (1, ID, { values })
+            afip_responsability_type_id: (0, 0, 6), //consumidor final - res.partner (1, ID, { values })
               //Todo: afip_responsability_type
           });
           console.log(inParams);
