@@ -660,7 +660,7 @@ module.exports = app => {
         name: 'Familia ' + req.body.gf.name,
         main_id_number: req.body.gf.id_number,
         main_id_category_id: 35,
-        company_type: 'company',
+        company_type: 1, // Corrected 'person'
         property_account_position_id: 1,
         property_payment_term_id: 1,
         email: req.body.gf.email,
