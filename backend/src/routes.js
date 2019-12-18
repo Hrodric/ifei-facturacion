@@ -684,7 +684,7 @@ module.exports = app => {
             parent_id: value,
             is_company: true, // Correction: company_type: 'person'
             title: 8,
-            afip_responsability_type_id: (0, 0, 6), //Correction info: consumidor final - update: (1, ID, { values }) or new record: (0,0,id)
+            afip_responsability_type_id: (0,0,6), //Correction info: consumidor final - update: (1, ID, { values }) or new record: (0,0,id)
             property_account_position_id: (0,0,1), //Correction new record.
           });
           console.log(inParams);
