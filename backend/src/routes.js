@@ -554,8 +554,6 @@ module.exports = app => {
       main_id_number: req.body.dni,
       title: 8,
       parent_id: req.body.grupoFamiliar.id,
-      afip_responsability_type_id: (1, req.body.grupoFamiliar.id, 6), //res.partner (1, ID, { values })
-      //Todo: afip_responsability_type
     });
     console.log(inParams);
     var params = [];
@@ -684,8 +682,10 @@ module.exports = app => {
           inParams.push({
             name: req.body.gf.contact_name,
             parent_id: value,
-            company_type: 'person',
+            company_type: 'company', // Correction: company.
             title: 8,
+            afip_responsability_type_id: (1, req.body.grupoFamiliar.id, 6), //consumidor final - res.partner (1, ID, { values })
+              //Todo: afip_responsability_type
           });
           console.log(inParams);
           var params = [];
