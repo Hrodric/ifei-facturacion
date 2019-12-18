@@ -682,7 +682,7 @@ module.exports = app => {
           inParams.push({
             name: req.body.gf.contact_name,
             parent_id: value,
-            company_type: 'company', // Correction: company.
+            is_company: true, // Correction: company_type: 'person'
             title: 8,
             afip_responsability_type_id: (0, 0, 6), //consumidor final - res.partner (1, ID, { values })
               //Todo: afip_responsability_type
