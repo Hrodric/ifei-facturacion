@@ -16,10 +16,8 @@
               <b-card-group deck v-for="(contact, key) in contactos" :key="key">
                 <b-card disabled v-if="contact.title[1] !== 'Student'"
                          border-variant="primary"
-                         img-src="http://placehold.it/250?text=contact"
-                         img-alt="Img"
-                         img-width="200px"
-                          img-height="180px"
+                         img-src="../static/adulto-tutor-300x225.png"
+                         img-alt="adulto tutor"
                          img-top>
                   <b-card-title>{{contact.name}} </b-card-title>
                   <b-button size="sm" style="margin-bottom: 10px" variant="outline-primary" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
@@ -32,11 +30,9 @@
             <h5>Alumnos existentes</h5>
             <b-card-group deck  v-for="(contact, key) in contactos" :key="'xx'+key">
               <b-card v-if="contact.title[1] == 'Student'"
-                      img-src="http://placehold.it/250?text=student"
                       border-variant="secondary"
-                      img-alt="Img"
-                      img-width="200px"
-                      img-height="180px"
+                      img-src="../static/alumnx-300x225.png"
+                      img-alt="adulto tutor"
                       img-top>
                 <b-card-title>{{contact.name}} </b-card-title>
                 <b-button style="margin-bottom: 5px" variant="outline-primary"  size="sm" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
