@@ -554,10 +554,9 @@ module.exports = app => {
       main_id_number: req.body.dni,
       title: 8,
       parent_id: req.body.grupoFamiliar.id,
-      afip_responsability_type_id: (1, req.body.grupoFamiliar.id, {6}), //res.partner (1, ID, { values })
+      // afip_responsability_type_id: (1, req.body.grupoFamiliar.id, {6}), //res.partner (1, ID, { values })
       //Todo: afip_responsability_type
     });
-
     console.log(inParams);
     var params = [];
     params.push(inParams);
