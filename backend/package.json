@@ -4,8 +4,13 @@
   "description": "conector a odoo",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js src/app.js --exec 'npm run && node'",
-    "lint": "./node_modules/.bin/eslint src/*.js"
+    "dev": "backend/node_modules/nodemon/bin/nodemon.js src/app.js --exec 'npm run && node'",
+    "start": "nodemon --inspect src/app.js 8082\n",
+    "lint": "node_modules/.bin/eslint src/*.js",
+    "build": "node build/build.js",
+    "test": "npm run unit"
+
+
   },
   "author": "",
   "license": "ISC",
