@@ -56,7 +56,6 @@
 
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
-
 import ResPartnerService from "@/services/ResPartnerService";
 
 export default {
