@@ -9,8 +9,6 @@
     "lint": "node_modules/.bin/eslint src/*.js",
     "build": "node build/build.js",
     "test": "npm run unit"
-
-
   },
   "author": "",
   "license": "ISC",
