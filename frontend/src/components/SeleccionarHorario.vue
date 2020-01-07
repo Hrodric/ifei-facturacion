@@ -9,6 +9,7 @@
     <b-container fluid>
       <b-card header="Inscripción:" disabled>
         <b-list-group v-if="!loading">
+
           <b-list-group-item button>{{this.task.partner_id[1]}}, {{this.task.project_id[1]}}</b-list-group-item>
           <b-list-group-item button>Horario Seleccionado: {{this.task.stage_id[1]}}</b-list-group-item>
           <b-list-group-item buttonv-for="item in this.horarios"
@@ -16,6 +17,8 @@
                              @click="seleccionarHorario(item.id)"
                             >{{ item.name }}
           </b-list-group-item>
+          <button @click="verTask(task.id)">Ver Inscripcion en Odoo</button>
+          <button @click="verCurso(task.project_id[0])">Ver curso en Odoo</button>
         </b-list-group>
         <br/>
         <b-button variant="outline-primary" @click="confirmarSo()">Confirmar Preinscripción</b-button>
@@ -70,6 +73,20 @@ export default {
       this.task.stage_id = id;
       await ResPartnerService.updateTask(this.task);
       this.$router.push("/alumnos");
+    },
+    verTask(id) {
+      let routeData =
+        "http://ifei.moogah.com/web#id=" +
+        id +
+        "&view_type=form&model=project.task";
+      window.open(routeData, "_blank");
+    },
+    verCurso(id) {
+      let routeData =
+        "http://ifei.moogah.com/web#active_id=" +
+        id +
+        "&view_type=kanban&model=project.task&action=500";
+      window.open(routeData, "_blank");
     }
   }
 };

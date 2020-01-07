@@ -1,32 +1,61 @@
 <template>
   <b-container>
-    <b-card title="">
-      <b-button variant="outline-primary" @click="crearGF()">Crear Grupo Familiar</b-button>
-      <br/>
-      <b-form-input v-model="search" @input="searchPartner" @change="searchPartner" @blur="handleBlur" placeholder="Buscar familiar/alumno existente"> </b-form-input>
-
+    <b-card title>
+      <b-button
+        style="margin-bottom: 10px"
+        variant="outline-primary"
+        @click="crearGF()"
+        >Crear Grupo Familiar</b-button
+      >
+      <br />
+      <b-form-input
+        v-model="search"
+        @input="searchPartner"
+        @change="searchPartner"
+        @blur="handleBlur"
+        placeholder="Buscar familiar/alumno existente"
+      ></b-form-input>
       <ul v-if="!isLoading">
-        <li v-for="(partner, key) in responseSearch" :key="key">
-          <b-button variant="outline-primary" v-if="partner.parent_id == false" @click="seleccionarGF(partner.id)">Seleccionar Grupo Familiar</b-button>
-          <b-button v-if="((partner.title[1] != 'Madre/Padre') && (partner.parent_id != false))" @click="seleccionarAlumno(partner)">Seleccionar Alumno</b-button>
-          <span style="font-size:2em">{{partner.name}},{{partner.parent_id[1]}}</span>
+        <li
+          v-for="(partner, key) in responseSearch"
+          :key="key"
+          style="display: block; margin-top: 10px;">
+            <b-button-group size="sm">
+              <b-button
+                variant="outline-primary"
+                @click="verPartnerEnOdoo(partner.id)">
+                Ver en Odoo
+              </b-button>
+              <b-button
+                v-if="!partner.parent_id"
+                variant="outline-primary"
+                @click="seleccionarGF(partner.id)">
+                Seleccionar Grupo Familiar
+              </b-button>
+              <b-button
+                v-if="partner.title[1] == 'Student'"
+                variant="outline-secondary"
+                @click="seleccionarAlumno(partner)">
+                Seleccionar Alumno
+              </b-button>
+            </b-button-group>
+
+          <span style="font-size:1em">{{ partner.name }},{{ partner.parent_id[1] }}</span>
         </li>
       </ul>
       <div class="text-center" v-if="isLoading">
-        <br/>
-        <b-spinner variant="primary" label="Spinning"> </b-spinner>
-        <h1>Cargando...</h1>
+        <br />
+        <b-spinner variant="primary" label="Spinning"></b-spinner>
+        <h5>Cargando...</h5>
       </div>
     </b-card>
   </b-container>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
 
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
-
 import ResPartnerService from "@/services/ResPartnerService";
 
 export default {
@@ -61,7 +90,7 @@ export default {
       this.$session.set("alumno", alumnox.data);
       this.$router.push("/clases");
     },
-    async searchPartner({ type, target }) {
+    async searchPartner() {
       if (
         !this.isLoading &&
         this.searchingTerm != this.search &&
@@ -69,10 +98,10 @@ export default {
       ) {
         this.isLoading = true;
         this.searchingTerm = this.search;
-        let responseSearch = await ResPartnerService.search(target.value);
+        let responseSearch = await ResPartnerService.search(this.search);
         this.isLoading = false;
         if (this.searchingTerm != this.search) {
-          this.searchPartner({ type, target });
+          this.searchPartner();
         } else {
           this.responseSearch = responseSearch.data;
           console.log(responseSearch);
@@ -94,6 +123,13 @@ export default {
         this.$session.set("nombre", response.data.nombre);
         this.$router.push("/informacion_de_contacto");
       }
+    },
+    verPartnerEnOdoo(partner_id) {
+      let routeData =
+        "http://ifei.moogah.com/web#id=" +
+        partner_id +
+        "&view_type=form&model=res.partner&menu_id=70&action=77";
+      window.open(routeData, "_blank");
     },
     handleBlur() {}
   }

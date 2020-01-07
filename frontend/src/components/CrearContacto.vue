@@ -1,23 +1,33 @@
 <template>
-  <b-card title=""><h4>{{grupoFamiliar.name}}</h4>
+  <b-card title=""><h5>{{grupoFamiliar.name}}</h5>
     <b-container fluid>
       <b-container class="text-center" v-if="loading">
         <br/>
         <b-spinner variant="primary" label="Spinning"> </b-spinner>
-        <h1>Cargando...</h1>
+        <h5>Cargando...</h5>
         <p>{{loadingMsg}}</p>
       </b-container>
       <div v-if="!loading">
-        <h4>Crear Contacto</h4>
-        <b-form-input type="text" v-model="nombre_contacto_nuevo" placeholder="Nombre"> </b-form-input>
-        <b-form-input type="text" v-model="dni_contacto_nuevo" placeholder="DNI"> </b-form-input>
-        <b-button variant="outline-primary" @click="crearContacto()">Crear Contacto</b-button>
+        <b-container style="padding: 20px">
+          <b-row>
+            <b-col>
+              <h4>Crear Contacto</h4>
+              <b-form-input type="text" v-model="nombre_contacto_nuevo" placeholder="Nombre"> </b-form-input>
+              <b-form-input type="text" v-model="dni_contacto_nuevo" placeholder="DNI"> </b-form-input>
+              <b-button variant="outline-primary" @click="crearContacto()">Crear Contacto</b-button>
+            </b-col>
+            <b-col>
+              <h4>Crear Alumno</h4>
+              <b-form-input type="text" v-model="nombre_alumno_nuevo" placeholder="Nombre"> </b-form-input>
+              <b-form-input type="text" v-model="dni_alumno_nuevo" placeholder="DNI"> </b-form-input>
+              <b-button variant="outline-primary" @click="crearAlumno()">Crear Alumno</b-button>
+            </b-col>
+          </b-row>
+
+        </b-container>
         <br/>
         <br/>
-        <h4>Crear Alumno</h4>
-        <b-form-input type="text" v-model="nombre_alumno_nuevo" placeholder="Nombre"> </b-form-input>
-        <b-form-input type="text" v-model="dni_alumno_nuevo" placeholder="DNI"> </b-form-input>
-        <b-button variant="outline-primary" @click="crearAlumno()">Crear Alumno</b-button>
+
       </div>
     </b-container>
     <br/>

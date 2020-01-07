@@ -272,6 +272,7 @@ module.exports = app => {
     var inParams = [];
     inParams.push({
       partner_id: req.body.student.id,
+      fiscal_position_id: 1, // For testing.      
     });
     console.log(inParams);
     var params = [];
