@@ -548,6 +548,7 @@ module.exports = app => {
 
   app.post('/crear_contacto', async (req, res) => {
     var inParams = [];
+    console.log(req.body);
     inParams.push({
       name: req.body.contacto,
       company_type: 'person',
@@ -555,6 +556,7 @@ module.exports = app => {
       main_id_number: req.body.dni,
       title: 8,
       parent_id: req.body.grupoFamiliar.id,
+      phone: req.body.telefono,
     });
     console.log(inParams);
     var params = [];

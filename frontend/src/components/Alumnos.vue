@@ -78,6 +78,7 @@ export default {
       dni_alumno_nuevo: "",
       nombre_contacto_nuevo: "",
       dni_contacto_nuevo: "",
+      tel_contacto_nuevo: "", //field added
       loading: true,
       loadingMsg: "",
       sos: []

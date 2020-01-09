@@ -116,12 +116,13 @@ export default {
       },
     });
   },
-  crearContacto(grupoFamiliar, contacto, dni) {
+  crearContacto(grupoFamiliar, contacto, dni, telefono) {
 
     return Api().post('crear_contacto', {
       grupoFamiliar,
       contacto,
       dni,
+      telefono, //field added
     });
   },
 };
