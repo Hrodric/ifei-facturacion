@@ -667,6 +667,7 @@ module.exports = app => {
         property_payment_term_id: 1,
         email: req.body.gf.email,
         street: req.body.gf.direccion,
+        phone: req.body.gf.telefono, //field added
       });
       console.log(inParams);
       var params = [];
