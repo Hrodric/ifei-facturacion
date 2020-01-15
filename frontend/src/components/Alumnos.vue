@@ -25,6 +25,8 @@
                     <b-col>{{contact.mobile}}</b-col>
                     <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
                     <b-col>{{contact.email}}</b-col>
+                    <b-col sm="3" class="text-sm-right"><b>Relación:</b></b-col>
+                    <b-col>{{contact.category_id}}</b-col>
 <!--                    <b-col sm="3" class="text-sm-right"><b>Dire:</b></b-col>-->
 <!--                    <b-col>{{contact.street}}</b-col>-->
                     <b-col sm="3" class="text-sm-right"><b>DNI:</b></b-col>
@@ -53,8 +55,6 @@
                   <b-col><b-form-input type="text" v-model="contact.mobile" @input="searchPartner" @change="searchPartner"> </b-form-input></b-col>                  <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>-->
                   <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
                   <b-col>{{contact.email}}</b-col>
-                  <b-col sm="3" class="text-sm-right"><b>Relación:</b></b-col>
-                  <b-col>{{contact.category_id}}</b-col>
 <!--                  <b-col sm="3" class="text-sm-right"><b>Dire:</b></b-col>-->
 <!--                  <b-col>{{contact.street}}</b-col>-->
                   <b-col sm="3" class="text-sm-right"><b>DNI:</b></b-col>
@@ -122,6 +122,7 @@ export default {
       this.grupoFamiliar.child_ids
     );
     this.contactos = this.contactos.data;
+    console.log(this.contactos);
 
     for (const contacto of this.contactos) {
       this.loadingMsg = "Procesando Contactos:... " + contacto.name;

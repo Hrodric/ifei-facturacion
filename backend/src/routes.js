@@ -210,41 +210,82 @@ module.exports = app => {
     });
   });
 
+//Inicio test Rodri:
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
-    console.log(req.body);
-    var inParams = [];
-    inParams.push(req.body.ids); //ids
-    inParams.push([
-      'name',
-      'country_id',
-      'type',
-      'company_type',
-      'comment',
-      'parent_id',
-      'main_id_number',
-      'title',
-      'email',
-      'street',
-      'mobile',
-      'phone', //Field added
-      'fax',
-      'category_id', //Field added: Tags
-    ]); //fields
-    var params = [];
-    params.push(inParams);
-    await OdooService.execute_kw(
-      'res.partner',
-      'read',
-      params,
-      (err, value) => {
-        if (err) {
-          return console.log(err);
-        }
-        console.log(value);
-        res.send(value);
-      },
-    );
+      console.log(req.body);
+      var inParams = [];
+      inParams.push(req.body.ids); //ids
+      inParams.push([
+          'name',
+          'country_id',
+          'type',
+          'company_type',
+          'comment',
+          'parent_id',
+          'main_id_number',
+          'title',
+          'email',
+          'street',
+          'mobile',
+          'phone', //Field added
+          'fax',
+          'category_id', //Field added: Tags
+      ]); //fields
+      var params = [];
+      params.push(inParams);
+      await OdooService.execute_kw(
+          'res.partner',
+          'read',
+          params,
+          (err, value) => {
+              if (err) {
+                  return console.log(err);
+              }
+              console.log(value);
+              res.send(value);
+          },
+      );
   });
+//Fin test Rodri:
+
+
+//begin old way:
+//   app.post('/getGrupoFamiliarContactos', async (req, res) => {
+//     console.log(req.body);
+//     var inParams = [];
+//     inParams.push(req.body.ids); //ids
+//     inParams.push([
+//       'name',
+//       'country_id',
+//       'type',
+//       'company_type',
+//       'comment',
+//       'parent_id',
+//       'main_id_number',
+//       'title',
+//       'email',
+//       'street',
+//       'mobile',
+//       'phone', //Field added
+//       'fax',
+//       'category_id', //Field added: Tags
+//     ]); //fields
+//     var params = [];
+//     params.push(inParams);
+//     await OdooService.execute_kw(
+//       'res.partner',
+//       'read',
+//       params,
+//       (err, value) => {
+//         if (err) {
+//           return console.log(err);
+//         }
+//         console.log(value);
+//         res.send(value);
+//       },
+//     );
+//   });
+//end old way
 
   app.get('/getProductos', async (req, res) => {
     var inParams = [];
