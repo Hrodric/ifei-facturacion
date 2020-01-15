@@ -129,7 +129,7 @@ module.exports = app => {
       name: req.body.student.name,
       email: req.body.student.email,
       fax: req.body.student.fax,
-      mobile: req.body.student.mobile,
+      mobile: req.body.student.mobile, //ToDo: to modify in order to alter views related to phone/mobile field 2.
     });
     var params = [];
     params.push(inParams);
@@ -163,7 +163,7 @@ module.exports = app => {
       'email',
       'main_id_number',
       'street',
-      'mobile',
+      'mobile', //ToDo: to modify in order to alter views related to phone/mobile field.
       'fax',
     ]); //fields
     inParams.push(0); //offset
@@ -226,7 +226,9 @@ module.exports = app => {
       'email',
       'street',
       'mobile',
+      'phone', //Field added
       'fax',
+      'category_id', //Field added: Tags
     ]); //fields
     var params = [];
     params.push(inParams);
@@ -265,7 +267,9 @@ module.exports = app => {
       },
     );
   });
+//Inicio getClases
 
+// Fin getClases
   app.post('/confirmSo', async (req, res) => {
     console.log(req.body.student.id);
 
@@ -556,7 +560,10 @@ module.exports = app => {
       main_id_number: req.body.dni,
       title: 8,
       parent_id: req.body.grupoFamiliar.id,
-      phone: req.body.telefono,
+      phone: req.body.telefono, //field added
+      // category_id: req.body.relacion, //field added Todo: fix backend to workout
+        //fecha de nacimiento
+        //
     });
     console.log(inParams);
     var params = [];
@@ -663,8 +670,8 @@ module.exports = app => {
         name: 'Familia ' + req.body.gf.name,
         main_id_number: req.body.gf.id_number,
         main_id_category_id: 35,
-        is_company: true, // Corrected company_type:'company' //DONE
-        property_account_position_id: (0,0,1), //Corrected property_account_position_id: 1, //DONE
+        is_company: true, // Corrected company_type:'company'
+        property_account_position_id: (0,0,1), //Corrected property_account_position_id: 1,
         afip_responsability_type_id: (0,0,6),
         property_payment_term_id: 1,
         email: req.body.gf.email,

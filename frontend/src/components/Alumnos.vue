@@ -9,7 +9,7 @@
     <div v-if="!loading">
       <b-button variant="outline-primary" size="sm" @click="crearContacto()">Nuevo Contacto/Alumno dentro de la Familia</b-button>
       <hr>
-        <b-row>
+        <b-container>
           <b-col >
             <div > <!--//Todo: no funciona como debería -->
               <h5>Contactos en la {{grupoFamiliar.name}}:</h5>
@@ -20,6 +20,16 @@
                          img-alt="adulto tutor"
                          img-top>
                   <b-card-title>{{contact.name}} </b-card-title>
+                  <b-container>
+                    <b-col sm="3" class="text-sm-right"><b>Tel:</b></b-col>
+                    <b-col>{{contact.mobile}}</b-col>
+                    <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
+                    <b-col>{{contact.email}}</b-col>
+<!--                    <b-col sm="3" class="text-sm-right"><b>Dire:</b></b-col>-->
+<!--                    <b-col>{{contact.street}}</b-col>-->
+                    <b-col sm="3" class="text-sm-right"><b>DNI:</b></b-col>
+                    <b-col>{{contact.main_id_number}}</b-col>
+                  </b-container>
                   <b-button size="sm" style="margin-bottom: 10px" variant="outline-primary" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
                 </b-card>
               </b-card-group>
@@ -34,14 +44,29 @@
                       img-src="../static/alumnx-300x225.png"
                       img-alt="adulto tutor"
                       img-top>
-                <b-card-title>{{contact.name}} </b-card-title>
+                <b-card-title>{{contact.name}}</b-card-title>
+<!--                <b-row class="sm-2"><b-row>-->
+                <b-container>
+                  <b-col sm="3" class="text-sm-right"><b>Tel:</b></b-col>
+                  <b-col>{{contact.mobile}}</b-col>
+<!--                  Para editar el campo dentro de la tarjeta:
+                  <b-col><b-form-input type="text" v-model="contact.mobile" @input="searchPartner" @change="searchPartner"> </b-form-input></b-col>                  <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>-->
+                  <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
+                  <b-col>{{contact.email}}</b-col>
+                  <b-col sm="3" class="text-sm-right"><b>Relación:</b></b-col>
+                  <b-col>{{contact.category_id}}</b-col>
+<!--                  <b-col sm="3" class="text-sm-right"><b>Dire:</b></b-col>-->
+<!--                  <b-col>{{contact.street}}</b-col>-->
+                  <b-col sm="3" class="text-sm-right"><b>DNI:</b></b-col>
+                  <b-col>{{contact.main_id_number}}</b-col>
+                </b-container>
                 <b-button style="margin-bottom: 5px" variant="outline-primary"  size="sm" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
                 <b-button variant="outline-secondary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
               </b-card>
             </b-card-group>
             <br/>
           </b-col>
-        </b-row>
+        </b-container>
       <br/>
         <hr>
       <h4>Ordenes de Venta</h4>
@@ -79,6 +104,7 @@ export default {
       nombre_contacto_nuevo: "",
       dni_contacto_nuevo: "",
       tel_contacto_nuevo: "", //field added
+      category_id: "", //field added
       loading: true,
       loadingMsg: "",
       sos: []

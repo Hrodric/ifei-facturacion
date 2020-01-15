@@ -59,7 +59,18 @@ class NeptunoService {
         }, {
             // options
         });
-
+//Inicio Sequelize Class_Names Model -> getClases
+        const clases = this.sequelize.define('class_names', {
+            id: {
+                field: 'id',
+                primaryKey: true,
+                type: Sequelize.INTEGER
+            },
+            short: {
+                type: Sequelize.STRING
+            },
+        });
+//Fin Sequelize Class_Names Model
         const LnCuentas = this.sequelize.define('ln_cuentas', {
 
             // attributes

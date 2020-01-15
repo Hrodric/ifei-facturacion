@@ -14,7 +14,9 @@
               <h4>Crear Contacto</h4>
               <b-form-input type="text" v-model="nombre_contacto_nuevo" placeholder="Nombre"> </b-form-input>
               <b-form-input type="text" v-model="dni_contacto_nuevo" placeholder="DNI"> </b-form-input>
-              <b-form-input type="text" v-model="tel_contacto_nuevo" placeholder="Telefono"> </b-form-input>
+              <b-form-input type="text" v-model="tel_contacto_nuevo" placeholder="Teléfono"> </b-form-input>
+<!--              <b-form-input type="text" v-model="rel_contacto_nuevo" placeholder="Relación"> </b-form-input>-->
+              <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
               <b-button variant="outline-primary" @click="crearContacto()">Crear Contacto</b-button>
             </b-col>
             <b-col>
@@ -54,6 +56,7 @@ export default {
       nombre_contacto_nuevo: "",
       dni_contacto_nuevo: "",
       tel_contacto_nuevo: "", //field added
+      category_id: "", //field added
       loading: true,
       loadingMsg: "",
       sos: []
@@ -99,7 +102,8 @@ export default {
           this.grupoFamiliar,
           this.nombre_contacto_nuevo,
           this.dni_contacto_nuevo,
-          this.tel_contacto_nuevo // phone field added
+          this.tel_contacto_nuevo, // phone field added
+          this.rel_contacto_nuevo // relation field added
         );
         this.$session.set("alumno", nuevoAlumno);
         this.$router.push("/alumnos");

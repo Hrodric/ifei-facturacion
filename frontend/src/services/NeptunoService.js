@@ -14,4 +14,11 @@ export default {
       dni,
     });
   },
+//get Classes - added
+  getClases(id, clase){
+    return Api().get('class_names', {
+      id,
+      short,
+    });
+  },
 };

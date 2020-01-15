@@ -21,9 +21,7 @@ export default {
   },
 
   getContactos(ids) {
-    return Api().post('getGrupoFamiliarContactos', {
-      ids,
-    });
+    return Api().post('getGrupoFamiliarContactos', {ids,});
   },
 
   updatePartner(partner) {
@@ -123,6 +121,8 @@ export default {
       contacto,
       dni,
       telefono, //field added
+      relacion, //field added
     });
   },
+
 };

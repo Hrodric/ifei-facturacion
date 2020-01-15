@@ -1,20 +1,21 @@
 <template>
   <b-container>
-    <b-card title>
+    <b-card>
+      <p>Para crear un nuevo Grupo Familiar, presione:</p>
       <b-button
         style="margin-bottom: 10px"
         variant="outline-primary"
-        @click="crearGF()"
-        >Crear Grupo Familiar</b-button
-      >
+        @click="crearGF()">
+        Crear</b-button>
       <br />
+      <p>Para buscar un Grupo Familiar, presione:</p>
       <b-form-input
         v-model="search"
         @input="searchPartner"
         @change="searchPartner"
         @blur="handleBlur"
-        placeholder="Buscar familiar/alumno existente"
-      ></b-form-input>
+        placeholder="Buscar">
+      </b-form-input>
       <ul v-if="!isLoading">
         <li
           v-for="(partner, key) in responseSearch"
@@ -45,14 +46,14 @@
       </ul>
       <div class="text-center" v-if="isLoading">
         <br />
-        <b-spinner variant="primary" label="Spinning"></b-spinner>
+        <b-spinner variant="primary" label="Spinning"> </b-spinner>
         <h5>Cargando...</h5>
       </div>
     </b-card>
   </b-container>
 </template>
 
-<style scoped></style>
+<style scoped> </style>
 
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
