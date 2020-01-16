@@ -4,7 +4,9 @@
         <div id="content-wrap">
           <div id="app" style="text-align:left;padding:25px">
             <b-row>
-              <b-col style="padding-bottom: 30px"><img src="../static/logo.png" width="70px" /></b-col>
+              <b-col style="padding-bottom: 30px">
+                <a href="/"><img src="../static/logo.png" width="70px" /></a>
+              </b-col>
               <b-col style="padding-top: 20px;text-align: right;">Preinscripciones 2020 IFEI</b-col>
             </b-row>
 

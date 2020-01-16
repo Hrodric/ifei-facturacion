@@ -1,21 +1,26 @@
 <template>
   <b-container>
     <b-card>
-      <p>Para crear un nuevo Grupo Familiar, presione:</p>
-      <b-button
-        style="margin-bottom: 10px"
-        variant="outline-primary"
-        @click="crearGF()">
-        Crear</b-button>
+      <b-container>
+        <p>Para crear un nuevo Grupo Familiar, presione:</p>
+        <b-button
+          size="sm"
+          style="margin-bottom: 10px"
+          variant="outline-primary"
+          @click="crearGF()">
+          Crear</b-button>
+      </b-container>
       <br />
-      <p>Para buscar un Grupo Familiar, presione:</p>
-      <b-form-input
-        v-model="search"
-        @input="searchPartner"
-        @change="searchPartner"
-        @blur="handleBlur"
-        placeholder="Buscar">
-      </b-form-input>
+      <b-container>
+        <p>Para buscar un Grupo Familiar, complete el siguiente campo:</p>
+        <b-form-input
+          v-model="search"
+          @input="searchPartner"
+          @change="searchPartner"
+          @blur="handleBlur"
+          placeholder="Buscar">
+        </b-form-input>
+      </b-container>
       <ul v-if="!isLoading">
         <li
           v-for="(partner, key) in responseSearch"
