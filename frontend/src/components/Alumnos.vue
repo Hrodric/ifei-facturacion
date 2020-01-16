@@ -10,62 +10,58 @@
       <b-button variant="outline-primary" size="sm" @click="crearContacto()">Nuevo Contacto/Alumno dentro de la Familia</b-button>
       <hr>
         <b-container>
-          <b-col >
-            <div > <!--//Todo: no funciona como debería -->
-              <h5>Contactos en la {{grupoFamiliar.name}}:</h5>
-              <b-card-group deck v-for="(contact, key) in contactos" :key="key">
-                <b-card disabled v-if="contact.title[1] !== 'Student'"
-                         border-variant="primary"
-                         img-src="../static/adulto-tutor-300x225.png"
-                         img-alt="adulto tutor"
-                         img-top>
-                  <b-card-title>{{contact.name}} </b-card-title>
-                  <b-container>
-                    <b-col sm="3" class="text-sm-right"><b>Tel:</b></b-col>
-                    <b-col>{{contact.mobile}}</b-col>
-                    <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
-                    <b-col>{{contact.email}}</b-col>
-<!--                    <b-col sm="3" class="text-sm-right"><b>Dire:</b></b-col>-->
-<!--                    <b-col>{{contact.street}}</b-col>-->
-                    <b-col sm="3" class="text-sm-right"><b>DNI:</b></b-col>
-                    <b-col>{{contact.main_id_number}}</b-col>
+          <b-row>
+            <b-col>
+              <div>
+                <p>Contactos en la {{grupoFamiliar.name}}:</p>
+                <b-card-group  v-for="(contact, key) in contactos" :key="key">
+                  <b-card  disabled v-if="contact.title[1] !== 'Student'"
+                           border-variant="primary"
+                           img-src="../static/adulto-tutor-300x225.png"
+                           img-width="120px"
+                           img-height="90px"
+                           img-alt="adulto tutor"
+                           img-right>
+                    <b-card-title>{{contact.name}} </b-card-title>
+                      <b-container class="datos-personales">
+                        <b-col><b>Tel:</b> {{contact.mobile}}</b-col>
+                        <b-col ><b>Email:</b> {{contact.email}}</b-col>
+                        <b-col ><b>Relación:</b> {{contact.category_id}}</b-col>
+                        <b-col><b>Dire:</b> {{contact.street}}</b-col>
+                        <b-col><b>DNI:</b> {{contact.main_id_number}}</b-col>
+                      </b-container>
+                    <b-button size="sm"  variant="outline-primary" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
+                  </b-card>
+                </b-card-group>
+              </div>
+            </b-col>
+            <b-col >
+              <p>Alumnos existentes</p>
+              <b-card-group   v-for="(contact, key) in contactos" :key="'xx'+key">
+                <b-card v-if="contact.title[1] == 'Student'"
+                        border-variant="secondary"
+                        img-src="../static/alumnx-300x225.png"
+                        img-width="120px"
+                        img-height="90px"
+                        img-alt="alumno"
+                        img-right>
+                  <b-card-title>{{contact.name}}</b-card-title>
+                  <b-container class="datos-personales">
+                    <b-col><b>Tel:</b> {{contact.mobile}}</b-col>
+  <!--                  Para editar el campo dentro de la tarjeta:
+                    <b-col><b-form-input type="text" v-model="contact.mobile" @input="searchPartner" @change="searchPartner"> </b-form-input></b-col>                  <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>-->
+                    <b-col><b>Email:</b> {{contact.email}}</b-col>
+  <!--                  <b-col sm="3" class="text-sm-right"><b>Dire:</b></b-col>-->
+  <!--                  <b-col>{{contact.street}}</b-col>-->
+                    <b-col><b>DNI:</b> {{contact.main_id_number}}</b-col>
                   </b-container>
-                  <b-button size="sm" style="margin-bottom: 10px" variant="outline-primary" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
+                  <b-button variant="outline-primary"  size="sm" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
+                  <b-button variant="outline-secondary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
                 </b-card>
               </b-card-group>
-
-            </div>
-          </b-col>
-          <b-col>
-            <h5>Alumnos existentes</h5>
-            <b-card-group deck  v-for="(contact, key) in contactos" :key="'xx'+key">
-              <b-card v-if="contact.title[1] == 'Student'"
-                      border-variant="secondary"
-                      img-src="../static/alumnx-300x225.png"
-                      img-alt="adulto tutor"
-                      img-top>
-                <b-card-title>{{contact.name}}</b-card-title>
-<!--                <b-row class="sm-2"><b-row>-->
-                <b-container>
-                  <b-col sm="3" class="text-sm-right"><b>Tel:</b></b-col>
-                  <b-col>{{contact.mobile}}</b-col>
-<!--                  Para editar el campo dentro de la tarjeta:
-                  <b-col><b-form-input type="text" v-model="contact.mobile" @input="searchPartner" @change="searchPartner"> </b-form-input></b-col>                  <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>-->
-                  <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
-                  <b-col>{{contact.email}}</b-col>
-                  <b-col sm="3" class="text-sm-right"><b>Relación:</b></b-col>
-                  <b-col>{{contact.category_id}}</b-col>
-<!--                  <b-col sm="3" class="text-sm-right"><b>Dire:</b></b-col>-->
-<!--                  <b-col>{{contact.street}}</b-col>-->
-                  <b-col sm="3" class="text-sm-right"><b>DNI:</b></b-col>
-                  <b-col>{{contact.main_id_number}}</b-col>
-                </b-container>
-                <b-button style="margin-bottom: 5px" variant="outline-primary"  size="sm" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
-                <b-button variant="outline-secondary" size="sm" @click="seleccionarAlumno(contact)">Seleccionar Clase</b-button>
-              </b-card>
-            </b-card-group>
-            <br/>
-          </b-col>
+              <br/>
+            </b-col>
+          </b-row>
         </b-container>
       <br/>
         <hr>
@@ -75,9 +71,7 @@
           <ul v-if="contacto.sos">
             <li v-for="(so, key ) in contacto.sos.data" :key="'so'+key">
               {{so.name}}, {{so.partner_id[1]}}, {{so.product_id[1]}}, ${{so.amount_total}}
-              <button
-                @click="verSoEnOdoo(so.id)"
-              >Ver SO</button>
+              <button @click="verSoEnOdoo(so.id)">Ver SO</button>
               <b-button variant="outline-primary" size="sm" @click="seleccionarHorario(so.id)">Seleccionar Horario</b-button>
             </li>
           </ul>
@@ -174,5 +168,8 @@ export default {
 <style>
   .card-deck {
     display: table-cell;
+  }
+  .datos-personales {
+    font-size: 14px; margin-bottom: 10px; padding-left: 0px; height: 120px
   }
 </style>
