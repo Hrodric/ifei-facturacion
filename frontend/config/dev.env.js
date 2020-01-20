@@ -7,5 +7,5 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  BACKEND_URL: 'http://ec2-3-82-149-140.compute-1.amazonaws.com:8082/'
+  BACKEND_URL: '"http://ec2-3-82-149-140.compute-1.amazonaws.com:8082/"'
 });
