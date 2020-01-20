@@ -24,6 +24,10 @@ export default {
     return Api().post('getGrupoFamiliarContactos', {ids,});
   },
 
+  getTags(id){
+    return Api().post('getContactsTags', {id,});
+  },
+
   updatePartner(partner) {
     return Api().post('updatePartner', {
       partner,

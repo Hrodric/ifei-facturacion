@@ -1,7 +1,7 @@
 <template>
-  <b-card title=""><h4>{{grupoFamiliar.name}}</h4>
-    <div class="text-center" v-if="isLoading">
-      <br/>
+  <b-container title=""><h4>{{grupoFamiliar.name}}</h4>
+    <div class="container-fluid text-center" v-if="isLoading">
+<!--      <br/>-->
       <b-spinner variant="primary" label="Spinning"> </b-spinner>
       <h1>Cargando...</h1>
       <p>{{loadingMsg}}</p>
@@ -86,7 +86,7 @@
       <b-button variant="outline-primary" size="sm" @click="volver()">Volver</b-button>
       <b-button variant="outline-primary" size="sm" @click="facturar()">Crear Factura Borrador</b-button>
     </div>
-  </b-card>
+  </b-container>
 </template>
 
 <script>

@@ -211,10 +211,29 @@ module.exports = app => {
   });
 
 //Inicio test Rodri:
-
+    app.post('/getContactsTags', async (req, res) => {
+        var inParams = [];
+        inParams.push([]);
+        inParams.push(['id', 'name', 'category_id']); //Tags
+        inParams.push(0); //offset
+        inParams.push(10); //limit
+        var params = [];
+        params.push(inParams);
+        await OdooService.execute_kw(
+            'res.partner.category',
+            'read',
+            params,
+            (err, tags) => {
+                if (err) {
+                    return console.log(err);
+                }
+                console.log(tags);
+                res.send(tags);
+            },
+        );
+    });
 //Fin test Rodri:
 
-//Inicio old way:
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
     console.log(req.body);
     var inParams = [];
@@ -250,7 +269,6 @@ module.exports = app => {
       },
     );
   });
-//Fin old way
 
   app.get('/getProductos', async (req, res) => {
     var inParams = [];
