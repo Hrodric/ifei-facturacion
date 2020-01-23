@@ -214,9 +214,9 @@ module.exports = app => {
     app.get('/getContactTags', async (req, res) => {
         var inParams = [];
         inParams.push([]);
-        inParams.push(['id', 'name', 'category_id']); //Tags
+        inParams.push(['id'], ['name'], ['category_id']); //Tags
         inParams.push(0); //offset
-        inParams.push(100); //limit
+        inParams.push(10); //limit
         var params = [];
         params.push(inParams);
         await OdooService.execute_kw(
