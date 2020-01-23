@@ -13,7 +13,7 @@ module.exports = {
         NPT_HOST: "ifei.c8zjpampcvnx.us-east-1.rds.amazonaws.com",
         NPT_USER: "ebroot",
         NPT_PASSWORD: "NewIfei62",
-        NPT_DB: "ifei"
+        NPT_DB: "ifei_test"
     }
 };
 //Todo: implement dotenv in a correct way =>

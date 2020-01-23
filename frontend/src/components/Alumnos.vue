@@ -1,10 +1,10 @@
 <template>
   <b-container title=""><h4>{{grupoFamiliar.name}}</h4>
-    <div class="container-fluid text-center" v-if="isLoading">
+    <div class="container-fluid text-center" v-if="loading">
 <!--      <br/>-->
       <b-spinner variant="primary" label="Spinning"> </b-spinner>
       <h1>Cargando...</h1>
-      <p>{{loadingMsg}}</p>
+<!--      <div>{{loadingMsg}}</div>-->
     </div>
     <div v-if="!loading">
       <b-button variant="outline-primary" size="sm" @click="crearContacto()">Nuevo Contacto/Alumno dentro de la Familia</b-button>
@@ -110,12 +110,15 @@ export default {
       sos: []
     };
   },
+
+
   created: async function() {
     this.loadingMsg = "Cargando Grupo Familiar.";
     this.grupoFamiliar = await ResPartnerService.getGrupoFamiliar(
       this.$session.get("id_grupo_familiar")
     );
     this.grupoFamiliar = this.grupoFamiliar.data[0];
+    // console.log("data:" + this.grupoFamiliar.data[0]);
     this.$session.set("grupoFamiliar", this.grupoFamiliar);
     this.loadingMsg = "Cargando Contactos.";
     this.contactos = await ResPartnerService.getContactos(
@@ -124,14 +127,42 @@ export default {
     this.contactos = this.contactos.data;
     console.log(this.contactos);
 
-    for (const contacto of this.contactos) {
-      this.loadingMsg = "Procesando Contactos:... " + contacto.name;
-      contacto.sos = await ResPartnerService.getSos(contacto.id);
-    }
-    this.loading = false;
-    //sthis.sos = await ResPartnerService.getSos(this.grupoFamiliar.id);
-    console.log(this.contactos);
-  },
+  for (const contacto of this.contactos) {
+  this.loadingMsg = "Procesando Contactos:... " + contacto.name;
+  contacto.sos = await ResPartnerService.getSos(contacto.id);
+}
+this.loading = false;
+//sthis.sos = await ResPartnerService.getSos(this.grupoFamiliar.id);
+console.log(this.contactos);
+},
+
+
+//Begin
+//   created: async function() {
+//     this.loadingMsg = "Cargando Grupo Familiar.";
+//     this.grupoFamiliar = await ResPartnerService.getGrupoFamiliar(
+//       this.$session.get("id_grupo_familiar")
+//     );
+//     this.grupoFamiliar = this.grupoFamiliar.data[0];
+//     this.$session.set("grupoFamiliar", this.grupoFamiliar);
+//     this.loadingMsg = "Cargando Contactos.";
+//     this.contactos = await ResPartnerService.getContactos(
+//       this.grupoFamiliar.child_ids
+//     );
+//     this.contactos = this.contactos.data[0];
+//     this.$session.set("contactos", this.contactos);
+//     this.loadingMsg = "Cargando datos complementarios...";
+//     this.tags = await ResPartnerService.getTags(
+//       this.contactos.parent_id
+//     );
+//     console.log(this.tags)
+//
+//     this.contactos = this.contactos.data;
+//     console.log(this.contactos);
+//     this.loading = false;
+//   },
+  //End
+
   methods: {
     seleccionarAlumno: async function(alumno) {
       console.log(alumno);

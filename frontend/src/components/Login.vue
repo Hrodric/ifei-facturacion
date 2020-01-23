@@ -99,14 +99,14 @@ export default {
     async searchPartner() {
       if (
         !this.isLoading &&
-        this.searchingTerm != this.search &&
+        this.searchingTerm !== this.search && //Changed "!=" for "!==" instead.
         this.search.length >= 3
       ) {
         this.isLoading = true;
         this.searchingTerm = this.search;
         let responseSearch = await ResPartnerService.search(this.search);
         this.isLoading = false;
-        if (this.searchingTerm != this.search) {
+        if (this.searchingTerm !== this.search) { //Changed "!=" for "!==" instead.
           this.searchPartner();
         } else {
           this.responseSearch = responseSearch.data;

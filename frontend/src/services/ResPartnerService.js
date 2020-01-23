@@ -25,7 +25,7 @@ export default {
   },
 
   getTags(id){
-    return Api().post('getContactsTags', {id,});
+    return Api().get('getContactTags', {id,});
   },
 
   updatePartner(partner) {

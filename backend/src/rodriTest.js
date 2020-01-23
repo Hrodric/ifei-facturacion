@@ -93,8 +93,19 @@ app.post('/getGrupoFamiliarContactos', async (req, res) => {
     this.tags = await ResPartnerService.getTags(
         this.contactos.parent_id
     );
+     console.log(this.tags)
     this.contactos = this.contactos.data;
     console.log(this.contactos);
+
+//begin loop
+
+    getTags.forEach(myFunction);
+
+    function myFunction(item) {
+        sum += item;
+        document.getElementById("demo").innerHTML = sum;
+    }
+//end loop
 
     for (const contacto of this.contactos) {
         this.loadingMsg = "Procesando Contactos:... " + contacto.name;
