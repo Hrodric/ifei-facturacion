@@ -216,7 +216,7 @@ module.exports = app => {
         inParams.push([]);
         inParams.push(['id'], ['name'], ['category_id']); //Tags
         inParams.push(0); //offset
-        inParams.push(10); //limit
+        inParams.push(100); //limit
         var params = [];
         params.push(inParams);
         await OdooService.execute_kw(
