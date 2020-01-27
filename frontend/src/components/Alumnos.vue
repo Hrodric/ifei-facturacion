@@ -25,8 +25,8 @@
                     <b-col>{{contact.mobile}}</b-col>
                     <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
                     <b-col>{{contact.email}}</b-col>
-                    <b-col sm="3" class="text-sm-right"><b>Relación:</b></b-col>
-                    <b-col>{{contact.category_id}}</b-col>
+<!--                    <b-col sm="3" class="text-sm-right"><b>Relación: {{tags.name}}</b></b-col> <&#45;&#45;! v-bind:key="id" v-for="res.partner.category_id == res.partner.category.id then method" &ndash;&gt;-->
+<!--                    <b-col>{{contact.tags.name}}</b-col>-->
 <!--                    <b-col sm="3" class="text-sm-right"><b>Dire:</b></b-col>-->
 <!--                    <b-col>{{contact.street}}</b-col>-->
                     <b-col sm="3" class="text-sm-right"><b>DNI:</b></b-col>
@@ -146,19 +146,21 @@ export default {
     this.grupoFamiliar = this.grupoFamiliar.data[0];
     this.$session.set("grupoFamiliar", this.grupoFamiliar);
     this.loadingMsg = "Cargando Contactos.";
+    console.log("rodri log: " + this.grupoFamiliar.data); //log rodri
     this.contactos = await ResPartnerService.getContactos(
       this.grupoFamiliar.child_ids
     );
     this.contactos = this.contactos.data;
     console.log(this.contactos);
 
-    this.contactos = this.contactos.data[0];
-    this.$session.set("contactos", this.contactos);
-    this.loadingMsg = "Cargando datos complementarios...";
-    this.tags = await ResPartnerService.getTags(
-      this.contactos.parent_id
-    );
-    console.log(this.tags)
+
+    // this.contactos = this.contactos.data[0];
+    // this.$session.set("contactos", this.contactos);
+    // this.loadingMsg = "Cargando datos complementarios...";
+    // this.tags = await ResPartnerService.getTags(
+    //   this.contactos.category_id    //parent_id or category_id?
+    // );
+    // console.log(this.tags)
 
     this.loading = false;
   },
@@ -199,7 +201,20 @@ export default {
         partner_id +
         "&view_type=form&model=res.partner&menu_id=70&action=77";
       window.open(routeData, "_blank");
-    }
+    },
+//inicio test rodri
+    seleccionarTag(category_id){
+      this.tags = this.tags.filter(tags => tags.id === category_id); //filter is like a loop, in this case Im using an arrow function (=>) to iterate into the tags ids and to find where they match the respartner.category_id Im looking for.
+    },
+
+
+//--> Estaría bueno que ejecute el método cuando el user hace click en la familia:
+    async seleccionarTags(id){
+      this.$session.set("id_tags", alumno.category_id[0]);
+    },
+
+
+//fin test rodri
   }
 };
 </script>
