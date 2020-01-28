@@ -24,7 +24,7 @@
                     <b-container>
                       <b-form-input type="text" v-model="contact.mobile" placeholder="Tel:"> </b-form-input>
                       <b-form-input type="text" v-model="contact.email" placeholder="Email:"> </b-form-input>
-                      <b-form-input type="text" v-model=contact.main_id_number" placeholder="DNI"> </b-form-input>
+                      <b-form-input type="text" v-model="contact.main_id_number" placeholder="DNI"> </b-form-input>
                     </b-container>
                   </div>
                   <div v-if="contact.editable === undefined || !contact.editable">
