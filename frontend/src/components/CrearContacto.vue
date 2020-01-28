@@ -97,13 +97,13 @@ export default {
         alert("El dni no puede estar vacio.");
       } else {
         this.loading = true;
-        this.loadingMsg = "Creado Contacto";
+        this.loadingMsg = "Creando Contacto";
         let nuevoAlumno = await ResPartnerService.crearContacto(
           this.grupoFamiliar,
           this.nombre_contacto_nuevo,
           this.dni_contacto_nuevo,
           this.tel_contacto_nuevo, // phone field added
-          this.rel_contacto_nuevo // relation field added
+          // this.rel_contacto_nuevo // relation field added
         );
         this.$session.set("alumno", nuevoAlumno);
         this.$router.push("/alumnos");

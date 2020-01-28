@@ -211,27 +211,27 @@ module.exports = app => {
   });
 
 //Inicio test Rodri:
-    app.get('/getContactTags', async (req, res) => {
-        var inParams = [];
-        inParams.push([]);
-        inParams.push(['id'], ['name'], ['category_id']); //Tags
-        inParams.push(0); //offset
-        inParams.push(100); //limit
-        var params = [];
-        params.push(inParams);
-        await OdooService.execute_kw(
-            'res.partner.category',
-            'read',
-            params,
-            (err, tags) => {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log(tags);
-                res.send(tags);
-            },
-        );
-    });
+//     app.get('/getContactTags', async (req, res) => {
+//         var inParams = [];
+//         inParams.push([]);
+//         inParams.push(['id', 'name', 'category_id']); //Tags
+//         inParams.push(0); //offset
+//         inParams.push(100); //limit
+//         var params = [];
+//         params.push(inParams);
+//         await OdooService.execute_kw(
+//             'res.partner.category',
+//             'read',
+//             params,
+//             (err, tags) => {
+//                 if (err) {
+//                     return console.log(err);
+//                 }
+//                 console.log(tags);
+//                 res.send(tags);
+//             },
+//         );
+//     });
 //Fin test Rodri:
 
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
@@ -584,8 +584,6 @@ module.exports = app => {
       parent_id: req.body.grupoFamiliar.id,
       phone: req.body.telefono, //field added
       // category_id: req.body.relacion, //field added Todo: fix backend to workout
-        //fecha de nacimiento
-        //
     });
     console.log(inParams);
     var params = [];
@@ -671,6 +669,34 @@ module.exports = app => {
       },
     );
   });
+//Inicio rodri test: Componente Alumnos.vue función que edita los contactos.
+    app.post('/guardar_partner', async (req, res) => {
+        var inParams = [];
+        console.log(req.body);
+        inParams.push({
+            phone: req.body.telefono,
+            email: req.body.email,
+            main_id_category_id: 35,
+            main_id_number: req.body.dni,
+            parent_id: req.body.grupoFamiliar.id, // to check  req.body.grupoFamiliar.id or req.body.id
+        });
+        console.log(inParams);
+        var params = [];
+        params.push(inParams);
+        await OdooService.execute_kw(
+            'res.partner',
+            'write',
+            params,
+            async function(err, value) {
+                if (err) {
+                    return console.log(err);
+                }
+                res.send('Result ' + value);
+            },
+        );
+    });
+
+//Fin rodri test
   // #########################################################################
   // Neptuno
   // #########################################################################
