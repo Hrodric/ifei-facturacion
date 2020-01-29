@@ -21,11 +21,18 @@ export default {
   },
 
   getContactos(ids) {
-    return Api().post('getGrupoFamiliarContactos', {ids,});
+    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    console.log(ids)
+    return Api().post('getGrupoFamiliarContactos', {
+      ids,
+    });
   },
 
-  getTags(id){
-    return Api().get('getContactTags', {id,});
+  getTags(ids) {
+    console.log(ids)
+    return Api().post('getContactTags', {
+      ids,
+    });
   },
 
   updatePartner(partner) {

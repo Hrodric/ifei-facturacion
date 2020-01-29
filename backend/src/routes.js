@@ -6,7 +6,9 @@ module.exports = app => {
   app.post('/login', async (req, res) => {
     console.log(req.body);
     var inParams = [];
-    inParams.push([['name', '=', req.body.dni]]);
+    inParams.push([
+      ['name', '=', req.body.dni]
+    ]);
     var params = [];
     params.push(inParams);
 
@@ -42,7 +44,9 @@ module.exports = app => {
 
   app.get('/getPartner', async (req, res) => {
     var inParams = [];
-    inParams.push([['id', '=', req.query.id]]);
+    inParams.push([
+      ['id', '=', req.query.id]
+    ]);
     inParams.push([
       'name',
       'country_id',
@@ -100,7 +104,9 @@ module.exports = app => {
   app.post('/search', async (req, res) => {
     console.log(req.body);
     var inParams = [];
-    inParams.push([['name', 'ilike', '%' + req.body.searchTerm + '%']]);
+    inParams.push([
+      ['name', 'ilike', '%' + req.body.searchTerm + '%']
+    ]);
     console.log(inParams);
     inParams.push(['name', 'parent_id', 'title', 'title', 'main_id_number']); //fields
     inParams.push(0); //offset
@@ -198,7 +204,7 @@ module.exports = app => {
     ]); //fields
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('res.partner', 'read', params, function(
+    await OdooService.execute_kw('res.partner', 'read', params, function (
       err2,
       value,
     ) {
@@ -210,31 +216,33 @@ module.exports = app => {
     });
   });
 
-//Inicio test Rodri:
-//     app.get('/getContactTags', async (req, res) => {
-//         var inParams = [];
-//         inParams.push([]);
-//         inParams.push(['id', 'name', 'category_id']); //Tags
-//         inParams.push(0); //offset
-//         inParams.push(100); //limit
-//         var params = [];
-//         params.push(inParams);
-//         await OdooService.execute_kw(
-//             'res.partner.category',
-//             'read',
-//             params,
-//             (err, tags) => {
-//                 if (err) {
-//                     return console.log(err);
-//                 }
-//                 console.log(tags);
-//                 res.send(tags);
-//             },
-//         );
-//     });
-//Fin test Rodri:
+  //Inicio test Rodri:
+  app.post('/getContactTags', async (req, res) => {
+    console.log('XXXXXXXXXXXXXXXXXXXXXXX')
+    console.log(req.body)
+    var inParams = [];
+    inParams.push(req.body.ids); //ids
+    inParams.push(['name', 'category_id']); //Tags
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'res.partner.category',
+      'read',
+      params,
+      (err, tags) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(tags);
+        res.send(tags);
+      },
+    );
+
+  });
+  //Fin test Rodri:
 
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
+    console.log('ASDDASDASD')
     console.log(req.body);
     var inParams = [];
     inParams.push(req.body.ids); //ids
@@ -303,7 +311,7 @@ module.exports = app => {
     console.log(inParams);
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('sale.order', 'create', params, async function(
+    await OdooService.execute_kw('sale.order', 'create', params, async function (
       err,
       value,
     ) {
@@ -323,7 +331,7 @@ module.exports = app => {
         'sale.order.line',
         'create',
         params,
-        function(err, value) {
+        function (err, value) {
           if (err) {
             return console.log(err);
           }
@@ -339,7 +347,9 @@ module.exports = app => {
   app.post('/updateTaskName', async (req, res) => {
     console.log(req.body);
     var inParams = [];
-    inParams.push([['sale_line_id', '=', req.body.orderLineId]]);
+    inParams.push([
+      ['sale_line_id', '=', req.body.orderLineId]
+    ]);
 
     inParams.push(['name', 'project_id', 'partner_id', 'stage_id']); //fields
     inParams.push(0); //offset
@@ -372,7 +382,9 @@ module.exports = app => {
               return console.log(err);
             }
             console.log(value);
-            res.send({ result: value });
+            res.send({
+              result: value
+            });
           },
         );
       },
@@ -390,7 +402,7 @@ module.exports = app => {
     inParams.push(100); //Limit
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('sale.order', 'search', params, async function(
+    await OdooService.execute_kw('sale.order', 'search', params, async function (
       err,
       value,
     ) {
@@ -401,7 +413,7 @@ module.exports = app => {
       inParams.push(value); //ids
       var params = [];
       params.push(inParams);
-      await OdooService.execute_kw('sale.order', 'read', params, function(
+      await OdooService.execute_kw('sale.order', 'read', params, function (
         err2,
         value2,
       ) {
@@ -417,7 +429,9 @@ module.exports = app => {
   app.get('/getSoTask', async (req, res) => {
     console.log(req.body);
     var inParams = [];
-    inParams.push([['id', '=', req.query.id]]);
+    inParams.push([
+      ['id', '=', req.query.id]
+    ]);
     console.log(inParams);
     inParams.push(['name', 'order_line']); //fields
     inParams.push(0); //offset
@@ -436,7 +450,9 @@ module.exports = app => {
         //res.send(value);
         console.log(value[0].order_line[0]);
         var inParams = [];
-        inParams.push([['sale_line_id', '=', value[0].order_line[0]]]);
+        inParams.push([
+          ['sale_line_id', '=', value[0].order_line[0]]
+        ]);
 
         inParams.push(['name', 'project_id', 'partner_id', 'stage_id']); //fields
         inParams.push(0); //offset
@@ -464,7 +480,9 @@ module.exports = app => {
   app.get('/get_task_types', async (req, res) => {
     console.log(req.query);
     var inParams = [];
-    inParams.push([['project_ids', '=', parseInt(req.query.id)]]);
+    inParams.push([
+      ['project_ids', '=', parseInt(req.query.id)]
+    ]);
 
     inParams.push(['name']); //fields
     inParams.push(0); //offset
@@ -490,7 +508,9 @@ module.exports = app => {
   app.get('/getOrderLine', async (req, res) => {
     console.log(req.query);
     var inParams = [];
-    inParams.push([['id', '=', parseInt(req.query.id)]]);
+    inParams.push([
+      ['id', '=', parseInt(req.query.id)]
+    ]);
 
     inParams.push([
       'id',
@@ -543,7 +563,9 @@ module.exports = app => {
           return console.log(err);
         }
         console.log('Result: ', value);
-        res.send({ value: value });
+        res.send({
+          value: value
+        });
       },
     );
   });
@@ -592,7 +614,7 @@ module.exports = app => {
       'res.partner',
       'create',
       params,
-      async function(err, value) {
+      async function (err, value) {
         if (err) {
           return console.log(err);
         }
@@ -627,11 +649,13 @@ module.exports = app => {
       'account.invoice',
       'create',
       params,
-      async function(err, value) {
+      async function (err, value) {
         if (err) {
           return console.log(err);
         }
-        res.send({ Result: value });
+        res.send({
+          Result: value
+        });
       },
     );
   });
@@ -649,8 +673,7 @@ module.exports = app => {
       sale_order_lines: req.body.linea.id,
       account_id: 13,
       invoice_line_tax_ids: [4, 11, 0],
-      name:
-        req.body.linea.product_id[1] +
+      name: req.body.linea.product_id[1] +
         ', ' +
         req.body.linea.order_partner_id[1],
     });
@@ -661,7 +684,7 @@ module.exports = app => {
       'account.invoice.line',
       'create',
       params,
-      async function(err, value) {
+      async function (err, value) {
         if (err) {
           return console.log(err);
         }
@@ -669,34 +692,34 @@ module.exports = app => {
       },
     );
   });
-//Inicio rodri test: Componente Alumnos.vue función que edita los contactos.
-    app.post('/guardar_partner', async (req, res) => {
-        var inParams = [];
-        console.log(req.body);
-        inParams.push({
-            phone: req.body.telefono,
-            email: req.body.email,
-            main_id_category_id: 35,
-            main_id_number: req.body.dni,
-            parent_id: req.body.grupoFamiliar.id, // to check  req.body.grupoFamiliar.id or req.body.id
-        });
-        console.log(inParams);
-        var params = [];
-        params.push(inParams);
-        await OdooService.execute_kw(
-            'res.partner',
-            'write',
-            params,
-            async function(err, value) {
-                if (err) {
-                    return console.log(err);
-                }
-                res.send('Result ' + value);
-            },
-        );
+  //Inicio rodri test: Componente Alumnos.vue función que edita los contactos.
+  app.post('/guardar_partner', async (req, res) => {
+    var inParams = [];
+    console.log(req.body);
+    inParams.push({
+      phone: req.body.telefono,
+      email: req.body.email,
+      main_id_category_id: 35,
+      main_id_number: req.body.dni,
+      parent_id: req.body.grupoFamiliar.id, // to check  req.body.grupoFamiliar.id or req.body.id
     });
+    console.log(inParams);
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'res.partner',
+      'write',
+      params,
+      async function (err, value) {
+        if (err) {
+          return console.log(err);
+        }
+        res.send('Result ' + value);
+      },
+    );
+  });
 
-//Fin rodri test
+  //Fin rodri test
   // #########################################################################
   // Neptuno
   // #########################################################################
@@ -719,8 +742,8 @@ module.exports = app => {
         main_id_number: req.body.gf.id_number,
         main_id_category_id: 35,
         is_company: true, // Corrected company_type:'company'
-        property_account_position_id: (0,0,1), //Corrected property_account_position_id: 1,
-        afip_responsability_type_id: (0,0,6),
+        property_account_position_id: (0, 0, 1), //Corrected property_account_position_id: 1,
+        afip_responsability_type_id: (0, 0, 6),
         property_payment_term_id: 1,
         email: req.body.gf.email,
         street: req.body.gf.direccion,
@@ -733,7 +756,7 @@ module.exports = app => {
         'res.partner',
         'create',
         params,
-        async function(err, value) {
+        async function (err, value) {
           if (err) {
             return console.log(err);
           }
@@ -752,7 +775,7 @@ module.exports = app => {
             'res.partner',
             'create',
             params,
-            async function(err, value) {
+            async function (err, value) {
               if (err) {
                 return console.log(err);
               }
@@ -770,8 +793,7 @@ module.exports = app => {
     if (req.body.grupoFamiliar.x_neptuno_id !== undefined) {
       nptId = req.body.grupoFamiliar.x_neptuno_id.substring(2);
     }
-    await NeptunoService.crearStudent(
-      {
+    await NeptunoService.crearStudent({
         grupos_familiare_id: req.body.grupoFamiliar.x_neptuno_id.substring(2),
         first_name: req.body.alumno,
       },
@@ -805,7 +827,7 @@ module.exports = app => {
           'res.partner',
           'create',
           params,
-          async function(err, value) {
+          async function (err, value) {
             if (err) {
               return console.log(err);
             }
