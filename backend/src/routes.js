@@ -287,6 +287,7 @@ module.exports = app => {
           return console.log(err);
         }
         console.log(value);
+        //como iterrar un array y como iterar un objeto.
         res.send(value);
       },
     );
@@ -298,7 +299,7 @@ module.exports = app => {
     var inParams = [];
     inParams.push({
       partner_id: req.body.student.id,
-      fiscal_position_id: 1, // For testing.      
+      fiscal_position_id: 1, // For testing.
     });
     console.log(inParams);
     var params = [];

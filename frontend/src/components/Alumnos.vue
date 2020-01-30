@@ -20,14 +20,14 @@
                          img-alt="adulto tutor"
                          img-top>
                   <b-card-title>{{contact.name}} </b-card-title>
-                  <div v-if="(contact.editable !== undefined && contact.editable)">
+                  <div v-if="(editable)">
                     <b-container>
                       <b-form-input type="text" v-model="contact.mobile" placeholder="Tel:"> </b-form-input>
                       <b-form-input type="text" v-model="contact.email" placeholder="Email:"> </b-form-input>
                       <b-form-input type="text" v-model="contact.main_id_number" placeholder="DNI"> </b-form-input>
                     </b-container>
                   </div>
-                  <div v-if="contact.editable === undefined || !contact.editable">
+                  <div v-else>
                     <b-container>
                       <b-col sm="3" class="text-sm-right"><b>Tel:</b></b-col>
                       <b-col>{{contact.mobile}}</b-col>
@@ -42,7 +42,7 @@
                     </b-container>
                   </div>
                   <b-button size="sm" style="margin-bottom: 10px" variant="outline-primary" @click="verPartnerEnOdoo(contact.id)">Ver en Odoo</b-button>
-                  <b-button style="margin-bottom: 5px" variant="outline-primary"  size="sm" @click="editarPartner(key)">Editar</b-button>
+                  <b-button style="margin-bottom: 5px" variant="outline-primary"  size="sm" @click="editable = !editable">Editar</b-button>
 <!--                  <b-button style="margin-bottom: 5px" variant="outline-primary"  size="sm" @click="partner.editable = ! partner.editable">Editar</b-button>-->
                   <b-button style="margin-bottom: 5px" variant="outline-primary"  size="sm" @click="guardarPartner()">Guardar</b-button>
                 </b-card>
@@ -115,11 +115,14 @@ export default {
       dni_alumno_nuevo: "",
       nombre_contacto_nuevo: "",
       dni_contacto_nuevo: "",
-      tel_contacto_nuevo: "", //field added
-      category_id: "", //field added
       loading: true,
       loadingMsg: "",
-      sos: []
+      sos: [],
+//Inicio rodri:
+      tel_contacto_nuevo: "", //field added
+      category_id: "", //field added
+      editable: false
+//Fin rodri.
     };
   },
 
@@ -222,14 +225,14 @@ console.log(this.contactos);
     async seleccionarTags(id){
       this.$session.set("id_tags", alumno.category_id[0]);
     },
-    editarPartner(key){
-      if (this.contactos[key]['editable'] === undefined){
-        this.contactos[key]['editable'] = true;
-      }else{
-        this.contactos[key]['editable'] = !this.contactos[key]['editable']
-      }
-      console.log(this.contactos[key]);
-    },
+    // editarPartner(key){
+    //   if (this.contactos[key]['editable'] === undefined){
+    //     this.contactos[key]['editable'] = true;
+    //   }else{
+    //     this.contactos[key]['editable'] = !this.contactos[key]['editable']
+    //   }
+    //   console.log(this.contactos[key]);
+    // },
     guardarPartner(){
       this.$router.push("/guardar_partner");
     },
