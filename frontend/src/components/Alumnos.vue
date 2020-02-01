@@ -1,3 +1,5 @@
+dirección, email y dni de facturación
+
 <template>
   <b-container title>
     <h4>{{grupoFamiliar.name}}</h4>
@@ -11,8 +13,8 @@
       <b-button variant="outline-primary" size="sm" @click="crearContacto()">Nuevo Contacto/Alumno dentro de la Familia</b-button>
       <hr>
         <b-container>
-          <b-col >
-            <div > <!--//Todo: no funciona como debería -->
+          <b-col>
+            <div>
               <h5>Contactos en la {{grupoFamiliar.name}}:</h5>
               <b-card-group deck v-for="(contact, key) in contactos" :key="key">
                 <b-card disabled v-if="contact.title[1] !== 'Student'"
@@ -34,10 +36,10 @@
                       <b-col>{{contact.mobile}}</b-col>
                       <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
                       <b-col>{{contact.email}}</b-col>
-                      <!--                    <b-col sm="3" class="text-sm-right"><b>Relación: {{tags.name}}</b></b-col> <--! v-bind:key="id" v-for="res.partner.category_id == res.partner.category.id then method" &ndash;&gt;-->
-                      <!--                    <b-col>{{contact.tags.name}}</b-col>-->
-                      <!--                    <b-col sm="3" class="text-sm-right"><b>Dire:</b></b-col>-->
-                      <!--                    <b-col>{{contact.street}}</b-col>-->
+                                          <b-col sm="3" class="text-sm-right"><b>Relación: {{tags.name}}</b></b-col> <--! v-bind:key="id" v-for="res.partner.category_id == res.partner.category.id then method" -->
+                                          <b-col>{{contact.tags.name}}</b-col>
+                                          <b-col sm="3" class="text-sm-right"><b>Dire:</b></b-col>
+                                          <b-col>{{contact.street}}</b-col>
                       <b-col sm="3" class="text-sm-right"><b>DNI:</b></b-col>
                       <b-col>{{contact.main_id_number}}</b-col>
                     </b-container>
@@ -108,13 +110,7 @@
         <b-col>
           <h5>Alumnos existentes</h5>
           <b-card-group deck v-for="(contact, key) in contactos" :key="'xx'+key">
-            <b-card
-              v-if="contact.title[1] === 'Student'"
-              border-variant="secondary"
-              img-src="../static/alumnx-300x225.png"
-              img-alt="adulto tutor"
-              img-top
-            >
+            <b-card v-if="contact.title[1] === 'Student'" border-variant="secondary" img-src="../static/alumnx-300x225.png" img-alt="adulto tutor" img-top>
               <b-card-title>{{contact.name}}</b-card-title>
               <!--                <b-row class="sm-2"><b-row>-->
               <b-container>
@@ -223,7 +219,7 @@ export default {
       this.contactos[i].sos = await ResPartnerService.getSos(
         this.contactos[i].id
       );
-      console.log("XXXXXXXXXXXXXXXXx");
+      console.log("getTags Function:");
       console.log(i);
       console.log(this.contactos);
       console.log(this.contactos[i]);
@@ -237,34 +233,6 @@ export default {
     console.log(this.contactos);
   },
   //End Original Created.
-
-  //Begin rodri test
-  //   created: async function() {
-  //     this.loadingMsg = "Cargando Grupo Familiar.";
-  //     this.grupoFamiliar = await ResPartnerService.getGrupoFamiliar(
-  //       this.$session.get("id_grupo_familiar")
-  //     );
-  //     this.grupoFamiliar = this.grupoFamiliar.data[0];
-  //     this.$session.set("grupoFamiliar", this.grupoFamiliar);
-  //     this.loadingMsg = "Cargando Contactos.";
-  //     this.contactos = await ResPartnerService.getContactos(
-  //       this.grupoFamiliar.child_ids
-  //     );
-  //     this.contactos = this.contactos.data;
-  //     console.log(this.contactos);
-  //
-  //
-  //     this.$session.set("contactos", this.contactos);
-  //     this.loadingMsg = "Cargando datos complementarios...";
-  // this.tags = await ResPartnerService.getTags(
-  //   this.contactos.category_id    //parent_id or category_id?
-  // );
-  // console.log(this.tags)
-  //
-  //     this.loading = false;
-  //   },
-  //End rodri test
-
   methods: {
     seleccionarAlumno: async function(alumno) {
       console.log(alumno);
@@ -301,17 +269,6 @@ export default {
         "&view_type=form&model=res.partner&menu_id=70&action=77";
       window.open(routeData, "_blank");
     },
-
-    //inicio test rodri
-    seleccionarTag(category_id) {
-      this.tags = this.tags.filter(tags => tags.id === category_id); //filter is like a loop, in this case Im using an arrow function (=>) to iterate into the tags ids and to find where they match the respartner.category_id Im looking for.
-    },
-
-    //--> Estaría bueno que ejecute el método cuando el user hace click en la familia:
-    async seleccionarTags(id) {
-      this.$session.set("id_tags", alumno.category_id[0]);
-    },
-
     guardarPartner() {
       this.$router.push("/guardar_partner");
     }

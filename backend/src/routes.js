@@ -242,7 +242,6 @@ module.exports = app => {
   //Fin test Rodri:
 
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
-    console.log('ASDDASDASD')
     console.log(req.body);
     var inParams = [];
     inParams.push(req.body.ids); //ids
@@ -271,6 +270,13 @@ module.exports = app => {
       (err, value) => {
         if (err) {
           return console.log(err);
+        }
+        for (let i = 0; i < value.length; ++i){
+          let object = value[i];
+          for (let property in object){
+            if(!value[i][property])
+              value[i][property] = '';
+          }
         }
         console.log(value);
         res.send(value);
