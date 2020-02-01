@@ -82,6 +82,9 @@ module.exports = app => {
     inParams.push({
       name: req.body.partner.nombre,
       email: req.body.partner.email,
+      phone: req.body.partner.phone,
+      main_id_number: req.body.main_id_number,
+      main_id_category_id: req.body.main_id_category_id,
       mobile: req.body.partner.celular,
       street: req.body.partner.direccion,
     });
@@ -197,6 +200,10 @@ module.exports = app => {
       'name',
       'country_id',
       'comment',
+      'street',
+      'phone',
+      'mobile',
+      'email',
       'child_ids',
       'main_id_number',
       'sale_order_ids',
@@ -218,8 +225,6 @@ module.exports = app => {
 
   //Inicio test Rodri:
   app.post('/getContactTags', async (req, res) => {
-    console.log('XXXXXXXXXXXXXXXXXXXXXXX')
-    console.log(req.body)
     var inParams = [];
     inParams.push(req.body.ids); //ids
     inParams.push(['name', 'category_id']); //Tags
@@ -233,8 +238,12 @@ module.exports = app => {
         if (err) {
           return console.log(err);
         }
-        console.log(tags);
-        res.send(tags);
+        let ret = []
+        for (let i = 0; i < tags.length; i++) {
+          console.log(tags[i]);
+          ret[i] = tags[i].name;
+        }
+        res.send(ret);
       },
     );
 
@@ -242,8 +251,6 @@ module.exports = app => {
   //Fin test Rodri:
 
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
-    console.log('ASDDASDASD')
-    console.log(req.body);
     var inParams = [];
     inParams.push(req.body.ids); //ids
     inParams.push([
@@ -272,7 +279,13 @@ module.exports = app => {
         if (err) {
           return console.log(err);
         }
-        console.log(value);
+        for (let i = 0; i < value.length; i++) {
+          let object = value[i]
+          for (var property in object) {
+            if (!value[i][property])
+              value[i][property] = '';
+          }
+        }
         res.send(value);
       },
     );
@@ -765,6 +778,11 @@ module.exports = app => {
           var inParams = [];
           inParams.push({
             name: req.body.gf.contact_name,
+            email: req.body.gf.email,
+            street: req.body.gf.direccion,
+            main_id_number: req.body.gf.id_number,
+            main_id_category_id: 35,
+            phone: req.body.gf.telefono, //field added
             parent_id: value,
             is_company: false, // Correction: company_type: 'person'
             title: 8,

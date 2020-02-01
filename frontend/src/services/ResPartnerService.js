@@ -35,6 +35,12 @@ export default {
     });
   },
 
+  updatePartnerDataOdoo(partner) {
+    return Api().post('updatePartnerOdoo', {
+      partner,
+    });
+  },
+
   updatePartner(partner) {
     return Api().post('updatePartner', {
       partner,
