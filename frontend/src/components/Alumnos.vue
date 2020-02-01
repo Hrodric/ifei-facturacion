@@ -1,3 +1,5 @@
+dirección, email y dni de facturación
+
 <template>
   <b-container title>
     <h4>{{ grupoFamiliar.name }}</h4>
@@ -357,7 +359,6 @@ export default {
       this.contactos[i].sos = await ResPartnerService.getSos(
         this.contactos[i].id
       );
-
       this.contactos[i].tags = await ResPartnerService.getTags(
         this.contactos[i].category_id //parent_id or category_id?
       );
@@ -369,34 +370,6 @@ export default {
     console.log(this.contactos);
   },
   //End Original Created.
-
-  //Begin rodri test
-  //   created: async function() {
-  //     this.loadingMsg = "Cargando Grupo Familiar.";
-  //     this.grupoFamiliar = await ResPartnerService.getGrupoFamiliar(
-  //       this.$session.get("id_grupo_familiar")
-  //     );
-  //     this.grupoFamiliar = this.grupoFamiliar.data[0];
-  //     this.$session.set("grupoFamiliar", this.grupoFamiliar);
-  //     this.loadingMsg = "Cargando Contactos.";
-  //     this.contactos = await ResPartnerService.getContactos(
-  //       this.grupoFamiliar.child_ids
-  //     );
-  //     this.contactos = this.contactos.data;
-  //     console.log(this.contactos);
-  //
-  //
-  //     this.$session.set("contactos", this.contactos);
-  //     this.loadingMsg = "Cargando datos complementarios...";
-  // this.tags = await ResPartnerService.getTags(
-  //   this.contactos.category_id    //parent_id or category_id?
-  // );
-  // console.log(this.tags)
-  //
-  //     this.loading = false;
-  //   },
-  //End rodri test
-
   methods: {
     seleccionarAlumno: async function(alumno) {
       console.log(alumno);
