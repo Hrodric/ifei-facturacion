@@ -16,7 +16,7 @@
               <b-form-input type="text" v-model="dni_contacto_nuevo" placeholder="DNI"> </b-form-input>
               <b-form-input type="text" v-model="tel_contacto_nuevo" placeholder="Teléfono"> </b-form-input>
 <!--              <b-form-input type="text" v-model="rel_contacto_nuevo" placeholder="Relación"> </b-form-input>-->
-              <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
+              <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"> </b-form-select>
               <b-button variant="outline-primary" @click="crearContacto()">Crear Contacto</b-button>
             </b-col>
             <b-col>

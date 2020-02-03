@@ -13,27 +13,21 @@ class OdooService {
         });
 
         this.Odoo.connect(function (err) {
-            if (err) {
-                return console.log(err);
-            }
+            if (err) {return console.log(err);}
             console.log('Connected to Odoo server.')
-        })
+        });
 
         this.execute_kw = (model, action, params, cb) => {
             this.Odoo.execute_kw(model, action, params, function (err, results) {
-                if ((err)) {
-                    cb('ERROR1: ' + JSON.stringify(err));
-                    return;
+                if ((err)) {cb('ERROR1: ' + JSON.stringify(err));
+                return;
                 }
-                if ((!results)) {
-                    cb(null, [])
-                    return;
+                if ((!results)) {cb(null, []);
+                return;
                 }
-
                 cb(null, results)
             });
         }
     }
 }
-
 module.exports = OdooService;

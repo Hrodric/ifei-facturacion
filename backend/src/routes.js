@@ -211,16 +211,23 @@ module.exports = app => {
     ]); //fields
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('res.partner', 'read', params, function (
-      err2,
-      value,
-    ) {
+    await OdooService.execute_kw(
+        'res.partner', 'read', params, function (err2, value){
       if (err2) {
         return console.log(err2);
       }
-
+// inicio cp
+      for (let i = 0; i < value.length; i++) {
+          let object = value[i];
+          for (var property in object) {
+              if (!value[i][property])
+                  value[i][property] = '';
+          }
+      }
+// fin cp
       res.send(value);
-    });
+    },
+        params);
   });
 
   //Inicio test Rodri:
@@ -238,7 +245,7 @@ module.exports = app => {
         if (err) {
           return console.log(err);
         }
-        let ret = []
+        let ret = [];
         for (let i = 0; i < tags.length; i++) {
           console.log(tags[i]);
           ret[i] = tags[i].name;

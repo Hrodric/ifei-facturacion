@@ -1,5 +1,3 @@
-dirección, email y dni de facturación
-
 <template>
   <b-container title>
     <h4>{{ grupoFamiliar.name }}</h4>
@@ -19,68 +17,48 @@ dirección, email y dni de facturación
           <b-col><b>cel:</b> <br />{{ grupoFamiliar.mobile }}</b-col>
         </b-row>
         <b-row style="margin-top:10px;">
-          <b-button
-            size="sm"
-            variant="outline-primary"
-            @click="verPartnerEnOdoo(grupoFamiliar.id)"
-            >Ver en Odoo</b-button
-          >
+          <b-button size="sm" variant="outline-primary"
+            @click="verPartnerEnOdoo(grupoFamiliar.id)">Ver en Odoo</b-button>
           <b-button variant="outline-primary" size="sm" @click="crearContacto()"
-            >Nuevo Contacto/Alumno dentro de la Familia</b-button
-          >
+            >Nuevo Contacto/Alumno dentro de la Familia</b-button>
         </b-row>
       </b-container>
       <hr />
       <b-container>
         <b-col>
           <div>
-            <!--//Todo: no funciona como debería -->
             <h5>Contactos en la {{ grupoFamiliar.name }}:</h5>
             <b-card-group deck v-for="(contact, key) in contactos" :key="key">
-              <b-card
-                disabled
-                v-if="contact.title[1] !== 'Student'"
+              <b-card disabled v-if="contact.title[1] !== 'Student'"
                 border-variant="primary"
                 img-src="../static/adulto-tutor-300x225.png"
                 img-alt="adulto tutor"
-                img-top
-              >
-                <b-card-title v-if="!contact.editable">{{
-                  contact.name
-                }}</b-card-title>
+                img-top>
+                <b-card-title v-if="!contact.editable">{{contact.name}}
+                </b-card-title>
                 <div v-if="contact.editable">
                   <b-container>
                     <div role="group">
                       <label>Nombre:</label>
-                      <b-form-input
-                        v-model="contact.name"
+                      <b-form-input v-model="contact.name"
                         placeholder="Nombre"
-                        trim
-                      ></b-form-input>
+                        trim> </b-form-input>
                       <label for="">Telefono</label>
-                      <b-form-input
+                      <b-form-input v-model="contact.phone"
                         type="text"
-                        v-model="contact.phone"
-                        placeholder="Tel:"
-                      ></b-form-input>
+                        placeholder="Tel:"> </b-form-input>
                       <label for="">Celular</label>
-                      <b-form-input
+                      <b-form-input v-model="contact.mobile"
                         type="text"
-                        v-model="contact.mobile"
-                        placeholder="Cel:"
-                      ></b-form-input>
-                      <label for=""> Email</label>
-                      <b-form-input
+                        placeholder="Cel:"> </b-form-input>
+                      <label for="">Email</label>
+                      <b-form-input v-model="contact.email"
                         type="text"
-                        v-model="contact.email"
-                        placeholder="Email:"
-                      ></b-form-input>
+                        placeholder="Email:"> </b-form-input>
                       <label for="">DNI</label>
-                      <b-form-input
+                      <b-form-input v-model="contact.main_id_number"
                         type="text"
-                        v-model="contact.main_id_number"
-                        placeholder="DNI"
-                      ></b-form-input>
+                        placeholder="DNI"> </b-form-input>
                     </div>
                   </b-container>
                 </div>
@@ -91,7 +69,7 @@ dirección, email y dni de facturación
                     </b-row>
 
                     <b-row class="text-sm-right">
-                      <b>Cel: {{ contact.mobile }}</b>
+                      <b>Cel: </b> {{ contact.mobile }}
                     </b-row>
 
                     <b-row class="text-sm-right">
@@ -112,57 +90,39 @@ dirección, email y dni de facturación
                     </b-row>
                   </b-container>
                 </div>
-                <b-button
-                  size="sm"
-                  style="margin-bottom: 5px"
+                <b-button size="sm" style="margin-bottom: 5px"
                   variant="outline-primary"
                   v-if="!contact.editable"
-                  @click="verPartnerEnOdoo(contact.id)"
-                  >Ver en Odoo</b-button
-                >
-                <b-button
-                  style="margin-bottom: 5px"
+                  @click="verPartnerEnOdoo(contact.id)">
+                  Ver en Odoo</b-button>
+                <b-button size="sm" style="margin-bottom: 5px"
                   variant="outline-primary"
-                  size="sm"
                   v-if="!contact.editable"
-                  @click="contact.editable = !contact.editable"
-                  >Editar</b-button
-                >
-                <b-button
-                  style="margin-bottom: 5px"
+                  @click="contact.editable = !contact.editable">
+                  Editar</b-button>
+                <b-button size="sm" style="margin-bottom: 5px"
                   variant="outline-primary"
-                  size="sm"
                   v-if="contact.editable"
-                  @click="contact.editable = !contact.editable"
-                  >Cancelar</b-button
-                >
+                  @click="contact.editable = !contact.editable">
+                  Cancelar</b-button>
                 <!--                  <b-button style="margin-bottom: 5px" variant="outline-primary"  size="sm" @click="partner.editable = ! partner.editable">Editar</b-button>-->
-                <b-button
-                  style="margin-bottom: 5px"
+                <b-button size="sm" style="margin-bottom: 5px"
                   variant="outline-primary"
-                  size="sm"
                   v-if="contact.editable"
-                  @click="guardarPartner(contact)"
-                  >Guardar</b-button
-                >
+                  @click="guardarPartner(contact)">
+                  Guardar</b-button>
               </b-card>
             </b-card-group>
           </div>
-        </b-col>
-        <b-col>
+
           <h5>Alumnos existentes</h5>
-          <b-card-group
-            deck
-            v-for="(contact, key) in contactos"
-            :key="'xx' + key"
-          >
+          <b-card-group deck v-for="(contact, key) in contactos" :key="'xx' + key">
             <b-card
               v-if="contact.title[1] === 'Student'"
               border-variant="secondary"
               img-src="../static/alumnx-300x225.png"
               img-alt="adulto tutor"
-              img-top
-            >
+              img-top>
               <b-card-title>{{ contact.name }}</b-card-title>
               <div v-if="contact.editable !== undefined && contact.editable">
                 <b-container>
@@ -171,18 +131,15 @@ dirección, email y dni de facturación
                     type="text"
                     id="input-tel"
                     v-model="contact.mobile"
-                    placeholder="Tel:"
-                  ></b-form-input>
+                    placeholder="Tel:"> </b-form-input>
                   <b-form-input
                     type="text"
                     v-model="contact.email"
-                    placeholder="Email:"
-                  ></b-form-input>
+                    placeholder="Email:"> </b-form-input>
                   <b-form-input
                     type="text"
                     v-model="contact.main_id_number"
-                    placeholder="DNI"
-                  ></b-form-input>
+                    placeholder="DNI"> </b-form-input>
                 </b-container>
               </div>
               <div v-if="contact.editable === undefined || !contact.editable">
@@ -205,45 +162,31 @@ dirección, email y dni de facturación
                   <b-col>{{ contact.main_id_number }}</b-col>
                 </b-container>
               </div>
-              <b-button
-                size="sm"
-                style="margin-bottom: 10px"
+              <b-button size="sm" style="margin-bottom: 10px"
                 variant="outline-primary"
-                @click="verPartnerEnOdoo(contact.id)"
-                >Ver en Odoo</b-button
-              >
-              <b-button
-                style="margin-bottom: 5px"
+                @click="verPartnerEnOdoo(contact.id)">
+                Ver en Odoo</b-button>
+              <b-button size="sm" style="margin-bottom: 5px"
                 variant="outline-primary"
-                size="sm"
-                @click="editarPartner(key)"
-                >Editar</b-button
-              >
+                @click="editarPartner(key)">
+                Editar</b-button>
               <!--                  <b-button style="margin-bottom: 5px" variant="outline-primary"  size="sm" @click="partner.editable = ! partner.editable">Editar</b-button>-->
-              <b-button
-                style="margin-bottom: 5px"
+              <b-button size="sm" style="margin-bottom: 5px"
                 variant="outline-primary"
-                size="sm"
-                @click="guardarPartner()"
-                >Guardar</b-button
-              >
+                @click="guardarPartner()">
+                Guardar</b-button>
             </b-card>
           </b-card-group>
         </b-col>
         <b-col>
           <h5>Alumnos existentes</h5>
-          <b-card-group
-            deck
-            v-for="(contact, key) in contactos"
-            :key="'xx' + key"
-          >
+          <b-card-group deck v-for="(contact, key) in contactos" :key="'xx' + key">
             <b-card
               v-if="contact.title[1] === 'Student'"
               border-variant="secondary"
               img-src="../static/alumnx-300x225.png"
               img-alt="adulto tutor"
-              img-top
-            >
+              img-top>
               <b-card-title>{{ contact.name }}</b-card-title>
               <!--                <b-row class="sm-2"><b-row>-->
               <b-container>
@@ -264,19 +207,13 @@ dirección, email y dni de facturación
                 </b-col>
                 <b-col>{{ contact.main_id_number }}</b-col>
               </b-container>
-              <b-button
-                style="margin-bottom: 5px"
+              <b-button size="sm" style="margin-bottom: 5px"
                 variant="outline-primary"
-                size="sm"
-                @click="verPartnerEnOdoo(contact.id)"
-                >Ver en Odoo</b-button
-              >
-              <b-button
-                variant="outline-secondary"
-                size="sm"
-                @click="seleccionarAlumno(contact)"
-                >Seleccionar Clase</b-button
-              >
+                @click="verPartnerEnOdoo(contact.id)">
+                Ver en Odoo</b-button>
+              <b-button size="sm" variant="outline-secondary"
+                @click="seleccionarAlumno(contact)">
+                Seleccionar Clase</b-button>
             </b-card>
           </b-card-group>
           <br />
@@ -289,26 +226,22 @@ dirección, email y dni de facturación
         <b-container v-for="(contacto, key) in contactos" :key="'co' + key">
           <ul v-if="contacto.sos">
             <li v-for="(so, key) in contacto.sos.data" :key="'so' + key">
-              {{ so.name }}, {{ so.partner_id[1] }}, {{ so.product_id[1] }}, ${{
-                so.amount_total
-              }}
+              {{ so.name }}, {{ so.partner_id[1] }}, {{ so.product_id[1] }},
+              ${{so.amount_total}}
               <button @click="verSoEnOdoo(so.id)">Ver SO</button>
-              <b-button
-                variant="outline-primary"
-                size="sm"
-                @click="seleccionarHorario(so.id)"
-                >Seleccionar Horario</b-button
-              >
+              <b-button size="sm" variant="outline-primary"
+                @click="seleccionarHorario(so.id)">
+                Seleccionar Horario</b-button>
             </li>
           </ul>
         </b-container>
       </b-container>
-      <b-button variant="outline-primary" size="sm" @click="volver()"
-        >Volver</b-button
-      >
-      <b-button variant="outline-primary" size="sm" @click="facturar()"
-        >Crear Factura Borrador</b-button
-      >
+      <b-button size="sm" variant="outline-primary"
+        @click="volver()">
+        Volver</b-button>
+      <b-button size="sm" variant="outline-primary"
+        @click="facturar()">
+        Crear Factura Borrador</b-button>
     </div>
   </b-container>
 </template>
@@ -407,19 +340,7 @@ export default {
       window.open(routeData, "_blank");
     },
 
-    //inicio test rodri
-    seleccionarTag(category_id) {
-      this.tags = this.tags.filter(tags => tags.id === category_id); //filter is like a loop, in this case Im using an arrow function (=>) to iterate into the tags ids and to find where they match the respartner.category_id Im looking for.
-    },
-
-    //--> Estaría bueno que ejecute el método cuando el user hace click en la familia:
-    async seleccionarTags(id) {
-      this.$session.set("id_tags", alumno.category_id[0]);
-    },
-
     async guardarPartner(contacto) {
-      //
-      //this.$router.push("/guardar_partner");
       console.log(contacto);
       await ResPartnerService.updatePartner({
         id: contacto.id,
@@ -431,9 +352,8 @@ export default {
         celular: contacto.mobile,
         direccion: contacto.street
       });
-      contacto;
+      // contacto;
     }
-    //fin test rodri
   }
 };
 </script>

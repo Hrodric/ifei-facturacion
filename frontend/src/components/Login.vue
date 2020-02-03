@@ -22,28 +22,27 @@
         </b-form-input>
       </b-container>
       <ul v-if="!isLoading">
-        <li
-          v-for="(partner, key) in responseSearch"
-          :key="key"
-          style="display: block; margin-top: 10px;">
+        <li v-for="(partner, key) in responseSearch" :key="key"style="display: block; margin-top: 10px;">
             <b-button-group size="sm">
-              <b-button
-                variant="outline-primary"
-                @click="verPartnerEnOdoo(partner.id)">
+              <b-button @click="verPartnerEnOdoo(partner.id)"
+                variant="outline-primary">
                 Ver en Odoo
               </b-button>
-              <b-button
+              <b-button @click="seleccionarGF(partner.id)"
                 v-if="!partner.parent_id"
-                variant="outline-primary"
-                @click="seleccionarGF(partner.id)">
+                variant="outline-primary">
                 Seleccionar Grupo Familiar
               </b-button>
-              <b-button
+
+<!--              Inicio Alumnos-->
+
+              <b-button @click="seleccionarAlumno(partner)"
                 v-if="partner.title[1] == 'Student'"
-                variant="outline-secondary"
-                @click="seleccionarAlumno(partner)">
+                variant="outline-secondary">
                 Seleccionar Alumno
               </b-button>
+
+<!--              Fin Alumnos-->
             </b-button-group>
 
           <span style="font-size:1em">{{ partner.name }},{{ partner.parent_id[1] }}</span>
@@ -111,6 +110,13 @@ export default {
         } else {
           this.responseSearch = responseSearch.data;
           console.log(responseSearch);
+// Inicio  indentación del Alumno
+//           let rows = this.responseSearch.data.length;
+
+
+//           si es alumno entonces hago una iteración en el array y comparo
+//           si parent_id es igual al id de gf entonces que renderee indentado bajo ese gf.
+// Fin indentación del Alumno
         }
       }
     },
