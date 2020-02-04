@@ -43,19 +43,19 @@
                       <b-form-input v-model="contact.name"
                         placeholder="Nombre"
                         trim> </b-form-input>
-                      <label for="">Telefono</label>
+                      <label>Telefono</label>
                       <b-form-input v-model="contact.phone"
                         type="text"
                         placeholder="Tel:"> </b-form-input>
-                      <label for="">Celular</label>
+                      <label>Celular</label>
                       <b-form-input v-model="contact.mobile"
                         type="text"
                         placeholder="Cel:"> </b-form-input>
-                      <label for="">Email</label>
+                      <label>Email</label>
                       <b-form-input v-model="contact.email"
                         type="text"
                         placeholder="Email:"> </b-form-input>
-                      <label for="">DNI</label>
+                      <label>DNI</label>
                       <b-form-input v-model="contact.main_id_number"
                         type="text"
                         placeholder="DNI"> </b-form-input>
@@ -126,7 +126,7 @@
               <b-card-title>{{ contact.name }}</b-card-title>
               <div v-if="contact.editable !== undefined && contact.editable">
                 <b-container>
-                  <label for="input-tel">Telefono:</label>
+                  <label>Telefono:</label>
                   <b-form-input
                     type="text"
                     id="input-tel"
