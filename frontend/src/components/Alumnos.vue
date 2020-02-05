@@ -43,8 +43,8 @@
                       <div role="group">
                         <label>Nombre:</label>
                         <b-form-input v-model="contact.name"
-                                      placeholder="Nombre"
-                                      trim> </b-form-input>
+                                      type="text"
+                                      placeholder="Nombre"> </b-form-input>
                         <label>Telefono</label>
                         <b-form-input v-model="contact.phone"
                                       type="text"
@@ -111,6 +111,11 @@
                   <b-button size="sm" style="margin-bottom: 5px"
                             variant="outline-primary"
                             v-if="contact.editable"
+                            @click="guardarPartner()">
+                    Guardar</b-button>
+                  <b-button size="sm" style="margin-bottom: 5px"
+                            variant="outline-primary"
+                            v-if="contact.editable"
                             @click="guardarPartner(contact)">
                     Guardar</b-button>
                 </b-card>
@@ -129,27 +134,30 @@
                 <b-card-title>{{ contact.name }}</b-card-title>
                 <div v-if="contact.editable">
                   <b-container class="datos-personales">
-                    <label>Telefono:</label>
-                    <b-form-input
-                      type="text"
-                      id="input-tel"
-                      v-model="contact.mobile"
-                      placeholder="Tel:"> </b-form-input>
-                    <b-form-input
-                      type="text"
-                      v-model="contact.email"
-                      placeholder="Email:"> </b-form-input>
-                    <b-form-input
-                      type="text"
-                      v-model="contact.main_id_number"
-                      placeholder="DNI"> </b-form-input>
+                    <label>Nombre:</label>
+                    <b-form-input v-model="contact.name"
+                                  type="text"
+                                  placeholder="Nombre"> </b-form-input>
+                    <label>Celular:</label>
+                    <b-form-input v-model="contact.mobile"
+                                  type="text"
+                                  id="input-tel"
+                                  placeholder="Cel:"> </b-form-input>
+                    <label>Email:</label>
+                    <b-form-input v-model="contact.email"
+                                  type="text"
+                                  placeholder="Email:"> </b-form-input>
+                    <label>DNI:</label>
+                    <b-form-input v-model="contact.main_id_number"
+                                  type="text"
+                                  placeholder="DNI"> </b-form-input>
                   </b-container>
                 </div>
                 <div v-else>
                   <b-container class="datos-personales">
 
                     <b-row class="text-sm-right">
-                      <b>Tel: </b> {{ contact.mobile }}
+                      <b>Cel: </b> {{ contact.mobile }}
                     </b-row>
 
                     <b-row class="text-sm-right">
@@ -160,9 +168,16 @@
                       <b>DNI: </b> {{ contact.main_id_number }}
                     </b-row>
 
+                    <b-row class="text-sm-right">
+                      <b>Clase:</b>
+                      <div v-for="(val, key) in contact.tags.data" :key="key">
+                        <b-badge>{{ val }}</b-badge>
+                      </div>
+                    </b-row>
+
                   </b-container>
                   <br/>
-<!--                </div>-->
+                </div>
                 <b-button @click="verPartnerEnOdoo(contact.id)"
                           size="sm" style="margin-bottom: 5px"
                           variant="outline-primary">
@@ -182,7 +197,6 @@
                           v-if="contact.editable"
                           @click="guardarPartner()">
                   Guardar</b-button>
-                </div>
               </b-card>
             </b-card-group>
             <br/>
@@ -237,6 +251,7 @@ export default {
       loadingMsg: "",
       sos: [],
       //Inicio rodri:
+      noeditable: 0,
       tel_contacto_nuevo: "", //field added
       category_id: "" //field added
       //Fin rodri.
@@ -276,6 +291,9 @@ export default {
   },
   //End Original Created.
   methods: {
+    forceRerender() {
+      this.noeditable += 1;
+    },
     seleccionarAlumno: async function(alumno) {
       console.log(alumno);
       this.$session.set("alumno", alumno);
