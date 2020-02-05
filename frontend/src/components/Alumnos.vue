@@ -2,8 +2,7 @@
   <b-container title>
     <h4>{{ grupoFamiliar.name }}</h4>
     <div class="container-fluid text-center" v-if="loading">
-      <!--      <br/>-->
-      <b-spinner variant="primary" label="Spinning"></b-spinner>
+      <b-spinner variant="primary" label="Spinning"> </b-spinner>
       <h1>Cargando...</h1>
             <div>{{loadingMsg}}</div>
     </div>
@@ -37,7 +36,8 @@
                         img-height="90px"
                         img-alt="adulto tutor"
                         img-right>
-                  <b-card-title v-if="!contact.editable">{{contact.name}}</b-card-title>
+<!--                  <b-card-title v-if="!contact.editable">{{contact.name}}</b-card-title>-->
+                  <b-card-title>{{contact.name}}</b-card-title>
                   <div v-if="contact.editable">
                     <b-container class="datos-personales">
                       <div role="group">
@@ -98,12 +98,12 @@
                             variant="outline-primary"
                             v-if="!contact.editable">
                     Ver en Odoo</b-button>
-                  <b-button @click="contact.editable = ! contact.editable"
+                  <b-button @click="contact.editable = !contact.editable"
                             size="sm" style="margin-bottom: 5px"
                             variant="outline-primary"
                             v-if="!contact.editable">
                     Editar</b-button>
-                  <b-button @click="contact.editable = ! contact.editable"
+                  <b-button @click="contact.editable = !contact.editable"
                             size="sm" style="margin-bottom: 5px"
                             variant="outline-primary"
                             v-if="contact.editable">
@@ -162,7 +162,7 @@
 
                   </b-container>
                   <br/>
-                </div>
+<!--                </div>-->
                 <b-button size="sm" style="margin-bottom: 5px"
                           variant="outline-primary"
                           @click="verPartnerEnOdoo(contact.id)">
@@ -170,18 +170,19 @@
                 <b-button size="sm" style="margin-bottom: 5px"
                           variant="outline-primary"
                           v-if="!contact.editable"
-                          @click="contact.editable = true">
+                          @click="contact.editable = !contact.editable">
                   Editar</b-button>
                 <b-button size="sm" style="margin-bottom: 5px"
                           variant="outline-primary"
                           v-if="contact.editable"
                           @click="contact.editable = !contact.editable">
-                  Cancelar</b-button>
+                  Cancelar1</b-button>
                 <b-button size="sm" style="margin-bottom: 5px"
                           variant="outline-primary"
                           v-if="contact.editable"
                           @click="guardarPartner()">
                   Guardar</b-button>
+                </div>
               </b-card>
             </b-card-group>
             <br/>
@@ -220,8 +221,8 @@
 
 <script>
 import ResPartnerService from "@/services/ResPartnerService";
-import NeptunoService from "@/services/NeptunoService";
-import { async } from "q";
+// import NeptunoService from "@/services/NeptunoService";
+// import { async } from "q";
 
 export default {
   data() {
@@ -313,7 +314,7 @@ export default {
     },
 
     async guardarPartner(contacto) {
-      console.log(contacto);
+      console.log("Datos de contact: " + contacto);
       await ResPartnerService.updatePartner({
         id: contacto.id,
         nombre: contacto.name,

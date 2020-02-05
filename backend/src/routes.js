@@ -287,7 +287,7 @@ module.exports = app => {
           return console.log(err);
         }
         for (let i = 0; i < value.length; i++) {
-          let object = value[i]
+          let object = value[i];
           for (var property in object) {
             if (!value[i][property])
               value[i][property] = '';
@@ -713,34 +713,7 @@ module.exports = app => {
       },
     );
   });
-  //Inicio rodri test: Componente Alumnos.vue función que edita los contactos.
-  app.post('/guardar_partner', async (req, res) => {
-    var inParams = [];
-    console.log(req.body);
-    inParams.push({
-      phone: req.body.telefono,
-      email: req.body.email,
-      main_id_category_id: 35,
-      main_id_number: req.body.dni,
-      parent_id: req.body.grupoFamiliar.id, // to check  req.body.grupoFamiliar.id or req.body.id
-    });
-    console.log(inParams);
-    var params = [];
-    params.push(inParams);
-    await OdooService.execute_kw(
-      'res.partner',
-      'write',
-      params,
-      async function (err, value) {
-        if (err) {
-          return console.log(err);
-        }
-        res.send('Result ' + value);
-      },
-    );
-  });
 
-  //Fin rodri test
   // #########################################################################
   // Neptuno
   // #########################################################################
