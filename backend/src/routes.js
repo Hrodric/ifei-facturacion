@@ -249,8 +249,25 @@ module.exports = app => {
         res.send(ret);
       },
     );
-
   });
+    app.post('/getContactClass', async (req, res) => {
+        var inParams = [];
+        inParams.push(req.body.ids); //ids
+        inParams.push(['project_ids', 'task_ids', '']); //Proyectos
+        var params = [];
+        params.push(inParams);
+        await OdooService.execute_kw(
+            'project.project',
+            'read',
+            params,
+            (err, vals) => {
+                if (err) {
+                    return console.log(err);
+                }
+                res.send(vals);
+            },
+        );
+    });
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
     var inParams = [];
     inParams.push(req.body.ids); //ids
@@ -620,7 +637,6 @@ module.exports = app => {
       title: 8,
       parent_id: req.body.grupoFamiliar.id,
       phone: req.body.telefono, //field added
-      // category_id: req.body.relacion, //field added Todo: fix backend to workout
     });
     console.log(inParams);
     var params = [];

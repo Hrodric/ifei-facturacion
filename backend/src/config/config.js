@@ -5,8 +5,8 @@ module.exports = {
     odoo_prod: {
         url: 'http://ifei.moogah.com',
         port: '80',
-        // db: 'Dev_IFEI',
-        db: 'IFEI',
+        db: 'Dev_IFEI',
+        // db: 'IFEI',
         username: 'api',
         password: 'api123'
     },
@@ -14,8 +14,8 @@ module.exports = {
         NPT_HOST: "ifei.c8zjpampcvnx.us-east-1.rds.amazonaws.com",
         NPT_USER: "ebroot",
         NPT_PASSWORD: "NewIfei62",
-        // NPT_DB: "ifei_test"
-        NPT_DB: "ifei"
+        NPT_DB: "ifei_test"
+        // NPT_DB: "ifei"
     }
 };
 //Todo: implement dotenv in a correct way =>

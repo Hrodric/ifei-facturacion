@@ -168,6 +168,11 @@
                       <b>DNI: </b> {{ contact.main_id_number }}
                     </b-row>
 
+<!--                    En vez de etiqueta, mostrar el nombre de la clase/curso (el project.project.display_name según project.project.id) -->
+
+<!--                    Seleccionar los horarios: (etapas dentro de projecto tarea respartner.task_ids) -->
+<!--                    Corregir layout, contacto y alumno uno al lado del otro y no abajo.-->
+
                     <b-row class="text-sm-right">
                       <b>Clase:</b>
                       <div v-for="(val, key) in contact.tags.data" :key="key">
@@ -216,8 +221,11 @@
               {{ so.name }}, {{ so.partner_id[1] }}, {{ so.product_id[1] }},
               ${{so.amount_total}}
               <button @click="verSoEnOdoo(so.id)">Ver SO</button>
+
+<!--              //Todo: el botón seleccionar horario no funciona.-->
+9
               <b-button size="sm" variant="outline-primary"
-                @click="seleccionarHorario(so.id)">
+                @click="seleccionarAlumno(alumno)">
                 Seleccionar Horario</b-button>
             </li>
           </ul>

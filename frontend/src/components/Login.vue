@@ -88,6 +88,9 @@ export default {
 
       this.$router.push("/alumnos");
     },
+
+    //Todo: Esta funcion es la que tiene que ejecutar en Alumnos\SeleccionarHorario:
+
     async seleccionarAlumno(alumno) {
       this.isLoading = true;
       this.$session.set("id_grupo_familiar", alumno.parent_id[0]);
@@ -98,19 +101,45 @@ export default {
     async searchPartner() {
       if (
         !this.isLoading &&
-        this.searchingTerm !== this.search && //Changed "!=" for "!==" instead.
+        this.searchingTerm !== this.search &&
         this.search.length >= 3
       ) {
         this.isLoading = true;
         this.searchingTerm = this.search;
         let responseSearch = await ResPartnerService.search(this.search);
         this.isLoading = false;
-        if (this.searchingTerm !== this.search) { //Changed "!=" for "!==" instead.
+        if (this.searchingTerm !== this.search) {
           this.searchPartner();
         } else {
           this.responseSearch = responseSearch.data;
-          console.log(responseSearch);
+          console.log("=====Rta:" + JSON.stringify(responseSearch.data));
+
+
 // Inicio  indentación del Alumno
+          // responseSearch.data.forEach(output);
+          // function output(item, index, array) {
+          // }
+
+          // let rows = responseSearch.data.length;
+          // for (let i=0; i<rows; i++){
+          //   let items = responseSearch.data[i].length;
+          //   console.log(i, items);
+          //   for(let n=0; n<items; n++){
+          //     console.log(responseSearch.data[i][n]);
+          //   }
+          // }
+
+          let datos = responseSearch.data;
+          for (let i=0, len = datos.length; i<len; i++){
+            console.log(datos[i]);
+          }
+
+
+//           primer paso: si el contacto tiene parent_id entonces es un alumno...
+//           segundo paso: si es alumno entonces pertenece a un grupo familiar, cual?
+//           tercer paso: renderear este alumno indentado bajo su parent.
+
+
 //           let rows = this.responseSearch.data.length;
 
 
