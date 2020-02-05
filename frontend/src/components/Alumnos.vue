@@ -163,20 +163,20 @@
                   </b-container>
                   <br/>
 <!--                </div>-->
-                <b-button size="sm" style="margin-bottom: 5px"
-                          variant="outline-primary"
-                          @click="verPartnerEnOdoo(contact.id)">
+                <b-button @click="verPartnerEnOdoo(contact.id)"
+                          size="sm" style="margin-bottom: 5px"
+                          variant="outline-primary">
                   Ver en Odoo</b-button>
-                <b-button size="sm" style="margin-bottom: 5px"
+                <b-button @click="contact.editable = !contact.editable"
+                          size="sm" style="margin-bottom: 5px"
                           variant="outline-primary"
-                          v-if="!contact.editable"
-                          @click="contact.editable = !contact.editable">
+                          v-if="!contact.editable">
                   Editar</b-button>
-                <b-button size="sm" style="margin-bottom: 5px"
+                <b-button @click="contact.editable = !contact.editable"
+                          size="sm" style="margin-bottom: 5px"
                           variant="outline-primary"
-                          v-if="contact.editable"
-                          @click="contact.editable = !contact.editable">
-                  Cancelar1</b-button>
+                          v-if="contact.editable">
+                  Cancelar</b-button>
                 <b-button size="sm" style="margin-bottom: 5px"
                           variant="outline-primary"
                           v-if="contact.editable"
@@ -250,7 +250,6 @@ export default {
       this.$session.get("id_grupo_familiar")
     );
     this.grupoFamiliar = this.grupoFamiliar.data[0];
-    // console.log("data:" + this.grupoFamiliar.data[0]);
     this.$session.set("grupoFamiliar", this.grupoFamiliar);
     this.loadingMsg = "Cargando Contactos.";
     this.contactos = await ResPartnerService.getContactos(

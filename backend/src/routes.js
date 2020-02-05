@@ -22,14 +22,14 @@ module.exports = app => {
           res.status(500).send(err);
           return;
         }
-        if (results == undefined) {
+        if (results === undefined) {
           res.status(404).send({
             message: 'User not found',
           });
           return;
         }
         console.log(results);
-        if (results[0] != undefined) {
+        if (results[0] !== undefined) {
           console.log(results[0]);
           let ret = {
             id: results[0].partner_id[0],
@@ -172,7 +172,7 @@ module.exports = app => {
       'email',
       'main_id_number',
       'street',
-      'mobile', //ToDo: to modify in order to alter views related to phone/mobile field.
+      'mobile',
       'fax',
     ]); //fields
     inParams.push(0); //offset
@@ -216,7 +216,6 @@ module.exports = app => {
       if (err2) {
         return console.log(err2);
       }
-// inicio cp
       for (let i = 0; i < value.length; i++) {
           let object = value[i];
           for (var property in object) {
@@ -224,13 +223,10 @@ module.exports = app => {
                   value[i][property] = '';
           }
       }
-// fin cp
       res.send(value);
     },
         params);
   });
-
-  //Inicio test Rodri:
   app.post('/getContactTags', async (req, res) => {
     var inParams = [];
     inParams.push(req.body.ids); //ids
@@ -255,8 +251,6 @@ module.exports = app => {
     );
 
   });
-  //Fin test Rodri:
-
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
     var inParams = [];
     inParams.push(req.body.ids); //ids
