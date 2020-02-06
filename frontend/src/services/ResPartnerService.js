@@ -21,7 +21,24 @@ export default {
   },
 
   getContactos(ids) {
-    return Api().post('getGrupoFamiliarContactos', {ids,});
+    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    console.log(ids)
+    return Api().post('getGrupoFamiliarContactos', {
+      ids,
+    });
+  },
+
+  getTags(ids) {
+    console.log(ids)
+    return Api().post('getContactTags', {
+      ids,
+    });
+  },
+
+  updatePartnerDataOdoo(partner) {
+    return Api().post('updatePartnerOdoo', {
+      partner,
+    });
   },
 
   updatePartner(partner) {
@@ -77,6 +94,13 @@ export default {
     return Api().get('getSos', {
       params: {
         studentId,
+      },
+    });
+  },
+  getProyect(taskId) {
+    return Api().get('getTaskProjectName', {
+      params: {
+        id: taskId,
       },
     });
   },

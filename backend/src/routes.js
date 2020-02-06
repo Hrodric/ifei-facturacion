@@ -6,7 +6,9 @@ module.exports = app => {
   app.post('/login', async (req, res) => {
     console.log(req.body);
     var inParams = [];
-    inParams.push([['name', '=', req.body.dni]]);
+    inParams.push([
+      ['name', '=', req.body.dni]
+    ]);
     var params = [];
     params.push(inParams);
 
@@ -20,14 +22,14 @@ module.exports = app => {
           res.status(500).send(err);
           return;
         }
-        if (results == undefined) {
+        if (results === undefined) {
           res.status(404).send({
             message: 'User not found',
           });
           return;
         }
         console.log(results);
-        if (results[0] != undefined) {
+        if (results[0] !== undefined) {
           console.log(results[0]);
           let ret = {
             id: results[0].partner_id[0],
@@ -42,7 +44,9 @@ module.exports = app => {
 
   app.get('/getPartner', async (req, res) => {
     var inParams = [];
-    inParams.push([['id', '=', req.query.id]]);
+    inParams.push([
+      ['id', '=', req.query.id]
+    ]);
     inParams.push([
       'name',
       'country_id',
@@ -78,6 +82,9 @@ module.exports = app => {
     inParams.push({
       name: req.body.partner.nombre,
       email: req.body.partner.email,
+      phone: req.body.partner.phone,
+      main_id_number: req.body.main_id_number,
+      main_id_category_id: req.body.main_id_category_id,
       mobile: req.body.partner.celular,
       street: req.body.partner.direccion,
     });
@@ -100,7 +107,9 @@ module.exports = app => {
   app.post('/search', async (req, res) => {
     console.log(req.body);
     var inParams = [];
-    inParams.push([['name', 'ilike', '%' + req.body.searchTerm + '%']]);
+    inParams.push([
+      ['name', 'ilike', '%' + req.body.searchTerm + '%']
+    ]);
     console.log(inParams);
     inParams.push(['name', 'parent_id', 'title', 'title', 'main_id_number']); //fields
     inParams.push(0); //offset
@@ -163,7 +172,7 @@ module.exports = app => {
       'email',
       'main_id_number',
       'street',
-      'mobile', //ToDo: to modify in order to alter views related to phone/mobile field.
+      'mobile',
       'fax',
     ]); //fields
     inParams.push(0); //offset
@@ -191,6 +200,10 @@ module.exports = app => {
       'name',
       'country_id',
       'comment',
+      'street',
+      'phone',
+      'mobile',
+      'email',
       'child_ids',
       'main_id_number',
       'sale_order_ids',
@@ -198,20 +211,66 @@ module.exports = app => {
     ]); //fields
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('res.partner', 'read', params, function(
-      err2,
-      value,
-    ) {
-      if (err2) {
-        return console.log(err2);
-      }
-
-      res.send(value);
-    });
+    await OdooService.execute_kw(
+      'res.partner', 'read', params,
+      function (err2, value) {
+        if (err2) {
+          return console.log(err2);
+        }
+        for (let i = 0; i < value.length; i++) {
+          let object = value[i];
+          for (var property in object) {
+            if (!value[i][property])
+              value[i][property] = '';
+          }
+        }
+        res.send(value);
+      },
+      params);
   });
-
+  app.post('/getContactTags', async (req, res) => {
+    var inParams = [];
+    inParams.push(req.body.ids); //ids
+    inParams.push(['name', 'category_id']); //Tags
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'res.partner.category',
+      'read',
+      params,
+      (err, tags) => {
+        if (err) {
+          return console.log(err);
+        }
+        let ret = [];
+        for (let i = 0; i < tags.length; i++) {
+          console.log(tags[i]);
+          ret[i] = tags[i].name;
+        }
+        res.send(ret);
+      },
+    );
+  });
+  app.post('/getContactClass', async (req, res) => {
+    var inParams = [];
+    inParams.push(req.body.ids); //ids
+    inParams.push(['project_id', 'task_id', '']); //Proyectos
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'project.project',
+      'read',
+      params,
+      (err, vals) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log()
+        res.send(vals);
+      },
+    );
+  });
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
-    console.log(req.body);
     var inParams = [];
     inParams.push(req.body.ids); //ids
     inParams.push([
@@ -222,6 +281,7 @@ module.exports = app => {
       'comment',
       'parent_id',
       'main_id_number',
+      'task_ids',
       'title',
       'email',
       'street',
@@ -240,8 +300,36 @@ module.exports = app => {
         if (err) {
           return console.log(err);
         }
-        console.log(value);
+        for (let i = 0; i < value.length; i++) {
+          let object = value[i];
+          for (var property in object) {
+            if (!value[i][property])
+              value[i][property] = '';
+          }
+        }
+        console.log(value)
         res.send(value);
+      },
+    );
+  });
+  app.get('/getTaskProjectName', async (req, res) => {
+    console.log('getTaskProjectName')
+    console.log(req.query.id)
+    var inParams = [];
+    inParams.push([Number(req.query.id)]);
+    inParams.push(['id', 'name', 'project_id', 'list_price']); //fields
+
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'project.task',
+      'read',
+      params,
+      (err, value) => {
+        if (err) {
+          return console.log(err);
+        }
+        res.send(value[0]['project_id'][1]);
       },
     );
   });
@@ -263,25 +351,24 @@ module.exports = app => {
           return console.log(err);
         }
         console.log(value);
+        //como iterrar un array y como iterar un objeto.
         res.send(value);
       },
     );
   });
-//Inicio getClases
 
-// Fin getClases
   app.post('/confirmSo', async (req, res) => {
     console.log(req.body.student.id);
 
     var inParams = [];
     inParams.push({
       partner_id: req.body.student.id,
-      fiscal_position_id: 1, // For testing.      
+      fiscal_position_id: 1, // For testing.
     });
     console.log(inParams);
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('sale.order', 'create', params, async function(
+    await OdooService.execute_kw('sale.order', 'create', params, async function (
       err,
       value,
     ) {
@@ -301,7 +388,7 @@ module.exports = app => {
         'sale.order.line',
         'create',
         params,
-        function(err, value) {
+        function (err, value) {
           if (err) {
             return console.log(err);
           }
@@ -317,7 +404,9 @@ module.exports = app => {
   app.post('/updateTaskName', async (req, res) => {
     console.log(req.body);
     var inParams = [];
-    inParams.push([['sale_line_id', '=', req.body.orderLineId]]);
+    inParams.push([
+      ['sale_line_id', '=', req.body.orderLineId]
+    ]);
 
     inParams.push(['name', 'project_id', 'partner_id', 'stage_id']); //fields
     inParams.push(0); //offset
@@ -350,7 +439,9 @@ module.exports = app => {
               return console.log(err);
             }
             console.log(value);
-            res.send({ result: value });
+            res.send({
+              result: value
+            });
           },
         );
       },
@@ -368,7 +459,7 @@ module.exports = app => {
     inParams.push(100); //Limit
     var params = [];
     params.push(inParams);
-    await OdooService.execute_kw('sale.order', 'search', params, async function(
+    await OdooService.execute_kw('sale.order', 'search', params, async function (
       err,
       value,
     ) {
@@ -379,14 +470,13 @@ module.exports = app => {
       inParams.push(value); //ids
       var params = [];
       params.push(inParams);
-      await OdooService.execute_kw('sale.order', 'read', params, function(
+      await OdooService.execute_kw('sale.order', 'read', params, function (
         err2,
         value2,
       ) {
         if (err2) {
           return console.log(err2);
         }
-        console.log('Result: ', value2);
         res.send(value2);
       });
     });
@@ -395,7 +485,9 @@ module.exports = app => {
   app.get('/getSoTask', async (req, res) => {
     console.log(req.body);
     var inParams = [];
-    inParams.push([['id', '=', req.query.id]]);
+    inParams.push([
+      ['id', '=', req.query.id]
+    ]);
     console.log(inParams);
     inParams.push(['name', 'order_line']); //fields
     inParams.push(0); //offset
@@ -414,7 +506,9 @@ module.exports = app => {
         //res.send(value);
         console.log(value[0].order_line[0]);
         var inParams = [];
-        inParams.push([['sale_line_id', '=', value[0].order_line[0]]]);
+        inParams.push([
+          ['sale_line_id', '=', value[0].order_line[0]]
+        ]);
 
         inParams.push(['name', 'project_id', 'partner_id', 'stage_id']); //fields
         inParams.push(0); //offset
@@ -442,7 +536,9 @@ module.exports = app => {
   app.get('/get_task_types', async (req, res) => {
     console.log(req.query);
     var inParams = [];
-    inParams.push([['project_ids', '=', parseInt(req.query.id)]]);
+    inParams.push([
+      ['project_ids', '=', parseInt(req.query.id)]
+    ]);
 
     inParams.push(['name']); //fields
     inParams.push(0); //offset
@@ -468,7 +564,9 @@ module.exports = app => {
   app.get('/getOrderLine', async (req, res) => {
     console.log(req.query);
     var inParams = [];
-    inParams.push([['id', '=', parseInt(req.query.id)]]);
+    inParams.push([
+      ['id', '=', parseInt(req.query.id)]
+    ]);
 
     inParams.push([
       'id',
@@ -521,7 +619,9 @@ module.exports = app => {
           return console.log(err);
         }
         console.log('Result: ', value);
-        res.send({ value: value });
+        res.send({
+          value: value
+        });
       },
     );
   });
@@ -561,9 +661,6 @@ module.exports = app => {
       title: 8,
       parent_id: req.body.grupoFamiliar.id,
       phone: req.body.telefono, //field added
-      // category_id: req.body.relacion, //field added Todo: fix backend to workout
-        //fecha de nacimiento
-        //
     });
     console.log(inParams);
     var params = [];
@@ -572,7 +669,7 @@ module.exports = app => {
       'res.partner',
       'create',
       params,
-      async function(err, value) {
+      async function (err, value) {
         if (err) {
           return console.log(err);
         }
@@ -607,11 +704,13 @@ module.exports = app => {
       'account.invoice',
       'create',
       params,
-      async function(err, value) {
+      async function (err, value) {
         if (err) {
           return console.log(err);
         }
-        res.send({ Result: value });
+        res.send({
+          Result: value
+        });
       },
     );
   });
@@ -629,8 +728,7 @@ module.exports = app => {
       sale_order_lines: req.body.linea.id,
       account_id: 13,
       invoice_line_tax_ids: [4, 11, 0],
-      name:
-        req.body.linea.product_id[1] +
+      name: req.body.linea.product_id[1] +
         ', ' +
         req.body.linea.order_partner_id[1],
     });
@@ -641,7 +739,7 @@ module.exports = app => {
       'account.invoice.line',
       'create',
       params,
-      async function(err, value) {
+      async function (err, value) {
         if (err) {
           return console.log(err);
         }
@@ -649,6 +747,7 @@ module.exports = app => {
       },
     );
   });
+
   // #########################################################################
   // Neptuno
   // #########################################################################
@@ -671,8 +770,8 @@ module.exports = app => {
         main_id_number: req.body.gf.id_number,
         main_id_category_id: 35,
         is_company: true, // Corrected company_type:'company'
-        property_account_position_id: (0,0,1), //Corrected property_account_position_id: 1,
-        afip_responsability_type_id: (0,0,6),
+        property_account_position_id: (0, 0, 1), //Corrected property_account_position_id: 1,
+        afip_responsability_type_id: (0, 0, 6),
         property_payment_term_id: 1,
         email: req.body.gf.email,
         street: req.body.gf.direccion,
@@ -685,7 +784,7 @@ module.exports = app => {
         'res.partner',
         'create',
         params,
-        async function(err, value) {
+        async function (err, value) {
           if (err) {
             return console.log(err);
           }
@@ -693,6 +792,11 @@ module.exports = app => {
           var inParams = [];
           inParams.push({
             name: req.body.gf.contact_name,
+            email: req.body.gf.email,
+            street: req.body.gf.direccion,
+            main_id_number: req.body.gf.id_number,
+            main_id_category_id: 35,
+            phone: req.body.gf.telefono, //field added
             parent_id: value,
             is_company: false, // Correction: company_type: 'person'
             title: 8,
@@ -704,7 +808,7 @@ module.exports = app => {
             'res.partner',
             'create',
             params,
-            async function(err, value) {
+            async function (err, value) {
               if (err) {
                 return console.log(err);
               }
@@ -722,8 +826,7 @@ module.exports = app => {
     if (req.body.grupoFamiliar.x_neptuno_id !== undefined) {
       nptId = req.body.grupoFamiliar.x_neptuno_id.substring(2);
     }
-    await NeptunoService.crearStudent(
-      {
+    await NeptunoService.crearStudent({
         grupos_familiare_id: req.body.grupoFamiliar.x_neptuno_id.substring(2),
         first_name: req.body.alumno,
       },
@@ -757,7 +860,7 @@ module.exports = app => {
           'res.partner',
           'create',
           params,
-          async function(err, value) {
+          async function (err, value) {
             if (err) {
               return console.log(err);
             }
