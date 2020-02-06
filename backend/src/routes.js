@@ -212,20 +212,21 @@ module.exports = app => {
     var params = [];
     params.push(inParams);
     await OdooService.execute_kw(
-        'res.partner', 'read', params, function (err2, value){
-      if (err2) {
-        return console.log(err2);
-      }
-      for (let i = 0; i < value.length; i++) {
+      'res.partner', 'read', params,
+      function (err2, value) {
+        if (err2) {
+          return console.log(err2);
+        }
+        for (let i = 0; i < value.length; i++) {
           let object = value[i];
           for (var property in object) {
-              if (!value[i][property])
-                  value[i][property] = '';
+            if (!value[i][property])
+              value[i][property] = '';
           }
-      }
-      res.send(value);
-    },
-        params);
+        }
+        res.send(value);
+      },
+      params);
   });
   app.post('/getContactTags', async (req, res) => {
     var inParams = [];
@@ -250,24 +251,25 @@ module.exports = app => {
       },
     );
   });
-    app.post('/getContactClass', async (req, res) => {
-        var inParams = [];
-        inParams.push(req.body.ids); //ids
-        inParams.push(['project_ids', 'task_ids', '']); //Proyectos
-        var params = [];
-        params.push(inParams);
-        await OdooService.execute_kw(
-            'project.project',
-            'read',
-            params,
-            (err, vals) => {
-                if (err) {
-                    return console.log(err);
-                }
-                res.send(vals);
-            },
-        );
-    });
+  app.post('/getContactClass', async (req, res) => {
+    var inParams = [];
+    inParams.push(req.body.ids); //ids
+    inParams.push(['project_id', 'task_id', '']); //Proyectos
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'project.project',
+      'read',
+      params,
+      (err, vals) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log()
+        res.send(vals);
+      },
+    );
+  });
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
     var inParams = [];
     inParams.push(req.body.ids); //ids
@@ -279,6 +281,7 @@ module.exports = app => {
       'comment',
       'parent_id',
       'main_id_number',
+      'task_ids',
       'title',
       'email',
       'street',
@@ -304,7 +307,29 @@ module.exports = app => {
               value[i][property] = '';
           }
         }
+        console.log(value)
         res.send(value);
+      },
+    );
+  });
+  app.get('/getTaskProjectName', async (req, res) => {
+    console.log('getTaskProjectName')
+    console.log(req.query.id)
+    var inParams = [];
+    inParams.push([Number(req.query.id)]);
+    inParams.push(['id', 'name', 'project_id', 'list_price']); //fields
+
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'project.task',
+      'read',
+      params,
+      (err, value) => {
+        if (err) {
+          return console.log(err);
+        }
+        res.send(value[0]['project_id'][1]);
       },
     );
   });
@@ -452,7 +477,6 @@ module.exports = app => {
         if (err2) {
           return console.log(err2);
         }
-        console.log('Result: ', value2);
         res.send(value2);
       });
     });
