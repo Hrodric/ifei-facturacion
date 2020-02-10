@@ -1,41 +1,46 @@
 <template>
   <b-container title>
+
     <h4>{{ grupoFamiliar.name }}</h4>
     <div class="container-fluid text-center" v-if="loading">
       <b-spinner variant="primary" label="Spinning"></b-spinner>
-      <h1>Cargando...</h1>
+      <h3>Cargando...</h3>
       <div>{{loadingMsg}}</div>
     </div>
     <div v-if="!loading">
+      <!-- empieza datos familiares -->
+      <hr />
       <b-container>
-        <b-row>
+        <b-row style="margin-top:20px; margin-bottom:20px;">
           <b-col>
-            Direccion:
+            <b>Direccion:</b>
             <br />
             {{ grupoFamiliar.street }}
           </b-col>
           <b-col>
-            Dni:
+            <b>Dni:</b>
             <br />
             {{ grupoFamiliar.main_id_number }}
           </b-col>
           <b-col>
-            email:
+            <b>Email:</b>
             <br />
             {{ grupoFamiliar.email }}
           </b-col>
           <b-col>
-            tel:
+            <b>Tel:</b>
             <br />
             {{ grupoFamiliar.phone }}
           </b-col>
           <b-col>
-            cel:
+            <b>Cel:</b>
             <br />
             {{ grupoFamiliar.mobile }}
           </b-col>
         </b-row>
+        <!-- acciones datos familiares -->
         <b-row style="margin-top:10px;">
+          <div>
           <b-button
             size="sm"
             variant="outline-primary"
@@ -45,21 +50,23 @@
             variant="outline-primary"
             size="sm"
             @click="crearContacto()"
-          >Nuevo Contacto/Alumno dentro de la Familia</b-button>
+          >Nuevo Contacto/Alumno</b-button>
+          </div>
         </b-row>
       </b-container>
       <hr />
       <b-container>
         <b-row>
+          <!-- empieza familiza -->
           <b-col>
             <div>
-              <h5>Contactos en la {{ grupoFamiliar.name }}:</h5>
-              <b-card-group deck v-for="(contact, key) in contactos" :key="key">
+              <h6>Contactos en la {{ grupoFamiliar.name }}:</h6>
+              <b-card-group v-for="(contact, key) in contactos" :key="key">
                 <b-card
                   disabled
                   v-if="contact.title[1] !== 'Student'"
                   border-variant="primary"
-                  img-src="../static/adulto-tutor-300x225.png"
+                  img-src="../static/adulto-tutor-300x225-2.png"
                   img-width="120px"
                   img-height="90px"
                   img-alt="adulto tutor"
@@ -70,9 +77,9 @@
                   <div v-if="contact.editable">
                     <b-container class="datos-personales">
                       <div role="group">
-                        <label>Nombre:</label>
+                        <label>Nombre</label>
                         <b-form-input v-model="contact.name" type="text" placeholder="Nombre"></b-form-input>
-                        <label>Telefono</label>
+                        <label>Teléfono</label>
                         <b-form-input v-model="contact.phone" type="text" placeholder="Tel:"></b-form-input>
                         <label>Celular</label>
                         <b-form-input v-model="contact.mobile" type="text" placeholder="Cel:"></b-form-input>
@@ -90,32 +97,32 @@
                   <div v-else>
                     <b-container class="datos-personales">
                       <b-row class="text-sm-right">
-                        <b>Tel:</b>
+                        <b>Tel:&nbsp;</b>
                         {{ contact.phone }}
                       </b-row>
 
                       <b-row class="text-sm-right">
-                        <b>Cel:</b>
+                        <b>Cel:&nbsp;</b>
                         {{ contact.mobile }}
                       </b-row>
 
                       <b-row class="text-sm-right">
-                        <b>Email:</b>
+                        <b>Email:&nbsp;</b>
                         {{ contact.email }}
                       </b-row>
 
                       <b-row class="text-sm-right">
-                        <b>Direccion:</b>
+                        <b>Direccion:&nbsp;</b>
                         {{ contact.street }}
                       </b-row>
                       <b-row class="text-sm-right">
-                        <b>Relacion:</b>
+                        <b>Relacion:&nbsp;</b>
                         <div v-for="(val, key) in contact.tags.data" :key="key">
                           <b-badge>{{ val }}</b-badge>
                         </div>
                       </b-row>
                       <b-row sm="3" class="text-sm-right">
-                        <b>DNI:</b>
+                        <b>DNI:&nbsp;</b>
                         {{ contact.main_id_number }}
                       </b-row>
                     </b-container>
@@ -159,115 +166,121 @@
                 </b-card>
               </b-card-group>
             </div>
-
-            <h5>Alumnos existentes</h5>
-            <b-card-group deck v-for="(contact, key) in contactos" :key="'xx' + key">
-              <b-card
-                v-if="contact.title[1] === 'Student'"
-                border-variant="secondary"
-                img-src="../static/alumnx-300x225.png"
-                img-width="120px"
-                img-height="90px"
-                img-alt="alumno"
-                img-right
-              >
-                <b-card-title>{{ contact.name }}</b-card-title>
-                <div v-if="contact.editable">
-                  <b-container class="datos-personales">
-                    <label>Nombre:</label>
-                    <b-form-input v-model="contact.name" type="text" placeholder="Nombre"></b-form-input>
-                    <label>Celular:</label>
-                    <b-form-input
-                      v-model="contact.mobile"
-                      type="text"
-                      id="input-tel"
-                      placeholder="Cel:"
-                    ></b-form-input>
-                    <label>Email:</label>
-                    <b-form-input v-model="contact.email" type="text" placeholder="Email:"></b-form-input>
-                    <label>DNI:</label>
-                    <b-form-input v-model="contact.main_id_number" type="text" placeholder="DNI"></b-form-input>
-                  </b-container>
-                </div>
-                <div v-else>
-                  <b-container class="datos-personales">
-                    <b-row class="text-sm-right">
-                      <b>Cel:</b>
-                      {{ contact.mobile }}
-                    </b-row>
-
-                    <b-row class="text-sm-right">
-                      <b>Email:</b>
-                      {{ contact.email }}
-                    </b-row>
-
-                    <b-row class="text-sm-right">
-                      <b>DNI:</b>
-                      {{ contact.main_id_number }}
-                    </b-row>
-
-                    <!--                    En vez de etiqueta, mostrar el nombre de la clase/curso (el project.project.display_name según project.project.id) -->
-
-                    <!--                    Seleccionar los horarios: (etapas dentro de projecto tarea respartner.task_ids) -->
-                    <!--                    Corregir layout, contacto y alumno uno al lado del otro y no abajo.-->
-
-                    <b-row class="text-sm-right">
-                      <b>Clase:</b>
-                      <div v-for="(val, key) in contact.task_ids" :key="key">
-                        <b-badge>{{ val }}</b-badge>
-                      </div>
-                    </b-row>
-                  </b-container>
-                  <br />
-                </div>
-                <b-button
-                  @click="verPartnerEnOdoo(contact.id)"
-                  size="sm"
-                  style="margin-bottom: 5px"
-                  variant="outline-primary"
-                >Ver en Odoo</b-button>
-                <b-button
-                  @click="contact.editable = !contact.editable"
-                  size="sm"
-                  style="margin-bottom: 5px"
-                  variant="outline-primary"
-                  v-if="!contact.editable"
-                >Editar</b-button>
-                <b-button
-                  @click="contact.editable = !contact.editable"
-                  size="sm"
-                  style="margin-bottom: 5px"
-                  variant="outline-primary"
-                  v-if="contact.editable"
-                >Cancelar</b-button>
-                <b-button
-                  size="sm"
-                  style="margin-bottom: 5px"
-                  variant="outline-primary"
-                  v-if="contact.editable"
-                  @click="guardarPartner()"
-                >Guardar</b-button>
-              </b-card>
-            </b-card-group>
-            <br />
           </b-col>
+          <!-- empiezan alumnos -->
+          <b-col>
+            <div>
+              <h6>Alumnos existentes</h6>
+              <b-card-group v-for="(contact, key) in contactos" :key="'xx' + key">
+                <b-card
+                  v-if="contact.title[1] === 'Student'"
+                  border-variant="secondary"
+                  img-src="../static/alumnx-300x225-2.png"
+                  img-width="120px"
+                  img-height="90px"
+                  img-alt="alumno"
+                  img-right
+
+                >
+                  <b-card-title>{{ contact.name }}</b-card-title>
+                  <div v-if="contact.editable">
+                    <b-container class="datos-personales">
+                      <label>Nombre:</label>
+                      <b-form-input v-model="contact.name" type="text" placeholder="Nombre"></b-form-input>
+                      <label>Celular:</label>
+                      <b-form-input
+                        v-model="contact.mobile"
+                        type="text"
+                        id="input-tel"
+                        placeholder="Cel:"
+                      ></b-form-input>
+                      <label>Email:</label>
+                      <b-form-input v-model="contact.email" type="text" placeholder="Email:"></b-form-input>
+                      <label>DNI:</label>
+                      <b-form-input v-model="contact.main_id_number" type="text" placeholder="DNI"></b-form-input>
+                    </b-container>
+                  </div>
+                  <div v-else>
+                    <b-container class="datos-personales">
+                      <b-row class="text-sm-right">
+                        <b>Cel:&nbsp;</b>
+                        {{ contact.mobile }}
+                      </b-row>
+
+                      <b-row class="text-sm-right">
+                        <b>Email:&nbsp;</b>
+                        {{ contact.email }}
+                      </b-row>
+
+                      <b-row class="text-sm-right">
+                        <b>DNI:&nbsp;</b>
+                        {{ contact.main_id_number }}
+                      </b-row>
+
+                      <!--                    En vez de etiqueta, mostrar el nombre de la clase/curso (el project.project.display_name según project.project.id) -->
+
+                      <!--                    Seleccionar los horarios: (etapas dentro de projecto tarea respartner.task_ids) -->
+                      <!--                    Corregir layout, contacto y alumno uno al lado del otro y no abajo.-->
+
+                      <b-row class="text-sm-right">
+                        <b>Clase:&nbsp;</b>
+                        <div v-for="(val, key) in contact.task_ids" :key="key">
+                          <b-badge>{{ val }}</b-badge>
+                        </div>
+                      </b-row>
+                    </b-container>
+                    <br />
+                  </div>
+                  <b-button
+                    @click="verPartnerEnOdoo(contact.id)"
+                    size="sm"
+                    style="margin-bottom: 5px"
+                    variant="outline-primary"
+                  >Ver en Odoo</b-button>
+                  <b-button
+                    @click="contact.editable = !contact.editable"
+                    size="sm"
+                    style="margin-bottom: 5px"
+                    variant="outline-primary"
+                    v-if="!contact.editable"
+                  >Editar</b-button>
+                  <b-button
+                    @click="contact.editable = !contact.editable"
+                    size="sm"
+                    style="margin-bottom: 5px"
+                    variant="outline-primary"
+                    v-if="contact.editable"
+                  >Cancelar</b-button>
+                  <b-button
+                    size="sm"
+                    style="margin-bottom: 5px"
+                    variant="outline-primary"
+                    v-if="contact.editable"
+                    @click="guardarPartner()"
+                  >Guardar</b-button>
+                </b-card>
+              </b-card-group>
+            </div>
+          </b-col>
+          <!-- termina alumnos-->
+            <br />
         </b-row>
-        <b-col>
-          <br />
-        </b-col>
       </b-container>
       <br />
       <hr />
+      <!-- empieza ordenes de venta -->
       <h4>Ordenes de Venta</h4>
       <b-container>
+       <!--- TODO: TABLA ORDENES DE VENTA         <b-table striped hover :items="testdata"></b-table> -->
         <b-container v-for="(contacto, key) in contactos" :key="'co' + key">
           <ul v-if="contacto.sos">
             <li v-for="(so, key) in contacto.sos.data" :key="'so' + key">
               {{ so.name }},
               ${{so.amount_total}}
-              <button
+              <b-button
                 @click="verSoEnOdoo(so.id)"
-              >Ver SO</button>
+                size="sm" variant="outline-primary"
+              >Ver en odoo</b-button>
 
               <!--              //Todo: el botón seleccionar horario no funciona.-->
 
@@ -306,8 +319,12 @@ export default {
       //Inicio rodri:
       noeditable: 0,
       tel_contacto_nuevo: "", //field added
-      category_id: "" //field added
+      category_id: "", //field added
       //Fin rodri.
+      testdata: [
+        { factura: "SO7798", Famila: 'Barrientos', alumno: 'Nahiara', clase: '[CH1] Children 1', Precio: '$1500'},
+
+      ],
     };
   },
 
@@ -319,7 +336,7 @@ export default {
     );
     this.grupoFamiliar = this.grupoFamiliar.data[0];
     this.$session.set("grupoFamiliar", this.grupoFamiliar);
-    this.loadingMsg = "Cargando Contactos.";
+    this.loadingMsg = "Cargando Contactos...";
     this.contactos = await ResPartnerService.getContactos(
       this.grupoFamiliar.child_ids
     );
@@ -330,7 +347,7 @@ export default {
     console.log(this.contactos);
 
     for (let i = 0; i < this.contactos.length; i++) {
-      this.loadingMsg = "Procesando Contactos:... " + this.contactos[i].name;
+      this.loadingMsg = "Procesando Contactos... " + this.contactos[i].name;
       this.contactos[i].sos = await ResPartnerService.getSos(
         this.contactos[i].id
       );
