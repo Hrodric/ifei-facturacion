@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <h1>Rodri's header</h1>
+    <h1>Header</h1>
   </header>
 </template>
 

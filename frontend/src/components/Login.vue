@@ -88,6 +88,9 @@ export default {
 
       this.$router.push("/alumnos");
     },
+
+    //Todo: Esta funcion es la que tiene que ejecutar en Alumnos\SeleccionarHorario:
+
     async seleccionarAlumno(alumno) {
       this.isLoading = true;
       this.$session.set("id_grupo_familiar", alumno.parent_id[0]);
@@ -98,25 +101,21 @@ export default {
     async searchPartner() {
       if (
         !this.isLoading &&
-        this.searchingTerm !== this.search && //Changed "!=" for "!==" instead.
+        this.searchingTerm !== this.search &&
         this.search.length >= 3
       ) {
         this.isLoading = true;
         this.searchingTerm = this.search;
         let responseSearch = await ResPartnerService.search(this.search);
         this.isLoading = false;
-        if (this.searchingTerm !== this.search) { //Changed "!=" for "!==" instead.
+        if (this.searchingTerm !== this.search) {
           this.searchPartner();
         } else {
           this.responseSearch = responseSearch.data;
-
-          console.log("=====Rta: ", responseSearch.data);
-          // console.log("=====Rta2: " + JSON.stringify(responseSearch.data));
-
+          console.log("=====Rta:" + JSON.stringify(responseSearch.data));
 
 
 // Inicio  indentación del Alumno
-
           // responseSearch.data.forEach(output);
           // function output(item, index, array) {
           // }

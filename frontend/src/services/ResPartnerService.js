@@ -97,6 +97,13 @@ export default {
       },
     });
   },
+  getProyect(taskId) {
+    return Api().get('getTaskProjectName', {
+      params: {
+        id: taskId,
+      },
+    });
+  },
   getSoTask(id) {
     return Api().get('getSoTask', {
       params: {

@@ -6,6 +6,7 @@ module.exports = {
         url: 'http://ifei.moogah.com',
         port: '80',
         db: 'Dev_IFEI',
+        // db: 'IFEI',
         username: 'api',
         password: 'api123'
     },
@@ -14,6 +15,7 @@ module.exports = {
         NPT_USER: "ebroot",
         NPT_PASSWORD: "NewIfei62",
         NPT_DB: "ifei_test"
+        // NPT_DB: "ifei"
     }
 };
 //Todo: implement dotenv in a correct way =>

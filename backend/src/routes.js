@@ -22,14 +22,14 @@ module.exports = app => {
           res.status(500).send(err);
           return;
         }
-        if (results == undefined) {
+        if (results === undefined) {
           res.status(404).send({
             message: 'User not found',
           });
           return;
         }
         console.log(results);
-        if (results[0] != undefined) {
+        if (results[0] !== undefined) {
           console.log(results[0]);
           let ret = {
             id: results[0].partner_id[0],
@@ -172,7 +172,7 @@ module.exports = app => {
       'email',
       'main_id_number',
       'street',
-      'mobile', //ToDo: to modify in order to alter views related to phone/mobile field.
+      'mobile',
       'fax',
     ]); //fields
     inParams.push(0); //offset
@@ -212,25 +212,22 @@ module.exports = app => {
     var params = [];
     params.push(inParams);
     await OdooService.execute_kw(
-        'res.partner', 'read', params, function (err2, value){
-      if (err2) {
-        return console.log(err2);
-      }
-// inicio cp
-      for (let i = 0; i < value.length; i++) {
+      'res.partner', 'read', params,
+      function (err2, value) {
+        if (err2) {
+          return console.log(err2);
+        }
+        for (let i = 0; i < value.length; i++) {
           let object = value[i];
           for (var property in object) {
-              if (!value[i][property])
-                  value[i][property] = '';
+            if (!value[i][property])
+              value[i][property] = '';
           }
-      }
-// fin cp
-      res.send(value);
-    },
-        params);
+        }
+        res.send(value);
+      },
+      params);
   });
-
-  //Inicio test Rodri:
   app.post('/getContactTags', async (req, res) => {
     var inParams = [];
     inParams.push(req.body.ids); //ids
@@ -253,10 +250,26 @@ module.exports = app => {
         res.send(ret);
       },
     );
-
   });
-  //Fin test Rodri:
-
+  app.post('/getContactClass', async (req, res) => {
+    var inParams = [];
+    inParams.push(req.body.ids); //ids
+    inParams.push(['project_id', 'task_id', '']); //Proyectos
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'project.project',
+      'read',
+      params,
+      (err, vals) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log()
+        res.send(vals);
+      },
+    );
+  });
   app.post('/getGrupoFamiliarContactos', async (req, res) => {
     var inParams = [];
     inParams.push(req.body.ids); //ids
@@ -268,6 +281,7 @@ module.exports = app => {
       'comment',
       'parent_id',
       'main_id_number',
+      'task_ids',
       'title',
       'email',
       'street',
@@ -287,13 +301,35 @@ module.exports = app => {
           return console.log(err);
         }
         for (let i = 0; i < value.length; i++) {
-          let object = value[i]
+          let object = value[i];
           for (var property in object) {
             if (!value[i][property])
               value[i][property] = '';
           }
         }
+        console.log(value)
         res.send(value);
+      },
+    );
+  });
+  app.get('/getTaskProjectName', async (req, res) => {
+    console.log('getTaskProjectName')
+    console.log(req.query.id)
+    var inParams = [];
+    inParams.push([Number(req.query.id)]);
+    inParams.push(['id', 'name', 'project_id', 'list_price']); //fields
+
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'project.task',
+      'read',
+      params,
+      (err, value) => {
+        if (err) {
+          return console.log(err);
+        }
+        res.send(value[0]['project_id'][1]);
       },
     );
   });
@@ -441,7 +477,6 @@ module.exports = app => {
         if (err2) {
           return console.log(err2);
         }
-        console.log('Result: ', value2);
         res.send(value2);
       });
     });
@@ -626,7 +661,6 @@ module.exports = app => {
       title: 8,
       parent_id: req.body.grupoFamiliar.id,
       phone: req.body.telefono, //field added
-      // category_id: req.body.relacion, //field added Todo: fix backend to workout
     });
     console.log(inParams);
     var params = [];
@@ -713,34 +747,7 @@ module.exports = app => {
       },
     );
   });
-  //Inicio rodri test: Componente Alumnos.vue función que edita los contactos.
-  app.post('/guardar_partner', async (req, res) => {
-    var inParams = [];
-    console.log(req.body);
-    inParams.push({
-      phone: req.body.telefono,
-      email: req.body.email,
-      main_id_category_id: 35,
-      main_id_number: req.body.dni,
-      parent_id: req.body.grupoFamiliar.id, // to check  req.body.grupoFamiliar.id or req.body.id
-    });
-    console.log(inParams);
-    var params = [];
-    params.push(inParams);
-    await OdooService.execute_kw(
-      'res.partner',
-      'write',
-      params,
-      async function (err, value) {
-        if (err) {
-          return console.log(err);
-        }
-        res.send('Result ' + value);
-      },
-    );
-  });
 
-  //Fin rodri test
   // #########################################################################
   // Neptuno
   // #########################################################################
