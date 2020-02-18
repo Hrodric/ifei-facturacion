@@ -93,8 +93,8 @@ export default {
 
     async seleccionarAlumno(alumno) {
       this.isLoading = true;
-      this.$session.set("id_grupo_familiar", alumno.parent_id[0]);
-      let alumnox = await ResPartnerService.getPartner(alumno.id);
+      this.$session.set('id_grupo_familiar', alumno.parent_id[0]);
+      const alumnox = await ResPartnerService.getPartner(alumno.id);
       this.$session.set("alumno", alumnox.data);
       this.$router.push("/clases");
     },
@@ -222,11 +222,11 @@ export default {
 
           //---------------------------------------------
           // Other way would be:
-            let arr = responseSearch.data;
+            //let arr = responseSearch.data;
 
-          let obj = arr.find(o => o.name === 'Familia');
+          //let obj = arr.find(o => o.name === 'Familia');
 
-          console.log(obj);
+          //console.log(obj);
 
           //Replacing the array element:
           // let arr = [
@@ -241,33 +241,33 @@ export default {
           //   }
           // });
 
-          console.log(arr);
+          //console.log(arr);
 // fin buena función.
 
           //Para determinar si es un Array:
-          Array.isArray(responseSearch.data);
+          //Array.isArray(responseSearch.data);
           //cantidad de objetos (en este caso) en una Array:
-          console.log(responseSearch.data.length); //7
+          //console.log(responseSearch.data.length); //7
 
-          const objEnArr = responseSearch.data;
+          //const objEnArr = responseSearch.data;
           // objEnArr.forEach( obj => console.log(obj) );
 
-          let rows = responseSearch.data.length; //objetos
-          for (let i=0; i<rows; i++){ //7 iteraciones
-            for (let key in responseSearch.data[i]){ //propiedades en cada objeto del array
-              if(responseSearch.data[i].hasOwnProperty(key)){
-                console.log("Rta: ", `${key} : ${responseSearch.data[i][key]}`)
-              }
-            }
-            const obj = {
-              id:1,
-              name: "gowtham",
-              active: true
-            }
-
-            Object.keys(rows).forEach(key=>{
-              console.log(`${key} : ${rows[key]}`);
-            });
+          //let rows = responseSearch.data.length; //objetos
+          //for (let i=0; i<rows; i++){ //7 iteraciones
+            //for (let key in responseSearch.data[i]){ //propiedades en cada objeto del array
+              //if(responseSearch.data[i].hasOwnProperty(key)){
+                //console.log("Rta: ", `${key} : ${responseSearch.data[i][key]}`)
+              //}
+            //}
+//            const obj = {
+//              id:1,
+//              name: "gowtham",
+//              active: true
+//            }
+//
+//            Object.keys(rows).forEach(key=>{
+//              console.log(`${key} : ${rows[key]}`);
+//            });
             // let items = responseSearch.data[i]; //En vez de esto debería buscar en cada row si parent_id != 0
             // console.log(i, items);
 
@@ -298,7 +298,7 @@ export default {
 //           si parent_id es igual al id de gf entonces que renderee indentado bajo ese gf.
 // Fin indentación del Alumno
         }
-      }
+      
     },
     async login() {
       const response = await AuthenticationService.login({

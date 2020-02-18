@@ -116,6 +116,7 @@ module.exports = app => {
     inParams.push(100); //limit
     var params = [];
     params.push(inParams);
+    console.log("--------Search res:"+inParams);
     await OdooService.execute_kw(
       'res.partner',
       'search_read',
