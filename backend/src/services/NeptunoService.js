@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const Moment = require('moment');
 
 
 class NeptunoService {
@@ -28,6 +29,9 @@ class NeptunoService {
             },
             email_padre: {
                 type: Sequelize.STRING
+            },
+            direccion_trabajo_madre: {
+                type: Sequelize.STRING
             }
         }, {
             timestamps: false
@@ -43,11 +47,11 @@ class NeptunoService {
                 type: Sequelize.DATE
 
             },
-            // attributes
-            grupos_familiare_id: {
-                type: Sequelize.INTEGER,
-                allowNull: false
+            gruposFamiliareId: {
+                field: 'grupos_familiare_id',
+                type: Sequelize.INTEGER
             },
+
             first_name: {
                 type: Sequelize.STRING
                 // allowNull defaults to true
@@ -59,7 +63,7 @@ class NeptunoService {
         }, {
             // options
         });
-//Inicio Sequelize Class_Names Model -> getClases
+        //Inicio Sequelize Class_Names Model -> getClases
         const clases = this.sequelize.define('class_names', {
             id: {
                 field: 'id',
@@ -70,7 +74,7 @@ class NeptunoService {
                 type: Sequelize.STRING
             },
         });
-//Fin Sequelize Class_Names Model
+        //Fin Sequelize Class_Names Model
         const LnCuentas = this.sequelize.define('ln_cuentas', {
 
             // attributes
@@ -79,13 +83,14 @@ class NeptunoService {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            grupos_familiare_id: {
-                type: Sequelize.STRING
-                // allowNull defaults to true
-            }
+            gruposFamiliareId: {
+                field: 'grupos_familiare_id',
+                type: Sequelize.INTEGER
+            },
         }, {
             timestamps: false
         });
+        LnCuentas.belongsTo(gruposFamiliares);
 
         const LnCuentasMovs = this.sequelize.define('ln_cuentasmovs', {
             createdAt: {
@@ -97,16 +102,17 @@ class NeptunoService {
                 type: Sequelize.DATE
 
             },
+            lnCuentaId: {
+                field: 'ln_cuenta_id',
+                type: Sequelize.INTEGER
+            },
             // attributes
             id: {
                 primaryKey: true,
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            ln_cuenta_id: {
-                type: Sequelize.STRING
-                // allowNull defaults to true
-            },
+
             egreso: {
                 type: Sequelize.BOOLEAN
                 // allowNull defaults to true
@@ -139,7 +145,11 @@ class NeptunoService {
                 type: Sequelize.STRING
                 // allowNull defaults to true
             },
+            odoo_id: {
+                type: Sequelize.INTEGER
+            }
         });
+        LnCuentasMovs.belongsTo(LnCuentas);
 
         this.sequelize
             .authenticate()
@@ -159,6 +169,11 @@ class NeptunoService {
                 cb(null, gf)
             });
         }
+        this.registrarFactura = (datos, cb) => {
+            console.log('linea 172', datos);
+            this.sequelize.query("UPDATE `ln_cuentasmovs` SET `odoo_id`=" + datos.invoice_id + " WHERE `id` =" + datos.pago_id)
+            cb(null, datos)
+        }
 
         this.crearStudent = (student, cb) => {
             students.create(
@@ -166,6 +181,76 @@ class NeptunoService {
             ).then(function (gf) {
                 cb(null, gf)
             });
+        }
+
+
+
+        this.getPagosMes = (mes, cb) => {
+            LnCuentasMovs.findAll({
+                    where: {
+                        createdAt: {
+                            [Op.gte]: Moment('01/03/2020', 'DD/MM/AAAA').toDate()
+                        },
+                        odoo_id: null,
+                        egreso: false
+                    }
+                })
+                .then(function (items) {
+                    var movimientos = []
+                    console.log(items)
+                    let ret = []
+                    items.map(function (x) {
+                        ret.push(
+                            x.dataValues
+                        )
+                    });
+                    cb(null, ret)
+
+                })
+
+        }
+
+        this.getPago = (id, cb) => {
+            LnCuentasMovs.findAll({
+                    where: {
+                        pago_id: id.id
+                    }
+                })
+                .then(function (items) {
+                    console.log(items)
+                    var movimientos = []
+                    var pago = {}
+                    items.map(function (x) {
+                        console.log(x)
+                        if (x.dataValues.egreso) {
+                            movimientos.push(x.dataValues)
+                        } else {
+                            pago = x.dataValues
+                        }
+                    });
+                    LnCuentas.findAll({
+                            include: [{
+                                model: gruposFamiliares
+                            }],
+                            where: {
+                                id: items[0].dataValues.lnCuentaId
+                            }
+                        })
+                        .then(function (cuenta) {
+
+                            var gf = cuenta[0].dataValues.grupos_familiare.dataValues;
+                            let ret = {
+                                grupo: gf,
+                                pago: pago,
+                                movs: movimientos
+                            }
+
+                            cb(null, ret)
+                        })
+
+                })
+
+
         }
     }
 

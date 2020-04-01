@@ -116,7 +116,7 @@ module.exports = app => {
     inParams.push(100); //limit
     var params = [];
     params.push(inParams);
-    console.log("--------Search res:"+inParams);
+    console.log("--------Search res:" + inParams);
     await OdooService.execute_kw(
       'res.partner',
       'search_read',
@@ -698,7 +698,6 @@ module.exports = app => {
       journal_id: 1,
       journal_document_type_id: 19,
     });
-
     var params = [];
     params.push(inParams);
     await OdooService.execute_kw(
@@ -717,21 +716,19 @@ module.exports = app => {
   });
   app.post('/crear_linea_factura', async (req, res) => {
     console.log('2');
-    console.log(req.body);
+    console.log('Crear Linea de factura', req.body);
     var inParams = [];
     inParams.push({
       invoice_id: req.body.invoiceId,
-      price_unit: req.body.linea.price_unit,
-      product_id: req.body.linea.product_id[0],
-      discount: req.body.linea.discount,
-      origin: req.body.linea.order_id[1],
+      price_unit: req.body.linea.pesos,
+      product_id: 3,
+      //discount: req.body.linea.discount,
+      //origin: req.body.linea.order_id[1],
       quantity: 1,
-      sale_order_lines: req.body.linea.id,
+      //sale_order_lines: req.body.linea.id,
       account_id: 13,
-      invoice_line_tax_ids: [4, 11, 0],
-      name: req.body.linea.product_id[1] +
-        ', ' +
-        req.body.linea.order_partner_id[1],
+      //invoice_line_tax_ids: [4, 11, 0],
+      name: req.body.linea.descripcion,
     });
     console.log(inParams);
     var params = [];
@@ -740,14 +737,138 @@ module.exports = app => {
       'account.invoice.line',
       'create',
       params,
+      async function (err, invoice_line_id) {
+        if (err) {
+          return console.log(err);
+        }
+
+        var inParams = [];
+        console.log(invoice_line_id)
+        inParams.push([invoice_line_id]); //id to update
+        inParams.push({
+          invoice_line_tax_ids: [
+            [4, 11, 0]
+          ],
+        })
+        var params = [];
+        params.push(inParams);
+        await OdooService.execute_kw('account.invoice.line', 'write', params, async function (err, value) {
+          if (err) {
+            return console.log(err);
+          }
+          console.log('Result: ', value);
+
+          var inParams = [];
+          inParams.push({
+            invoice_id: req.body.invoiceId,
+            account_id: 79,
+            name: 'IVA Exento Ventas',
+            tax_id: 11,
+          });
+          console.log(inParams);
+          var params = [];
+          params.push(inParams);
+          await OdooService.execute_kw(
+            'account.invoice.tax',
+            'create',
+            params,
+            async function (err, value) {
+              if (err) {
+                return console.log(err);
+              }
+              console.log(value)
+              // var inParams = [];
+              // inParams.push(req.body.invoiceId);
+              // inParams.push(false); //raise_exception
+              // var params = [];
+              // params.push(inParams);
+              // await OdooService.execute_kw('account.invoice', 'action_invoice_open', params, function (err, value) {
+              //   if (err) {
+
+              //   }
+              //   res.send('OK');
+              // });
+              res.send('OK');
+            });
+
+
+        });
+
+
+      },
+    );
+  });
+  app.post('/createPartnerFacturacion', async (req, res) => {
+    var inParams = [];
+    inParams.push({
+      x_neptuno_id: req.body.partner.x_neptuno_id,
+      name: req.body.partner.name,
+      main_id_number: req.body.partner.main_id_number,
+      main_id_category_id: 35,
+      is_company: true, // Corrected company_type:'company'
+      property_account_position_id: (0, 0, 1), //Corrected property_account_position_id: 1,
+      afip_responsability_type_id: (0, 0, 6),
+      property_payment_term_id: 1,
+      email: req.body.partner.email
+    });
+    console.log(inParams);
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'res.partner',
+      'create',
+      params,
       async function (err, value) {
         if (err) {
           return console.log(err);
         }
-        res.send('Result ' + value);
+        console.log('Result: ', value);
+
+        res.send(String(value));
       },
     );
+
   });
+
+  app.get('/getPartnerFacturacion', async (req, res) => {
+    var inParams = [];
+    inParams.push([
+      ['x_neptuno_id', '=', 'gf' + req.query.id]
+    ]);
+    inParams.push([
+      'name',
+      'country_id',
+      'comment',
+      'parent_id',
+      'title',
+      'email',
+      'main_id_number',
+      'street',
+      'mobile',
+      'fax',
+    ]); //fields
+    inParams.push(0); //offset
+    inParams.push(5); //limit
+    var params = [];
+    params.push(inParams);
+    await OdooService.execute_kw(
+      'res.partner',
+      'search_read',
+      params,
+      (err, value) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(value)
+        res.send(value[0]);
+      },
+    );
+  })
+
+  // app.post('/createPartnerFacturacion'), async (req, res) => {
+  //   console.log(req.body);
+  //   res.send('ok')
+  // }
 
   // #########################################################################
   // Neptuno
@@ -821,6 +942,16 @@ module.exports = app => {
     });
   });
 
+  app.post('/npt_registrar_factura', async (req, res) => {
+    console.log(req.body);
+    await NeptunoService.registrarFactura(req.body.data,
+      async (err, result) => {
+        console.log(result)
+        res.send('OK')
+      }
+    )
+  });
+
   app.post('/npt_crear_alumno', async (req, res) => {
     console.log(req.body);
     let nptId = '';
@@ -873,4 +1004,26 @@ module.exports = app => {
       },
     );
   });
-};
+
+  app.get('/npt_get_pago', async (req, res) => {
+
+    await NeptunoService.getPago({
+        id: req.query.id
+      },
+      async (err, result) => {
+        console.log(result)
+        res.send(result)
+      });
+  });
+
+  app.get('/npt_get_pagos_mes', async (req, res) => {
+    console.log(req.query)
+    await NeptunoService.getPagosMes({
+        mes: req.query.mes
+      },
+      async (err, result) => {
+        console.log(result)
+        res.send(result)
+      });
+  });
+}

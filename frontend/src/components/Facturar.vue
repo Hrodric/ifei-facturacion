@@ -3,15 +3,18 @@
     <b-container fluid>
       <b-card header="NUEVA FACTURACIÓN" disabled>
         <b-container class="text-center" v-if="loading">
-          <br/>
-          <b-spinner variant="primary" label="Spinning"> </b-spinner>
+          <br />
+          <b-spinner variant="primary" label="Spinning"></b-spinner>
           <h1>Cargando...</h1>
           <p>{{loadingMsg}}</p>
         </b-container>
         <b-list-group>
-          <b-list-group-item button disabled>A nombre de {{grupoFamiliar.name}}, DNI: {{grupoFamiliar.main_id_number}}</b-list-group-item>
+          <b-list-group-item
+            button
+            disabled
+          >A nombre de {{grupoFamiliar.name}}, DNI: {{grupoFamiliar.main_id_number}}</b-list-group-item>
         </b-list-group>
-        <br/>
+        <br />
         <h3>Detalle</h3>
         <table>
           <tr v-for="line in invoice_lines" :key="line.key">
@@ -26,10 +29,10 @@
           </tr>
         </table>
         <b-button variant="outline-primary" @click="crearFactura()">Crear Factura Borrador</b-button>
-        <br/>
+        <br />
       </b-card>
     </b-container>
-    <br/>
+    <br />
     <b-button variant="outline-primary" @click="volver()">Volver</b-button>
   </div>
 </template>
@@ -76,6 +79,7 @@ export default {
       this.invoice_lines.push(tmp.data[0]);
       this.total = this.total + parseInt(tmp.data[0].price_unit);
     }
+    console.log(this.invoice_lines);
     this.loading = false;
   },
   methods: {

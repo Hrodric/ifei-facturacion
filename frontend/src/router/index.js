@@ -9,6 +9,7 @@ import ConfirmSo from '@/components/ConfirmSo';
 import CrearContacto from '@/components/CrearContacto';
 import SeleccionarHorario from '@/components/SeleccionarHorario';
 import Facturar from '@/components/Facturar';
+import Pagos from '@/components/Pagos';
 
 
 const routes = [{
@@ -55,6 +56,10 @@ const routes = [{
     path: '/facturar',
     component: Facturar,
   },
+  {
+    path: '/pagos',
+    component: Pagos,
+  }
 ];
 
 export default routes;
