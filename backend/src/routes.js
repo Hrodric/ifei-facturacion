@@ -777,18 +777,18 @@ module.exports = app => {
                 return console.log(err);
               }
               console.log(value)
-              // var inParams = [];
-              // inParams.push(req.body.invoiceId);
-              // inParams.push(false); //raise_exception
-              // var params = [];
-              // params.push(inParams);
-              // await OdooService.execute_kw('account.invoice', 'action_invoice_open', params, function (err, value) {
-              //   if (err) {
+              var inParams = [];
+              inParams.push(req.body.invoiceId);
+              inParams.push(false); //raise_exception
+              var params = [];
+              params.push(inParams);
+              await OdooService.execute_kw('account.invoice', 'action_invoice_open', params, function (err, value) {
+                if (err) {
 
-              //   }
-              //   res.send('OK');
-              // });
-              res.send('OK');
+                }
+                res.send('OK');
+              });
+
             });
 
 
