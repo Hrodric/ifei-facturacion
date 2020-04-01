@@ -144,7 +144,9 @@ export default {
   methods: {
     verFact: function() {
       window.location.replace(
-        "https://ifei.moogah.com/web?#id=9625&view_type=form&model=account.invoice&menu_id=156&action=220"
+        "https://ifei.moogah.com/web?#id=" +
+          this.datos.pago.odoo_id +
+          "&view_type=form&model=account.invoice&menu_id=156&action=220"
       );
     },
     facturarTodo: async function() {
