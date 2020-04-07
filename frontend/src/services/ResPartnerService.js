@@ -16,13 +16,25 @@ export default {
     });
   },
 
+  getPartnerFacturacion(id) {
+    return Api().get('getPartnerFacturacion', {
+      params: {
+        id,
+      },
+    });
+  },
+
+  createPartnerFacturacion(partner) {
+    return Api().post('createPartnerFacturacion', {
+      partner
+    })
+  },
+
   getGrupoFamiliar(id) {
     return Api().get('getGrupoFamiliar?id=' + id)
   },
 
   getContactos(ids) {
-    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-    console.log(ids)
     return Api().post('getGrupoFamiliarContactos', {
       ids,
     });

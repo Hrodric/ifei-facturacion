@@ -19,7 +19,7 @@ class OdooService {
 
         this.execute_kw = (model, action, params, cb) => {
             this.Odoo.execute_kw(model, action, params, function (err, results) {
-                if ((err)) {cb('ERROR1: ' + JSON.stringify(err));
+                if ((err)) {cb('Error en cb de OdooService: ' + (err));
                 return;
                 }
                 if ((!results)) {cb(null, []);
