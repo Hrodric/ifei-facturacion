@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "conector a odoo",
   "main": "index.js",
+  "bin": "src/app.js",
   "scripts": {
     "dev": "backend/node_modules/nodemon/bin/nodemon.js src/app.js --exec 'npm run && node'",
     "start": "nodemon --inspect src/app.js 8082\n",
@@ -24,6 +25,7 @@
     "nodemon": "^1.19.4",
     "odoo-xmlrpc": "^1.0.8",
     "ora": "^4.0.2",
+    "pkg": "^4.4.5",
     "sequelize": "^5.21.2",
     "typedi": "^0.8.0",
     "xmlrpc": "^1.3.2"
